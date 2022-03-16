@@ -1,9 +1,11 @@
 ---
-title: "Final Project: The Socioeconomic and Food Reatil Landscape of San Francisco's Mission District"
-authors: "Fischer Heimburger (@fheimburger97) & Caroline Mahdavi (@cmahdavi)"
-output: 
-  pdf_document:
+title: 'Final Project: The Socioeconomic and Food Reatil Landscape of San Francisco''s
+  Mission District'
+authors: Fischer Heimburger (@fheimburger97) & Caroline Mahdavi (@cmahdavi)
+output:
+  github_document:
     df_print: tibble
+  pdf_document: default
 ---
 By: Fischer Heimburger (@fheimburger97) & Caroline Mahdavi (@cmahdavi)
 
@@ -319,7 +321,7 @@ In conclusion, we were able to replicate multiple maps used in researching the s
 
 
 
-```{r}
+###```{r}
 Test_businesses <- read_csv("TEST_Survey_Responses.csv") %>%
   rename(addresses = Address)
 Test_businesses
@@ -439,4 +441,4 @@ geocode_nominatim <- function(search_query, country = NULL, language = "en",
         }
     return(geodata_result)
 }
-```
+###```
