@@ -41,6 +41,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
+Google API Key
+#```{r}
+register_google(key = "AIzaSyCf_Byte2gNDXotoxPbQ3Nbd77ZpJalxDs", write = TRUE)
+#```
+
 ## I Tract Income Typology
 
 #### Table 1.1: Downloading San Francisco's Geopackage
@@ -325,31 +330,12 @@ retail_data <- read_csv("Copy of Food Retailer Survey (Edits 3_29) - Form Respon
 retail_data
 
 ```
+
 ```{r}
-# Geocoding a csv column of "addresses" in R
+retail_data_with_coord <- mutate_geocode(retail_data, location = Address, output = "latlona")
+retail_data_with_coord
+```
 
-#load ggmap
-library(ggmap)
-
-# Select the file from the file chooser
-##fileToLoad <- file.choose(new = TRUE)
-
-# Read in the CSV data and store it in a variable 
-##origAddress <- read.csv(fileToLoad, stringsAsFactors = FALSE)
-
-# Initialize the data frame
-##geocoded <- data.frame(stringsAsFactors = FALSE)
-
-# Loop through the addresses to get the latitude and longitude of each address and add it to the
-# origAddress data frame in new columns lat and lon
-for(i in 1:nrow(retail_data))
-{
-  # Print("Working...")
-  result <- geocode(retail_data$Address[i], output = "latlona", source = "google")
-  retail_data$lon[i] <- as.numeric(result[1])
-  retail_data$lat[i] <- as.numeric(result[2])
-  retail_data$geoAddress[i] <- as.character(result[3])
-}
-# Write a CSV file containing origAddress to the working directory
-write.csv(retail_data, "geocoded.csv", row.names=FALSE)
+```{r}
+write.csv(retail_data_with_coord,"C:\\Users\\fheim\\Desktop\\Test\\Retail_Data_w_Coords.csv", row.names = TRUE)
 ```
