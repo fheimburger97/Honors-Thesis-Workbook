@@ -91,6 +91,9 @@ the food retailer map.
 
 #### Data note: We used the following libraries to analyze our data. Additionally, please run `install.packages("tidycensus")` in the console window.
 
+Google API Key – need to upload key
+\#`{r} register_google(key = "", write = TRUE) #`
+
 ## I Tract Income Typology
 
 #### Table 1.1: Downloading San Francisco’s Geopackage
@@ -230,7 +233,7 @@ totalpop <- get_decennial(geography = "tract",
                       geometry = TRUE)
 ```
 
-    ##   |                                                                              |                                                                      |   0%  |                                                                              |                                                                      |   1%  |                                                                              |=                                                                     |   1%  |                                                                              |=                                                                     |   2%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |==                                                                    |   4%  |                                                                              |===                                                                   |   4%  |                                                                              |===                                                                   |   5%  |                                                                              |====                                                                  |   5%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |=====                                                                 |   8%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |========                                                              |  11%  |                                                                              |========                                                              |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |==========                                                            |  14%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  17%  |                                                                              |=============                                                         |  18%  |                                                                              |==============                                                        |  20%  |                                                                              |===============                                                       |  21%  |                                                                              |==================                                                    |  26%  |                                                                              |====================                                                  |  29%  |                                                                              |=====================                                                 |  30%  |                                                                              |======================                                                |  31%  |                                                                              |======================                                                |  32%  |                                                                              |=======================                                               |  33%  |                                                                              |========================                                              |  35%  |                                                                              |=========================                                             |  36%  |                                                                              |==========================                                            |  37%  |                                                                              |==============================                                        |  43%  |                                                                              |=====================================                                 |  52%  |                                                                              |==============================================================        |  88%  |                                                                              |======================================================================| 100%
+    ##   |                                                                              |                                                                      |   0%  |                                                                              |                                                                      |   1%  |                                                                              |=                                                                     |   1%  |                                                                              |=                                                                     |   2%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |===                                                                   |   4%  |                                                                              |===                                                                   |   5%  |                                                                              |====                                                                  |   5%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |=====                                                                 |   8%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |========                                                              |  11%  |                                                                              |========                                                              |  12%  |                                                                              |=========                                                             |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |==========                                                            |  14%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  17%  |                                                                              |============                                                          |  18%  |                                                                              |=============                                                         |  19%  |                                                                              |==============                                                        |  19%  |                                                                              |==============                                                        |  20%  |                                                                              |==============                                                        |  21%  |                                                                              |===============                                                       |  22%  |                                                                              |================                                                      |  22%  |                                                                              |=================                                                     |  25%  |                                                                              |==================                                                    |  25%  |                                                                              |====================                                                  |  29%  |                                                                              |=====================                                                 |  30%  |                                                                              |=============================================                         |  65%  |                                                                              |======================================================================| 100%
 
 #### Table 2.2: Race Percents
 
@@ -417,7 +420,7 @@ finaljoin
 SF_businesses <- read_csv("https://data.sfgov.org/api/views/g8m3-pdis/rows.csv?accessType=DOWNLOAD")
 ```
 
-    ## Rows: 287022 Columns: 32
+    ## Rows: 287671 Columns: 32
     ## ── Column specification ────────────────────────────────────────────────────────
     ## Delimiter: ","
     ## chr (24): Location Id, Business Account Number, Ownership Name, DBA Name, St...
@@ -431,20 +434,20 @@ SF_businesses <- read_csv("https://data.sfgov.org/api/views/g8m3-pdis/rows.csv?a
 SF_businesses
 ```
 
-    ## # A tibble: 287,022 × 32
+    ## # A tibble: 287,671 × 32
     ##    `Location Id`  `Business Accou…` `Ownership Name` `DBA Name` `Street Address`
     ##    <chr>          <chr>             <chr>            <chr>      <chr>           
-    ##  1 0008450-25-002 0008450           Sutter Bay Hosp… Californi… 855 Geary St    
-    ##  2 1014347-12-141 0077021           Abm Industries … Ampco Sys… 600 Montgomery …
-    ##  3 1014379-12-141 0077021           Abm Industries … Ampco Sys… 501 Post St     
+    ##  1 0012905-01-001 0012905           Hirsch Ephraim … Hirsch As… Pier 1a         
+    ##  2 0080280-05-001 0080280           Wollborg-Michel… Wollborg-… 291 Geary St St…
+    ##  3 0020258-11-999 0020258           Ncr Corp         Ncr Corpo… 30 Chestnut Ave 
     ##  4 0030032-46-001 0030032           Walgreen Co      Walgreens… 845 Market St   
-    ##  5 0088595-01-001 0088595           Spano Robert & … 282-290 C… 282 Clipper St  
-    ##  6 0028703-02-001 0028703           Vericlaim Inc    Vericlaim… 500 Sansome St …
-    ##  7 0008450-01-013 0008450           Sutter Bay Hosp… Californi… 2323 Sacramento…
-    ##  8 0009829-01-001 0009829           Forderer Cornic… Forderer … 269 Potrero Ave 
-    ##  9 1012834-11-141 0091116           Urban Land Serv… Urban Lan… 1170 Sacramento…
-    ## 10 0348331-01-001 0348331           Tran Sandy Dung  Elizabeth… 672 Geary St    
-    ## # … with 287,012 more rows, and 27 more variables: City <chr>, State <chr>,
+    ##  5 0028703-02-001 0028703           Vericlaim Inc    Vericlaim… 500 Sansome St …
+    ##  6 1280636-06-211 0334683           Ati Restoration… Ati Resto… 25000 Industria…
+    ##  7 0089176-01-001 0089176           Sinbads Pier 2,… Sinbads P… Pier 02         
+    ##  8 1011845-11-141 0005036           Carters Jewelry… Zwillinge… 210 Post St 412 
+    ##  9 1286392-09-211 0319309           Righetti Law Fi… Righetti … 220 Halleck St …
+    ## 10 1300658-03-221 0364263           Jones Rudolph D  Cafe' 1485 1485 Bay Shore …
+    ## # … with 287,661 more rows, and 27 more variables: City <chr>, State <chr>,
     ## #   `Source Zipcode` <chr>, `Business Start Date` <chr>,
     ## #   `Business End Date` <chr>, `Location Start Date` <chr>,
     ## #   `Location End Date` <chr>, `Mail Address` <chr>, `Mail City` <chr>,
@@ -461,20 +464,20 @@ Mission_H_Codes <- SF_businesses %>%
 Mission_H_Codes %>% select(`Ownership Name`, `DBA Name`, `LIC Code`, `LIC Code Description`)
 ```
 
-    ## # A tibble: 984 × 4
-    ##    `Ownership Name`              `DBA Name`          `LIC Code` `LIC Code Desc…`
-    ##    <chr>                         <chr>               <chr>      <chr>           
-    ##  1 Leigh Wendy A                 Listening Hands Ma… H68        General Massage…
-    ##  2 Walgreen Co                   Walgreens #03711    H05 Pos01… Multiple        
-    ##  3 Walgreen Co                   Walgreens #09886    H04 Pos01… Multiple        
-    ##  4 Walgreen Co                   Walgreen Co         H83        Supermarkets W/…
-    ##  5 Rtrn Investment Llc           Travelodge Central  Hhh        <NA>            
-    ##  6 Dai Shujuan/altamirano Carlos Sanguchon           H25        Restaurant 1,00…
-    ##  7 Chu Edwin W Y & Priscilla P C E P Laundromat      H46        Auto Laundry Me…
-    ##  8 Naran Mangu                   Frances Hotel       Hhh        <NA>            
-    ##  9 Pan O Rama Baking Inc         Pan-O-Rama          H30        Catering Facili…
-    ## 10 Eastern Pegasus Inc           Wild Pepper         H25        Restaurant 1,00…
-    ## # … with 974 more rows
+    ## # A tibble: 983 × 4
+    ##    `Ownership Name`            `DBA Name`            `LIC Code` `LIC Code Desc…`
+    ##    <chr>                       <chr>                 <chr>      <chr>           
+    ##  1 Officemax Inc               Officemax No America… D32 H03 P… Multiple        
+    ##  2 Reyes Dolores               Sanjalisco Restaurant H25        Restaurant 1,00…
+    ##  3 La Ciudad Clu               City Club             H86 P12 P… Multiple        
+    ##  4 Rtrn Investment Llc         Travelodge Central    Hhh        <NA>            
+    ##  5 Pfm Enterprises             The Napper Tandy      H25        Restaurant 1,00…
+    ##  6 Ngo Howard & Vuong Dzung My Duc Loi Supermarket   H07 H73 P… Multiple        
+    ##  7 Senor Sisig Corp            Senor Sisig           H24 Pos01… Multiple        
+    ##  8 Koutoulas Pete              Petes Bbq             H24 Wm30 … Multiple        
+    ##  9 Andy's Bp Inc               Mission Gas & Shop    H31 H73 P… Multiple        
+    ## 10 E B Liitt Corp              The Mission Grocery … H06 H73 P… Multiple        
+    ## # … with 973 more rows
 
 #### List 4.1: The following is a list of LIC codes that are food retailers. This list includes grocery stores, corner markets, convienence stores, supermarkets, bakeries, and drug stores. This list does not include restaurants.
 
@@ -494,16 +497,16 @@ Final_Mission_Food_Retailers
     ## # A tibble: 147 × 32
     ##    `Location Id`  `Business Accou…` `Ownership Name` `DBA Name` `Street Address`
     ##    <chr>          <chr>             <chr>            <chr>      <chr>           
-    ##  1 0030032-06-001 0030032           Walgreen Co      Walgreens… 1189 Potrero Ave
-    ##  2 0030032-40-001 0030032           Walgreen Co      Walgreens… 3400 Cesar Chav…
-    ##  3 0030032-01-015 0030032           Walgreen Co      Walgreen … 1979 Mission St 
-    ##  4 1021716-03-151 1010484           Yangtze Market … Yangtze M… 2026 Mission St 
-    ##  5 0069288-01-001 0069288           Samiramis Impor… Samiramis… 2990 Mission St 
-    ##  6 0301049-01-001 0301049           Officemax Inc    Officemax… 1750 Harrison St
-    ##  7 0303375-02-001 0303375           Karajah Kamel F  Smoke Time 2733 Mission St 
-    ##  8 0090813-01-001 0090813           Rainbow Grocery… Rainbow G… 1745 Folsom St  
-    ##  9 1201886-10-181 1093331           Karla Garcia     Bris's Cr… 2782 24th St    
-    ## 10 0108305-01-001 0108305           Totah B/totah M… Norms Mar… 2201 Bryant St  
+    ##  1 0301049-01-001 0301049           Officemax Inc    Officemax… 1750 Harrison St
+    ##  2 0163658-03-001 0163658           Ngo Howard & Vu… Duc Loi S… 2200 Mission St 
+    ##  3 1133354-01-171 1005129           E B Liitt Corp   The Missi… 1245 South Van …
+    ##  4 0922993-01-001 0922993           Self Serve Petr… Self-Serv… 599 Van Ness Ave
+    ##  5 1130151-12-161 1062467           Valencia Wholef… Valencia … 999 Valencia St 
+    ##  6 1140225-03-171 1067352           Potrero Market … Potrero M… 1298 Potrero Ave
+    ##  7 0308344-03-001 0308344           Lai Hung Dat     Basa Seaf… 3064 24th St    
+    ##  8 1176966-01-181 1082713           Huber Gamboa, A… La Canast… 2097 Mission St 
+    ##  9 1239479-11-191 1108985           Guerrero Shell … Guerrero … 400 Guerrero St 
+    ## 10 0347396-01-001 0347396           Velasco Jerry F… Dona Tere… 2780 21st St    
     ## # … with 137 more rows, and 27 more variables: City <chr>, State <chr>,
     ## #   `Source Zipcode` <chr>, `Business Start Date` <chr>,
     ## #   `Business End Date` <chr>, `Location Start Date` <chr>,
@@ -519,18 +522,18 @@ Clean_Final_Retail
 ```
 
     ## # A tibble: 147 × 4
-    ##    `Ownership Name`         `DBA Name`         `Street Address` `LIC Code Desc…`
-    ##    <chr>                    <chr>              <chr>            <chr>           
-    ##  1 Walgreen Co              Walgreens #03711   1189 Potrero Ave Multiple        
-    ##  2 Walgreen Co              Walgreens #09886   3400 Cesar Chav… Multiple        
-    ##  3 Walgreen Co              Walgreen Co        1979 Mission St  Supermarkets W/…
-    ##  4 Yangtze Market Inc       Yangtze Market     2026 Mission St  Multiple        
-    ##  5 Samiramis Imports Inc    Samiramis Imports… 2990 Mission St  Multiple        
-    ##  6 Officemax Inc            Officemax No Amer… 1750 Harrison St Multiple        
-    ##  7 Karajah Kamel F          Smoke Time         2733 Mission St  Multiple        
-    ##  8 Rainbow Grocery Inc      Rainbow Grocery C… 1745 Folsom St   Multiple        
-    ##  9 Karla Garcia             Bris's Creations   2782 24th St     Retail Bakeries…
-    ## 10 Totah B/totah M/ Totah N Norms Market       2201 Bryant St   Multiple        
+    ##    `Ownership Name`               `DBA Name`   `Street Address` `LIC Code Desc…`
+    ##    <chr>                          <chr>        <chr>            <chr>           
+    ##  1 Officemax Inc                  Officemax N… 1750 Harrison St Multiple        
+    ##  2 Ngo Howard & Vuong Dzung My    Duc Loi Sup… 2200 Mission St  Multiple        
+    ##  3 E B Liitt Corp                 The Mission… 1245 South Van … Multiple        
+    ##  4 Self Serve Petroleum Inc       Self-Serve … 599 Van Ness Ave Multiple        
+    ##  5 Valencia Wholefoods Inc        Valencia Wh… 999 Valencia St  Multiple        
+    ##  6 Potrero Market And Deli        Potrero Mar… 1298 Potrero Ave Multiple        
+    ##  7 Lai Hung Dat                   Basa Seafoo… 3064 24th St     Multiple        
+    ##  8 Huber Gamboa, Alfredo Ramos    La Canasta … 2097 Mission St  Multiple        
+    ##  9 Guerrero Shell Llc             Guerrero Sh… 400 Guerrero St  Multiple        
+    ## 10 Velasco Jerry F/velasco Teresa Dona Teres … 2780 21st St     Retail Food Mar…
     ## # … with 137 more rows
 
 ``` r
@@ -684,4 +687,46 @@ pad, it is our hope that researches take our findings and code to
 further examine the role of food retailers in the socio-economic fabric
 of the Mission District.
 
-\###`` {r} Test_businesses <- read_csv("TEST_Survey_Responses.csv") %>%   rename(addresses = Address) Test_businesses url_nominatim_search <- function(search_query_url, country_url,                                  language_url, email_url) {     # load libraries     library(RCurl)     # nominatim search api url     url_nominatim_search_api <- "https://nominatim.openstreetmap.org/search/"     # convert input into a list     search_query_url <- sapply(search_query_url, as.list)     # percent-encode search request     search_query_url <- sapply(search_query_url, URLencode)     # parameters     if (!is.null(country_url)) {           country_url <- paste0("&countrycodes=", country_url)     }     parameters_url <- paste0("?format=json",                              "&addressdetails=1&extratags=1&limit=1",                              country_url, "&accept-language=", language_url,                              "&email=", email_url)     # construct search request for geocode     url_nominatim_search_call <- paste0(url_nominatim_search_api,                                         search_query_url, parameters_url)     return(url_nominatim_search_call) } # /////////////////////////////////////////////// # 2. EXTRACT DATA FROM JSON # /////////////////////////////////////////////// get_geodata_from_json_nominatim <- function(geodata_json) {     # load library     library(jsonlite)     # convert json output into r object     geodata <- lapply(geodata_json, fromJSON,simplifyVector = FALSE)     # extract coordinates, address and contacts     lat_lng_a_c <- Test_businesses(lat = NA, lng = NA, address = NA, pub_name = NA,                               street_name = NA, house_number = NA, suburb = NA,                               postcode = NA, state_district = NA, website_1 = NA,                               website_2 = NA, website_3 = NA, phone_1 = NA,                               phone_2 = NA, email_1 = NA, email_2 = NA)     for(i in 1:length(geodata)) {           if(length(geodata[[i]]) != 0) {                 # get data                 lat <- geodata[[i]][[1]]$lat                 lng <- geodata[[i]][[1]]$lon                 address <- geodata[[i]][[1]]$display_name                 pub_name <- geodata[[i]][[1]]$address$pub                 street_name <- geodata[[i]][[1]]$address$road                 house_number <- geodata[[i]][[1]]$address$house_number                 suburb <- geodata[[i]][[1]]$address$suburb                 postcode <- geodata[[i]][[1]]$address$postcode                 state_district <- geodata[[i]][[1]]$address$state_district                 website_1 <- geodata[[i]][[1]]$extratags$website                 website_2 <- geodata[[i]][[1]]$extratags$url                 website_3 <- geodata[[i]][[1]]$extratags$`contact:website`                 phone_1 <- geodata[[i]][[1]]$extratags$phone                 phone_2 <- geodata[[i]][[1]]$extratags$`contact:phone`                 email_1 <- geodata[[i]][[1]]$extratags$email                 email_2 <- geodata[[i]][[1]]$extratags$`contact:website`                 # get rid of NULLs                 info <- list(lat, lng, address, pub_name, street_name,                              house_number, suburb, postcode, state_district,                              website_1, website_2, website_3,                              phone_1, phone_2, email_1, email_2)                 for (j in 1:length(info)) {                     if (is.null(info[[j]])) info[[j]] <- NA                 }                 # create output data frame                 lat_lng_a_c[i, ] <- info           } else {                 lat_lng_a_c[i, ] <- NA           }     }     return(lat_lng_a_c) } # /////////////////////////////////////////////// # MAIN FUNCTION # /////////////////////////////////////////////// geocode_nominatim <- function(search_query, country = NULL, language = "en",                               fields = "coordinates", email) {     # LOAD LIBRARIES     library(RCurl)     # EXTRACT DATA         # construct url for geocoding         url_geocode <- url_nominatim_search(search_query, country, language, email)         # get data from nominatim         # wait 3 seconds between each call         geodata_json <- list()         for (i in 1:length(url_geocode)) {             geodata_json[i] <- getURL(url_geocode[i])             Sys.sleep(3)         }         # get data from json output         geodata_df <- as.data.frame(sapply(search_query, as.character),                                     stringsAsFactors = FALSE)         names(geodata_df) <- "search query"         rownames(geodata_df) <- NULL         geodata_df[, 2:17] <- get_geodata_from_json_nominatim(geodata_json)         geodata_df_query <- data.frame(search_query = geodata_df[, 1],                                        stringsAsFactors = FALSE)         geodata_df_coordinates <- geodata_df[, 2:3]         geodata_df_address <- geodata_df[, 4:10]         geodata_df_contacts <- geodata_df[, 11:17]         # return dataframe with the geodata         geodata_result <- geodata_df_query         if("all" %in% fields) {             geodata_result <- cbind(geodata_result, geodata_df[, 2:17])         }         if("coordinates" %in% fields) {             geodata_result <- cbind(geodata_result, geodata_df_coordinates)         }         if("address" %in% fields) {             geodata_result <- cbind(geodata_result, geodata_df_address)         }         if("contacts" %in% fields) {             geodata_result <- cbind(geodata_result, geodata_df_contacts)         }     return(geodata_result) } ### ``
+\#Research Data (DRAFT)
+
+``` r
+retail_data <- read_csv("Food Retail Final List (Edit 3_30).csv")
+```
+
+    ## New names:
+    ## * `` -> ...46
+
+    ## Rows: 101 Columns: 49
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (36): Timestamp, Name of Food Retailer, Address, Date Assessed, Type of ...
+    ## dbl (11): Median Price of a Dozen Eggs, Median Price of a Loaf of Bread, Mil...
+    ## lgl  (1): ...46
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+retail_data
+```
+
+    ## # A tibble: 101 × 49
+    ##    Timestamp       `Name of Food Retai…` Address `Date Assessed` `Type of Store`
+    ##    <chr>           <chr>                 <chr>   <chr>           <chr>          
+    ##  1 1/27/2022 12:38 Mission Foodhall      3100 1… 1/26/2022       Specialty Food…
+    ##  2 1/27/2022 12:41 Fred’s Liquors & Del… 200 Va… 1/26/2022       Grocery Store  
+    ##  3 1/27/2022 12:43 E And M Market        399 Va… 1/26/2022       Convenience St…
+    ##  4 1/27/2022 12:46 K & H Liquor          501 Va… 1/26/2022       Convenience St…
+    ##  5 1/27/2022 12:48 Valencia Whole Foods  999 Va… 1/26/2022       Grocery Store  
+    ##  6 1/27/2022 12:50 Decamere Market       1001 V… 1/26/2022       Convenience St…
+    ##  7 1/27/2022 12:52 Indian Spices and Gr… 3265 2… 1/26/2022       Specialty Food…
+    ##  8 1/27/2022 12:55 Valencia Farmer’s Ma… 1299 V… 1/26/2022       Grocery Store  
+    ##  9 1/27/2022 12:57 Anthony’s Cookies     1417 V… 1/26/2022       Specialty Food…
+    ## 10 1/27/2022 12:59 Valencia Grocery      1300 V… 1/26/2022       Convenience St…
+    ## # … with 91 more rows, and 44 more variables:
+    ## #   `What type of Specialty Food Store?` <chr>, `EBT Accepted?` <chr>,
+    ## #   `Number of Locations (chain?)` <dbl>, `Median Price of a Dozen Eggs` <dbl>,
+    ## #   `Median Price of a Loaf of Bread` <dbl>,
+    ## #   `Median Price of a Gallon of Milk` <chr>, `Milk Standardized_Gallon` <dbl>,
+    ## #   `Median Price of Oranges` <chr>, `Orange Standardized_lbs` <chr>,
+    ## #   `Median Price of Organic Oranges` <chr>, …

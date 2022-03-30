@@ -35,8 +35,11 @@ library(reshape2)
 library(httr)
 library(jsonlite)
 library(data.table)
+install.packages("tidycensus")
+install.packages("ggmap")
 library(tidycensus)
 library(ggmap)
+
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -326,16 +329,7 @@ In conclusion, we were able to replicate multiple maps used in researching the s
 #Research Data (DRAFT)
 
 ```{r}
-retail_data <- read_csv("Copy of Food Retailer Survey (Edits 3_29) - Form Responses 1.csv")
+retail_data <- read_csv("Food Retail Final List (Edit 3_30).csv")
 retail_data
 
-```
-
-```{r}
-retail_data_with_coord <- mutate_geocode(retail_data, location = Address, output = "latlona")
-retail_data_with_coord
-```
-
-```{r}
-write.csv(retail_data_with_coord,"C:\\Users\\fheim\\Desktop\\Test\\Retail_Data_w_Coords.csv", row.names = TRUE)
 ```
