@@ -265,6 +265,7 @@ write.csv(Clean_Order_r, "C:\\Users\\fheim\\Desktop\\Test\\People.csv", row.name
 #### List 4.2: The following are the coordinates for each food retail store in the Mission District.
 ```{r}
 coordinates <- Final_Mission_Food_Retailers %>% pull("Business Location")
+coordinates
 ```
 
 #### Figure 4.1: The follow is a map of all food retailers within the Mission District. Each dot represents a food retailer. While this map does not include streets or the outline of the Mission Distict, maps in the following section will include an outline of the Mission District along with demographic information.
@@ -276,6 +277,15 @@ geo_final <- Final_Mission_Food_Retailers %>%
   st_as_sf(crs = "WGS84")
 tm_shape(geo_final) + tm_dots()
 ```
+
+```{r}
+geo_final_2 <- retail_data %>%
+  rename(geometry = `coord`) %>%
+  mutate(geometry = as.list(geometry)) %>%
+  st_as_sf(crs = "WGS84")
+tm_shape(geo_final) + tm_dots()
+```
+
 
 ## V Final Maps
 
@@ -330,6 +340,6 @@ In conclusion, we were able to replicate multiple maps used in researching the s
 
 ```{r}
 retail_data <- read_csv("Food Retail Final List (Edit 3_30).csv")
+retail_data$coord <- paste(retail_data$lon, retail_data$lat)
 retail_data
-
 ```
