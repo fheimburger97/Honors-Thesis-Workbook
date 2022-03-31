@@ -76,12 +76,30 @@ incomejoin <-left_join(gfile, medianincome, by = "GEOID")
 incomejoin
 ```
 
+```{r}
+medianincome_test <- demographics %>%
+  select(GEOID, hinc_18) %>%
+  mutate(median_income = case_when(
+    hinc_18 <= 75000 ~ "40,000 - 75,000",
+    hinc_18 >= 75001 & hinc_18 <= 110000 ~ "75,001 - 110,000",
+    hinc_18 >= 110001 & hinc_18 <= 145000 ~ "110,001 - 145,000",
+    hinc_18 >= 145001 ~ "145,001 - 180,000")) %>%
+  rename("Income in Dollars" = hinc_18) %>%
+  rename("Median Income" = median_income)
+incomejoin_test <-left_join(gfile, medianincome_test, by = "GEOID")
+incomejoin_test
+```
+
+
+
+
+
 #### Figure 1.1: Mapping Median Household Income in the Mission District
 Using **tmap** and our **incomejoin** table, we then create a map showing median household income across census tracts in the Mission District.
 ```{r message=FALSE, warning=FALSE}
-incomemap <- tm_shape(incomejoin) +
+incomemap <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
-             tm_polygons("Income in Dollars") +
+             tm_polygons("Median Income") +
              tm_layout(main.title="Median Household Income",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
@@ -289,7 +307,7 @@ tm_shape(retail_map) + tm_dots()
 
 #### Figure 5.1: Food Retailers and Median Household Income in the Mission District
 ```{r warning=FALSE}
-dots <- tm_shape(geo_final) + tm_dots(col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
+dots <- tm_shape(retail_map) + tm_dots(col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
 incomemap_with_food_retailers <- tm_shape(incomejoin) +
              tm_style("watercolor") +
              tm_polygons("Income in Dollars") +
@@ -308,7 +326,7 @@ incomemap_with_food_retailers + dots
 #### Figure 5.2: Food Retailers and Racial Majorities in the Mission District
 *
 ```{r warning=FALSE}
-dots <- tm_shape(geo_final) + tm_dots(col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
+dots <- tm_shape(retail_map) + tm_dots(col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
 racemap_with_food_retailers <-
   tm_shape(mission_percents_clean) +
   tm_polygons("Majority") +
