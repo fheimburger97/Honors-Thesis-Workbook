@@ -279,11 +279,9 @@ tm_shape(geo_final) + tm_dots()
 ```
 
 ```{r}
-geo_final_2 <- retail_data %>%
-  rename(geometry = `coord`) %>%
-  mutate(geometry = as.list(geometry)) %>%
-  st_as_sf(crs = "WGS84")
-tm_shape(geo_final) + tm_dots()
+retail_map <- retail_data %>%
+ st_as_sf(coords = c('lon', 'lat'), crs = "WGS84")
+tm_shape(retail_map) + tm_dots()
 ```
 
 
