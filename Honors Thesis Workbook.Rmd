@@ -23,6 +23,8 @@ Our research is organized as follows. First, we map out income levels by census 
 #### Data note: We used the following libraries to analyze our data. Additionally, please run `install.packages("tidycensus")` in the console window.
 ```{r setup, include=FALSE}
 library(rgdal)
+library(sp)
+library(raster)
 library(RSQLite)
 library(tmap)        
 library(terra)
@@ -84,8 +86,8 @@ medianincome_test <- demographics %>%
     hinc_18 >= 75001 & hinc_18 <= 110000 ~ "75,001 - 110,000",
     hinc_18 >= 110001 & hinc_18 <= 145000 ~ "110,001 - 145,000",
     hinc_18 >= 145001 ~ "145,001 - 180,000")) %>%
-  rename("Income in Dollars" = hinc_18) %>%
-  rename("Median Income" = median_income)
+  rename("Income in Dollars" = hinc_18)
+  #rename("Median Income" = median_income)
 incomejoin_test <-left_join(gfile, medianincome_test, by = "GEOID")
 incomejoin_test
 ```
@@ -97,7 +99,7 @@ incomejoin_test
 #### Figure 1.1: Mapping Median Household Income in the Mission District
 Using **tmap** and our **incomejoin** table, we then create a map showing median household income across census tracts in the Mission District.
 ```{r message=FALSE, warning=FALSE}
-incomemap <- tm_shape(incomejoin_test) +
+incomemap_2 <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
              tm_polygons("Median Income") +
              tm_layout(main.title="Median Household Income",
@@ -109,7 +111,7 @@ incomemap <- tm_shape(incomejoin_test) +
              legend.title.size = 1.5,
              legend.text.size = 1.2) +
   tm_compass(position = c("left", "top"))
-incomemap
+incomemap_2
 ```
 
 ## II Tract Racial Typology
@@ -297,6 +299,14 @@ tm_shape(geo_final) + tm_dots()
 ```
 
 ```{r}
+retail_data <- read_csv("Food Retail Final List (Edit 3_30).csv")
+retail_data$coord <- paste(retail_data$lon, retail_data$lat)
+retail_data
+```
+
+
+
+```{r}
 retail_map <- retail_data %>%
  st_as_sf(coords = c('lon', 'lat'), crs = "WGS84")
 tm_shape(retail_map) + tm_dots()
@@ -308,9 +318,9 @@ tm_shape(retail_map) + tm_dots()
 #### Figure 5.1: Food Retailers and Median Household Income in the Mission District
 ```{r warning=FALSE}
 dots <- tm_shape(retail_map) + tm_dots(col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
-incomemap_with_food_retailers <- tm_shape(incomejoin) +
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
-             tm_polygons("Income in Dollars") +
+             tm_polygons("Median Income") +
              tm_layout(main.title="Median Household Income & Food Retailers",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
@@ -358,4 +368,57 @@ In conclusion, we were able to replicate multiple maps used in researching the s
 retail_data <- read_csv("Food Retail Final List (Edit 3_30).csv")
 retail_data$coord <- paste(retail_data$lon, retail_data$lat)
 retail_data
+```
+
+```{r warning=FALSE}
+dots <- tm_shape(retail_map) + tm_dots(size = .1, col="EBT Accepted?", palette=c(No='red', Yes='black')) + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_points <- incomemap_with_food_retailers + dots
+income_plus_points
+```
+
+```{r}
+data_sf <- incomemap_with_food_retailers %>% st_as_sf()
+random_long_lat_sf <- random_long_lat %>% 
+  st_as_sf(coords = c("long", "lat"), crs = 4326)
+
+intersection <- st_intersection(x = incomemap_with_food_retailers$median_income, y = dots)
+class(retail_map)
+# Plot intersection
+plot(polygon, graticule = st_crs(4326), key.pos = 1)
+plot(intersection[1], col = "black", pch = 19, add = TRUE)
+
+# View result
+table(intersection$id_polygons) # using table
+
+# using dplyr
+int_result <- intersection %>% 
+  group_by(id_polygons) %>% 
+  count()
+
+as.data.frame(int_result)[,-3]
+
+```
+
+```{r}
+retail_EBT <- retail_map %>%
+  filter(`EBT Accepted?` == "Yes")
+retail_EBT
+
+```
+
+```{r}
+income_plus_points
+
 ```
