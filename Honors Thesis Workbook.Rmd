@@ -424,7 +424,12 @@ retail_EBT
 ```{r}
 just_geo <- incomejoin_test %>%
   select("geom")
-intersection <- st_intersection(x = just_geo, y = retail_map)
+just_mission_stores <- retail_map %>%
+  filter(`Name of Food Retailer` != "Costco") %>%
+  filter(`Name of Food Retailer` != "Whole Foods Market") %>%
+  filter(`Address` != "2020 Market St, San Francisco, CA 94114")
+
+intersection <- st_intersection(x = just_geo, y = just_mission_stores)
 
 plot(just_geo, graticule = st_crs(4326), key.pos = 1)
 plot(intersection[1], col = "black", pch = 19, add = TRUE)
@@ -434,7 +439,7 @@ table(intersection$geom) # using table
 
 # using dplyr
 int_result <- intersection %>% 
-  group_by(Address) %>% 
+  group_by(geom) %>% 
   count()
 
 as.data.frame(int_result)[,-3]
