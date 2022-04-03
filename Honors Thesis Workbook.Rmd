@@ -24,6 +24,7 @@ Our research is organized as follows. First, we map out income levels by census 
 ```{r setup, include=FALSE}
 library(rgdal)
 library(sp)
+library(leaflet)
 library(raster)
 library(RSQLite)
 library(tmap)        
@@ -373,7 +374,7 @@ retail_data
 
 ```{r warning=FALSE}
 tmap_mode("view")
-dots <- tm_shape(retail_map) + tm_dots(size = .05, col="EBT Accepted?", palette=c(No='red', Yes='black')) + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
+dots <- tm_shape(retail_map) + tm_dots(col="EBT Accepted?", palette=c(No='red', Yes='black'))
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
              tm_polygons("median_income") +
@@ -421,6 +422,33 @@ retail_EBT
 ```
 
 ```{r}
-income_plus_points
+intersection <- st_intersection(x = incomejoin_test, y = retail_map)
 
+plot(incomejoin_test, graticule = st_crs(4326), key.pos = 1)
+plot(intersection[1], col = "black", pch = 19, add = TRUE)
+
+# View result
+table(intersection$id_polygons) # using table
+
+# using dplyr
+int_result <- intersection %>% 
+  group_by(id_polygons) %>% 
+  count()
+
+as.data.frame(int_result)[,-3]
 ```
+intersection <- st_intersection(x = polygon, y = points)
+
+# Plot intersection
+plot(polygon, graticule = st_crs(4326), key.pos = 1)
+plot(intersection[1], col = "black", pch = 19, add = TRUE)
+
+# View result
+table(intersection$id_polygons) # using table
+
+# using dplyr
+int_result <- intersection %>% 
+  group_by(id_polygons) %>% 
+  count()
+
+as.data.frame(int_result)[,-3]
