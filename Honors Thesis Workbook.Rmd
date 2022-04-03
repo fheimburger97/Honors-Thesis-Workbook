@@ -102,7 +102,7 @@ Using **tmap** and our **incomejoin** table, we then create a map showing median
 ```{r message=FALSE, warning=FALSE}
 incomemap_2 <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
-             tm_polygons("Median Income") +
+             tm_polygons("median_income") +
              tm_layout(main.title="Median Household Income",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
@@ -422,17 +422,19 @@ retail_EBT
 ```
 
 ```{r}
-intersection <- st_intersection(x = incomejoin_test, y = retail_map)
+just_geo <- incomejoin_test %>%
+  select("geom")
+intersection <- st_intersection(x = just_geo, y = retail_map)
 
-plot(incomejoin_test, graticule = st_crs(4326), key.pos = 1)
+plot(just_geo, graticule = st_crs(4326), key.pos = 1)
 plot(intersection[1], col = "black", pch = 19, add = TRUE)
 
 # View result
-table(intersection$id_polygons) # using table
+table(intersection$geom) # using table
 
 # using dplyr
 int_result <- intersection %>% 
-  group_by(id_polygons) %>% 
+  group_by(Address) %>% 
   count()
 
 as.data.frame(int_result)[,-3]
