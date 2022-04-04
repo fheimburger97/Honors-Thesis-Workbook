@@ -430,32 +430,38 @@ just_mission_stores <- retail_map %>%
   filter(`Address` != "2020 Market St, San Francisco, CA 94114")
 
 intersection <- st_intersection(x = just_geo, y = just_mission_stores)
+intersection_join <- st_join(intersection, incomejoin_test, join = st_intersects)
+intersection_join
 
 plot(just_geo, graticule = st_crs(4326), key.pos = 1)
 plot(intersection[1], col = "black", pch = 19, add = TRUE)
+```
 
-# View result
-table(intersection$geom) # using table
+```{r}
 
-# using dplyr
-int_result <- intersection %>% 
-  group_by(geom) %>% 
+# View result solution<-as.data.frame(table(unlist(record)))
+solution <- as.data.frame(table(unlist(intersection_join$geom))) # using table
+solution
+```
+
+```{r}
+# Number of Retailers in each Median Income Group
+int_result <- intersection_join %>% 
+  group_by(median_income) %>% 
   count()
 
 as.data.frame(int_result)[,-3]
 ```
-intersection <- st_intersection(x = polygon, y = points)
 
-# Plot intersection
-plot(polygon, graticule = st_crs(4326), key.pos = 1)
-plot(intersection[1], col = "black", pch = 19, add = TRUE)
+```{r}
+#EBT Test
+intersection_EBT <- st_intersection(x = just_geo, y = just_mission_stores)
+intersection_join_EBT <- st_join(intersection, incomejoin_test, join = st_intersects)
+intersection_join_EBT
 
-# View result
-table(intersection$id_polygons) # using table
+```
 
-# using dplyr
-int_result <- intersection %>% 
-  group_by(id_polygons) %>% 
-  count()
 
-as.data.frame(int_result)[,-3]
+
+
+
