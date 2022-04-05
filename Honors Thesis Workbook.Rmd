@@ -454,18 +454,19 @@ solution
 ```{r}
 # Number of Retailers in each Median Income Group
 int_result <- intersection_join %>% 
-  group_by(median_income, EBT.Accepted.) %>% 
+  group_by(median_income) %>% 
   count()
 
-as.data.frame(int_result)[,-3]
+as.data.frame(int_result)
 ```
 
 ```{r}
 #EBT Test
-intersection_EBT <- st_intersection(x = just_geo, y = just_mission_stores)
-intersection_join_EBT <- st_join(intersection, incomejoin_test, join = st_intersects)
-intersection_join_EBT
+EBT_result <- intersection_join %>% 
+  group_by(median_income, EBT.Accepted.) %>% 
+  count()
 
+as.data.frame(EBT_result)
 ```
 
 
