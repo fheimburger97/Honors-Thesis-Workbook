@@ -52,6 +52,13 @@ Google API Key -- need to upload key
 register_google(key = "", write = TRUE)
 #```
 
+```{r}
+retail_data <- read_csv("Food Retail Final List (Edit 3_30).csv") %>%
+  select(!"Timestamp")
+retail_data$coord <- paste(retail_data$lon, retail_data$lat) 
+retail_data
+```
+
 ## I Tract Income Typology
 
 #### Table 1.1: Downloading San Francisco's Geopackage
@@ -447,7 +454,7 @@ solution
 ```{r}
 # Number of Retailers in each Median Income Group
 int_result <- intersection_join %>% 
-  group_by(median_income) %>% 
+  group_by(median_income, EBT.Accepted.) %>% 
   count()
 
 as.data.frame(int_result)[,-3]
