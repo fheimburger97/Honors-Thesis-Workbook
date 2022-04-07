@@ -325,6 +325,7 @@ tm_shape(retail_map) + tm_dots()
 
 #### Figure 5.1: Food Retailers and Median Household Income in the Mission District
 ```{r warning=FALSE}
+tmap_mode("plot")
 dots <- tm_shape(retail_map) + tm_dots(col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
@@ -338,7 +339,8 @@ incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              legend.title.size = 1.5,
              legend.text.size = 1.2) +
   tm_compass(position = c("left", "top"))
-incomemap_with_food_retailers + dots
+income_map_with_retail <- incomemap_with_food_retailers + dots
+income_map_with_retail
 ```
 
 #### Figure 5.2: Food Retailers and Racial Majorities in the Mission District
@@ -358,7 +360,8 @@ racemap_with_food_retailers <-
             legend.title.size = 1.5,
             legend.text.size = 1.2) +
   tm_compass(position = c("left", "top"))
-racemap_with_food_retailers + dots
+ethnicity_with_retail <- racemap_with_food_retailers + dots
+ethnicity_with_retail
 ```
 
 # Conclusion
@@ -425,6 +428,7 @@ retail_EBT
 ```
 
 ```{r}
+#income
 just_geo <- incomejoin_test %>%
   select("geom")
 just_mission_stores <- retail_map %>%
@@ -441,10 +445,20 @@ plot(intersection[1], col = "black", pch = 19, add = TRUE)
 ```
 
 ```{r}
+#ethnicity
+just_geo_ethnicity <- mission_percents_clean %>%
+  select("geometry")
+just_mission_stores <- retail_map %>%
+  filter(`Name of Food Retailer` != "Costco") %>%
+  filter(`Name of Food Retailer` != "Whole Foods Market") %>%
+  filter(`Address` != "2020 Market St, San Francisco, CA 94114")
 
-# View result solution<-as.data.frame(table(unlist(record)))
-solution <- as.data.frame(table(unlist(intersection_join$geom))) # using table
-solution
+intersection_ethnicity <- st_intersection(x = just_geo_ethnicity, y = just_mission_stores)
+intersection_join <- st_join(intersection, incomejoin_test, join = st_intersects)
+intersection_join
+
+plot(just_geo, graticule = st_crs(4326), key.pos = 1)
+plot(intersection[1], col = "black", pch = 19, add = TRUE)
 ```
 
 ```{r}
@@ -465,7 +479,33 @@ EBT_result <- intersection_join %>%
 as.data.frame(EBT_result)
 ```
 
+# Results (lens of Agency)
+
+```{r}
+intersection_join #final table
+```
+
+##Access
+###Geography
+```{r}
+#map
+income_map_with_retail
+ethnicity_with_retail
+```
+```{r}
+#table
+income_map_with_retail
+ethnicity_with_retail
+```
+
+
+##Health & Nutrition
 
 
 
+##Cultural Relevance
+
+
+
+##Sustainability
 
