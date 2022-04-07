@@ -328,7 +328,7 @@ tm_shape(retail_map) + tm_dots()
 dots <- tm_shape(retail_map) + tm_dots(col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
-             tm_polygons("Median Income") +
+             tm_polygons("median_income") +
              tm_layout(main.title="Median Household Income & Food Retailers",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
@@ -398,11 +398,7 @@ income_plus_points <- incomemap_with_food_retailers + dots
 income_plus_points
 ```
 
-```{r}
-data_sf <- incomemap_with_food_retailers %>% st_as_sf()
-random_long_lat_sf <- random_long_lat %>% 
-  st_as_sf(coords = c("long", "lat"), crs = 4326)
-
+##```{r}
 intersection <- st_intersection(x = incomemap_with_food_retailers$median_income, y = dots)
 class(retail_map)
 # Plot intersection
@@ -419,7 +415,7 @@ int_result <- intersection %>%
 
 as.data.frame(int_result)[,-3]
 
-```
+##```
 
 ```{r}
 retail_EBT <- retail_map %>%
