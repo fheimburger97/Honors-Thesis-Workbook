@@ -513,10 +513,41 @@ price_table <- primary_table %>%
   select(-Timestamp, -Address, -Date.Assessed, -Type.of.Store, -What.type.of.Specialty.Food.Store., -EBT.Accepted., -Number.of.Locations..chain.., -Is.there.signage.in.other.languages.than.English., -If.so..what.languages., -Access.Notes, -Is.there.fresh.produce.available., -What.percentage.of.the.store.is.produce., -Is.there.organic.produce.available., -Is.there.local.produce.available., -How.many.types.of.fresh.produce.are.available., -Is.there.an.ethnic.section., -Are.there.options.besides.national.name.brand.ethnic.foods.,, -What.ethnic.food.nationalities.are.available., -Selection.Notes, -Is.there.signage.or.visible.documentation.of.environmental.work.or.actions., -If.so..what.kind.of.environmental.work., -Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions., -If.so..what.kind.of.social.justice.work., -General.Notes, -address) %>%
   mutate(bread_quartile = cut(primary_table$Median.Price.of.a.Loaf.of.Bread, quantile(primary_table$Median.Price.of.a.Loaf.of.Bread, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
   mutate(milk_quartile = cut(primary_table$Milk.Standardized_Gallon, quantile(primary_table$Milk.Standardized_Gallon, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
-  mutate(orange_quartile = cut(primary_table$Orange.Standardized_lbs, quantile(primary_table$Orange.Standardized_lbs, na.rm = TRUE),include.lowest=TRUE,labels=FALSE))
-price_table
+  mutate(orange_quartile = cut(primary_table$Orange.Standardized_lbs, quantile(primary_table$Orange.Standardized_lbs, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
+  mutate(avocado_quartile = cut(primary_table$Standardized.Avocado_each, quantile(primary_table$Standardized.Avocado_each, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
+  mutate(carrots_quartile = cut(primary_table$Standardized.Carrots_lbs, quantile(primary_table$Standardized.Carrots_lbs, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
+  mutate(brocolli_quartile = cut(primary_table$Standardized.Brocolli_lbs, quantile(primary_table$Standardized.Brocolli_lbs, na.rm = TRUE),include.lowest=TRUE,labels=FALSE))
+
+price_table_2 <- price_table %>%
+  select(egg_quartile, milk_quartile, orange_quartile, avocado_quartile, carrots_quartile, brocolli_quartile) %>%
+  mutate(mean_quartile = apply(price_table[1:2], MARGIN=1, FUN=mean, na.rm=TRUE))
+price_table_2
+
+price_table_2$mean_quartile <- apply(price_table_2[2:4], MARGIN=1, FUN=mean, na.rm=TRUE)
+price_table_2
+
+#price_table$mean_quartile <- rowMeans(price_table[,c('egg_quartile', 'bread_quartile')], na.rm=TRUE)
 ```
 
+```{r}
+dots <- tm_shape(price_table) + tm_dots(size=.1, col=c("egg_quartile", "milk_quartile"), palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_points <- incomemap_with_food_retailers + dots
+income_plus_points
+
+
+```
 
 ##Health & Nutrition
 
