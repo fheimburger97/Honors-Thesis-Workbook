@@ -446,19 +446,13 @@ plot(intersection[1], col = "black", pch = 19, add = TRUE)
 
 ```{r}
 #ethnicity
-just_geo_ethnicity <- mission_percents_clean %>%
+just_geo_2 <- mission_percents_clean %>%
   select("geometry")
-just_mission_stores <- retail_map %>%
-  filter(`Name of Food Retailer` != "Costco") %>%
-  filter(`Name of Food Retailer` != "Whole Foods Market") %>%
-  filter(`Address` != "2020 Market St, San Francisco, CA 94114")
+just_geo_2 <- st_set_crs(just_geo_2, "WGS84")
+intersection_2 <- st_intersection(x = just_mission_stores, y = just_geo_2)
 
-intersection_ethnicity <- st_intersection(x = just_geo_ethnicity, y = just_mission_stores)
-intersection_join <- st_join(intersection, incomejoin_test, join = st_intersects)
-intersection_join
-
-plot(just_geo, graticule = st_crs(4326), key.pos = 1)
-plot(intersection[1], col = "black", pch = 19, add = TRUE)
+plot(just_geo_2, graticule = st_crs(4326), key.pos = 1)
+plot(intersection_2[1], col = "black", pch = 19, add = TRUE)
 ```
 
 ```{r}
@@ -489,8 +483,15 @@ intersection_join #final table
 ###Geography
 ```{r}
 #map
-income_map_with_retail
-ethnicity_with_retail
+#income_map_with_retail
+#class(ethnicity_with_retail)
+just_geo_2 <- mission_percents_clean %>%
+  select("geometry") %>%
+  st_as_sf(crs = "WGS84")
+just_geo_2 <- st_set_crs(just_geo_2, "WGS84")
+intersection <- st_intersection(x = just_geo_2, y = just_mission_stores)
+mission_percents_clean
+retail_map
 ```
 ```{r}
 #table
