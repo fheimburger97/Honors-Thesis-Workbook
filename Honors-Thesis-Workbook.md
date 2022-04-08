@@ -308,7 +308,7 @@ totalpop <- get_decennial(geography = "tract",
                       geometry = TRUE)
 ```
 
-    ##   |                                                                              |                                                                      |   0%  |                                                                              |                                                                      |   1%  |                                                                              |=                                                                     |   1%  |                                                                              |=                                                                     |   2%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |==                                                                    |   4%  |                                                                              |===                                                                   |   4%  |                                                                              |===                                                                   |   5%  |                                                                              |====                                                                  |   5%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |=====                                                                 |   8%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |========                                                              |  11%  |                                                                              |========                                                              |  12%  |                                                                              |=========                                                             |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |==========                                                            |  14%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  17%  |                                                                              |=============                                                         |  18%  |                                                                              |=============                                                         |  19%  |                                                                              |==============                                                        |  20%  |                                                                              |===============                                                       |  21%  |                                                                              |===============                                                       |  22%  |                                                                              |================                                                      |  23%  |                                                                              |=================                                                     |  24%  |                                                                              |==================                                                    |  25%  |                                                                              |===================                                                   |  27%  |                                                                              |====================                                                  |  28%  |                                                                              |=====================                                                 |  30%  |                                                                              |======================                                                |  32%  |                                                                              |========================                                              |  34%  |                                                                              |=========================                                             |  35%  |                                                                              |=========================                                             |  36%  |                                                                              |===========================                                           |  38%  |                                                                              |============================                                          |  40%  |                                                                              |=============================                                         |  42%  |                                                                              |=======================================================               |  79%  |                                                                              |======================================================================| 100%
+    ##   |                                                                              |                                                                      |   0%  |                                                                              |                                                                      |   1%  |                                                                              |=                                                                     |   1%  |                                                                              |=                                                                     |   2%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |===                                                                   |   4%  |                                                                              |===                                                                   |   5%  |                                                                              |====                                                                  |   5%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |========                                                              |  11%  |                                                                              |========                                                              |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |==========                                                            |  14%  |                                                                              |===========                                                           |  15%  |                                                                              |============                                                          |  17%  |                                                                              |=============                                                         |  18%  |                                                                              |==============                                                        |  20%  |                                                                              |===============                                                       |  21%  |                                                                              |===============                                                       |  22%  |                                                                              |================                                                      |  22%  |                                                                              |================                                                      |  23%  |                                                                              |=================                                                     |  25%  |                                                                              |==================                                                    |  26%  |                                                                              |===================                                                   |  28%  |                                                                              |====================                                                  |  29%  |                                                                              |=====================                                                 |  31%  |                                                                              |======================                                                |  31%  |                                                                              |=======================                                               |  32%  |                                                                              |========================                                              |  34%  |                                                                              |========================                                              |  35%  |                                                                              |============================                                          |  39%  |                                                                              |==============================                                        |  43%  |                                                                              |=======================================================               |  79%  |                                                                              |========================================================              |  80%  |                                                                              |======================================================================| 100%
 
 #### Table 2.2: Race Percents
 
@@ -332,11 +332,11 @@ asianandlatinx <- left_join(asian, latinx, by = "GEOID") %>%
            latinxvar = variable.y,
            latinxval = value.y) %>%
   select(GEOID, asianvar, asianval, latinxvar, latinxval)
-racetable <- left_join(totalandwhite, asianandlatinx, by = "GEOID") %>%
+ethnic_table <- left_join(totalandwhite, asianandlatinx, by = "GEOID") %>%
   mutate(percwhite = (whiteval/totalval)*100) %>%
   mutate(percasian = (asianval/totalval)*100) %>%
   mutate(perclatinx = (latinxval/totalval)*100)
-racetable
+ethnic_table
 ```
 
     ## # A tibble: 244 × 14
@@ -363,7 +363,7 @@ Next, we `mutate` to add a “majority” column. In this column, we use
 the population, and thus, is the majority of its tract.
 
 ``` r
-percents <- racetable  %>% 
+percents <- ethnic_table  %>% 
   mutate(Majority = case_when(
     perclatinx > percasian & perclatinx > percwhite ~ "Hispanic or Latinx",
     percwhite > percasian & percwhite > perclatinx ~ "White",
@@ -410,7 +410,7 @@ mission_percents_clean
 -   
 
 ``` r
-racemap <-
+ethnic_map <-
   tm_shape(mission_percents_clean) +
   tm_polygons("Majority") +
   tm_style("watercolor") +
@@ -423,7 +423,7 @@ racemap <-
             legend.title.size = 1.5,
             legend.text.size = 1.2) +
   tm_compass(position = c("left", "top"))
-racemap
+ethnic_map
 ```
 
 ![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
@@ -492,244 +492,66 @@ finaljoin
 #### Table 4.1: Uploading business data from data.sfgov.org.
 
 ``` r
-SF_businesses <- read_csv("https://data.sfgov.org/api/views/g8m3-pdis/rows.csv?accessType=DOWNLOAD")
+#SF_businesses <- read_csv("https://data.sfgov.org/api/views/g8m3-pdis/rows.csv?accessType=DOWNLOAD")
+#SF_businesses
 ```
-
-    ## Rows: 288099 Columns: 32
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (24): Location Id, Business Account Number, Ownership Name, DBA Name, St...
-    ## dbl  (6): Supervisor District, SF Find Neighborhoods, Current Police Distric...
-    ## lgl  (2): Parking Tax, Transient Occupancy Tax
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-
-``` r
-SF_businesses
-```
-
-    ## # A tibble: 288,099 × 32
-    ##    `Location Id`  `Business Accou…` `Ownership Name` `DBA Name` `Street Address`
-    ##    <chr>          <chr>             <chr>            <chr>      <chr>           
-    ##  1 1014347-12-141 0077021           Abm Industries … Ampco Sys… 600 Montgomery …
-    ##  2 1014379-12-141 0077021           Abm Industries … Ampco Sys… 501 Post St     
-    ##  3 0030032-46-001 0030032           Walgreen Co      Walgreens… 845 Market St   
-    ##  4 0088595-01-001 0088595           Spano Robert & … 282-290 C… 282 Clipper St  
-    ##  5 0028703-02-001 0028703           Vericlaim Inc    Vericlaim… 500 Sansome St …
-    ##  6 0057082-01-001 0057082           Robert A Warman… Warman Se… 1720 Sacramento…
-    ##  7 0076241-01-001 0076241           Wong Frank Yuk … 2267 Filb… 2267 Filbert St 
-    ##  8 1012834-11-141 0091116           Urban Land Serv… Urban Lan… 1170 Sacramento…
-    ##  9 0348331-01-001 0348331           Tran Sandy Dung  Elizabeth… 672 Geary St    
-    ## 10 0092446-01-001 0092446           Bundox Restaura… Waterfron… Pier 09         
-    ## # … with 288,089 more rows, and 27 more variables: City <chr>, State <chr>,
-    ## #   `Source Zipcode` <chr>, `Business Start Date` <chr>,
-    ## #   `Business End Date` <chr>, `Location Start Date` <chr>,
-    ## #   `Location End Date` <chr>, `Mail Address` <chr>, `Mail City` <chr>,
-    ## #   `Mail Zipcode` <chr>, `Mail State` <chr>, `NAICS Code` <chr>,
-    ## #   `NAICS Code Description` <chr>, `Parking Tax` <lgl>,
-    ## #   `Transient Occupancy Tax` <lgl>, `LIC Code` <chr>, …
 
 #### Table 4.2: Business in the Mission with LIC Code H in it. LIC codes with H’s are retail businesses, this was a crucial filtering step to finding food retailers.
 
 ``` r
-Mission_H_Codes <- SF_businesses %>%
-   filter(str_detect(`LIC Code`, "H"), `Neighborhoods - Analysis Boundaries` == "Mission") %>%
-  select(`Ownership Name`, `DBA Name`, `Street Address`, `Business Start Date`, `Business End Date`, `Mail State`, `NAICS Code`, `NAICS Code Description`, `LIC Code`, `LIC Code Description`, `Neighborhoods - Analysis Boundaries`)
-Mission_H_Codes %>% select(`Ownership Name`, `DBA Name`, `LIC Code`, `LIC Code Description`)
+#Mission_H_Codes <- SF_businesses %>%
+   #filter(str_detect(`LIC Code`, "H"), `Neighborhoods - Analysis Boundaries` == "Mission") %>%
+  #select(`Ownership Name`, `DBA Name`, `Street Address`, `Business Start Date`, `Business End Date`, `Mail State`, `NAICS Code`, `NAICS Code Description`, `LIC Code`, `LIC Code Description`, `Neighborhoods - Analysis Boundaries`)
+#Mission_H_Codes %>% select(`Ownership Name`, `DBA Name`, `LIC Code`, `LIC Code Description`)
 ```
-
-    ## # A tibble: 983 × 4
-    ##    `Ownership Name`              `DBA Name`          `LIC Code` `LIC Code Desc…`
-    ##    <chr>                         <chr>               <chr>      <chr>           
-    ##  1 Leigh Wendy A                 Listening Hands Ma… H68        General Massage…
-    ##  2 Walgreen Co                   Walgreens #03711    H05 Pos01… Multiple        
-    ##  3 Walgreen Co                   Walgreens #09886    H04 Pos01… Multiple        
-    ##  4 Walgreen Co                   Walgreen Co         H83        Supermarkets W/…
-    ##  5 Rtrn Investment Llc           Travelodge Central  Hhh        <NA>            
-    ##  6 Telli Tim                     Betwixt Wines       H73        Deemed Approved…
-    ##  7 Dai Shujuan/altamirano Carlos Sanguchon           H25        Restaurant 1,00…
-    ##  8 Chu Edwin W Y & Priscilla P C E P Laundromat      H46        Auto Laundry Me…
-    ##  9 Naran Mangu                   Frances Hotel       Hhh        <NA>            
-    ## 10 Pan O Rama Baking Inc         Pan-O-Rama          H30        Catering Facili…
-    ## # … with 973 more rows
 
 #### List 4.1: The following is a list of LIC codes that are food retailers. This list includes grocery stores, corner markets, convienence stores, supermarkets, bakeries, and drug stores. This list does not include restaurants.
 
 ``` r
-H_strings <- c("H01", "H02", "H03", "H04", "H05", "H06", "H07", "H08", "H09", "H10", "H11", "H12", "H13", "H14", "H16", "H19", "H80", "H81", "H83", "H88", "H89", "H92")
+#H_strings <- c("H01", "H02", "H03", "H04", "H05", "H06", "H07", "H08", "H09", "H10", "H11", "H12", "H13", "H14", "H16", "H19", "H80", "H81", "H83", "H88", "H89", "H92")
 ```
 
 #### Table 4.3: The follow is a table that includes data on all food retailers within the Mission District.
 
 ``` r
-Final_Mission_Food_Retailers <- SF_businesses %>%
-  filter(`Neighborhoods - Analysis Boundaries` == "Mission") %>%
-  filter(str_detect(`LIC Code`, paste(H_strings, collapse = "|")))
-Final_Mission_Food_Retailers
+#Final_Mission_Food_Retailers <- SF_businesses %>%
+  #filter(`Neighborhoods - Analysis Boundaries` == "Mission") %>%
+  #filter(str_detect(`LIC Code`, paste(H_strings, collapse = "|")))
+#Final_Mission_Food_Retailers
 ```
 
-    ## # A tibble: 147 × 32
-    ##    `Location Id`  `Business Accou…` `Ownership Name` `DBA Name` `Street Address`
-    ##    <chr>          <chr>             <chr>            <chr>      <chr>           
-    ##  1 0030032-06-001 0030032           Walgreen Co      Walgreens… 1189 Potrero Ave
-    ##  2 0030032-40-001 0030032           Walgreen Co      Walgreens… 3400 Cesar Chav…
-    ##  3 0030032-01-015 0030032           Walgreen Co      Walgreen … 1979 Mission St 
-    ##  4 1021716-03-151 1010484           Yangtze Market … Yangtze M… 2026 Mission St 
-    ##  5 0069288-01-001 0069288           Samiramis Impor… Samiramis… 2990 Mission St 
-    ##  6 0303375-02-001 0303375           Karajah Kamel F  Smoke Time 2733 Mission St 
-    ##  7 0090813-01-001 0090813           Rainbow Grocery… Rainbow G… 1745 Folsom St  
-    ##  8 1201886-10-181 1093331           Karla Garcia     Bris's Cr… 2782 24th St    
-    ##  9 0108305-01-001 0108305           Totah B/totah M… Norms Mar… 2201 Bryant St  
-    ## 10 0320117-01-001 0320117           Fadhel Hizam A   George's … 2268 Mission St 
-    ## # … with 137 more rows, and 27 more variables: City <chr>, State <chr>,
-    ## #   `Source Zipcode` <chr>, `Business Start Date` <chr>,
-    ## #   `Business End Date` <chr>, `Location Start Date` <chr>,
-    ## #   `Location End Date` <chr>, `Mail Address` <chr>, `Mail City` <chr>,
-    ## #   `Mail Zipcode` <chr>, `Mail State` <chr>, `NAICS Code` <chr>,
-    ## #   `NAICS Code Description` <chr>, `Parking Tax` <lgl>,
-    ## #   `Transient Occupancy Tax` <lgl>, `LIC Code` <chr>, …
-
 ``` r
-Clean_Final_Retail <- Final_Mission_Food_Retailers %>%
-  select("Ownership Name", "DBA Name", "Street Address", "LIC Code Description")
-Clean_Final_Retail
+#Clean_Final_Retail <- Final_Mission_Food_Retailers %>%
+  #select("Ownership Name", "DBA Name", "Street Address", "LIC Code Description")
+#Clean_Final_Retail
 ```
 
-    ## # A tibble: 147 × 4
-    ##    `Ownership Name`         `DBA Name`         `Street Address` `LIC Code Desc…`
-    ##    <chr>                    <chr>              <chr>            <chr>           
-    ##  1 Walgreen Co              Walgreens #03711   1189 Potrero Ave Multiple        
-    ##  2 Walgreen Co              Walgreens #09886   3400 Cesar Chav… Multiple        
-    ##  3 Walgreen Co              Walgreen Co        1979 Mission St  Supermarkets W/…
-    ##  4 Yangtze Market Inc       Yangtze Market     2026 Mission St  Multiple        
-    ##  5 Samiramis Imports Inc    Samiramis Imports… 2990 Mission St  Multiple        
-    ##  6 Karajah Kamel F          Smoke Time         2733 Mission St  Multiple        
-    ##  7 Rainbow Grocery Inc      Rainbow Grocery C… 1745 Folsom St   Multiple        
-    ##  8 Karla Garcia             Bris's Creations   2782 24th St     Retail Bakeries…
-    ##  9 Totah B/totah M/ Totah N Norms Market       2201 Bryant St   Multiple        
-    ## 10 Fadhel Hizam A           George's Market    2268 Mission St  Multiple        
-    ## # … with 137 more rows
-
 ``` r
-Clean_Order_r <- Clean_Final_Retail[order(Clean_Final_Retail$"DBA Name"),]
-Clean_Order_r
+#Clean_Order_r <- Clean_Final_Retail[order(Clean_Final_Retail$"DBA Name"),]
+#Clean_Order_r
 ```
 
-    ## # A tibble: 147 × 4
-    ##    `Ownership Name`                 `DBA Name` `Street Address` `LIC Code Desc…`
-    ##    <chr>                            <chr>      <chr>            <chr>           
-    ##  1 Binaya Pokharel And Mandira Shr… 23rd & Gu… 3558 23rd St     Retail Food Mar…
-    ##  2 Samra Bros Inc                   26th & Gu… 1400 Guerrero St Multiple        
-    ##  3 Shehadeh Nizar A                 Abc Market 2801 Bryant St   Multiple        
-    ##  4 Mosleh Hamood                    All Seaso… 401 Capp St      Multiple        
-    ##  5 All Season Market                All Seaso… 401 Capp St      Multiple        
-    ##  6 Cervantes Marisa                 All Star … 3350 18th St     Retail Mkts W/o…
-    ##  7 Anthony's Cookies Inc            Anthony's… 1417 Valencia St Retail Bakeries…
-    ##  8 Elias Carmen                     Bakery La… 3329 24th St     Retail Bakeries…
-    ##  9 Lai Hung Dat                     Basa Seaf… 3064 24th St     Multiple        
-    ## 10 Best Buy Stores, L.p.            Best Buy … 1717 Harrison St Retail Mkts W/o…
-    ## # … with 137 more rows
-
 ``` r
-write.csv(Clean_Order_r, "C:\\Users\\fheim\\Desktop\\Test\\People.csv", row.names = FALSE)
+#write.csv(Clean_Order_r, "C:\\Users\\fheim\\Desktop\\Test\\People.csv", row.names = FALSE)
 ```
 
 #### List 4.2: The following are the coordinates for each food retail store in the Mission District.
 
 ``` r
-coordinates <- Final_Mission_Food_Retailers %>% pull("Business Location")
-coordinates
+#coordinates <- Final_Mission_Food_Retailers %>% pull("Business Location")
+#coordinates
 ```
-
-    ##   [1] "POINT (-122.40632 37.75321)"   "POINT (-122.41832 37.74822)"  
-    ##   [3] "POINT (-122.41967 37.765438)"  "POINT (-122.419655 37.764576)"
-    ##   [5] "POINT (-122.41819 37.749245)"  "POINT (-122.41851 37.753284)" 
-    ##   [7] "POINT (-122.415565 37.76945)"  "POINT (-122.407875 37.7529)"  
-    ##   [9] "POINT (-122.409706 37.759117)" "POINT (-122.41929 37.760757)" 
-    ##  [11] "POINT (-122.41885 37.761894)"  "POINT (-122.421074 37.756813)"
-    ##  [13] "POINT (-122.41839 37.76192)"   "POINT (-122.42002 37.768364)" 
-    ##  [15] "POINT (-122.417435 37.765038)" "POINT (-122.41564 37.768444)" 
-    ##  [17] "POINT (-122.41881 37.756397)"  "POINT (-122.41992 37.75566)"  
-    ##  [19] "POINT (-122.413284 37.75258)"  "POINT (-122.416374 37.75388)" 
-    ##  [21] "POINT (-122.4215 37.773273)"   "POINT (-122.4189 37.75739)"   
-    ##  [23] "POINT (-122.41954 37.763336)"  "POINT (-122.41356 37.757385)" 
-    ##  [25] "POINT (-122.41375 37.749424)"  "POINT (-122.407974 37.75289)" 
-    ##  [27] "POINT (-122.409706 37.757614)" "POINT (-122.41925 37.760323)" 
-    ##  [29] "POINT (-122.41888 37.757126)"  "POINT (-122.417305 37.763664)"
-    ##  [31] "POINT (-122.41939 37.761745)"  "POINT (-122.42239 37.769775)" 
-    ##  [33] "POINT (-122.418625 37.75451)"  "POINT (-122.41398 37.75254)"  
-    ##  [35] "POINT (-122.41841 37.751568)"  "POINT (-122.41015 37.757587)" 
-    ##  [37] "POINT (-122.40704 37.75295)"   "POINT (-122.424324 37.771053)"
-    ##  [39] "POINT (-122.42416 37.764698)"  "POINT (-122.419365 37.762287)"
-    ##  [41] "POINT (-122.421844 37.764828)" "POINT (-122.4194 37.76195)"   
-    ##  [43] "POINT (-122.42307 37.755203)"  "POINT (-122.40898 37.752777)" 
-    ##  [45] "POINT (-122.41286 37.752605)"  "POINT (-122.41554 37.76978)"  
-    ##  [47] "POINT (-122.4095 37.756077)"   "POINT (-122.41369 37.771557)" 
-    ##  [49] "POINT (-122.41973 37.766026)"  "POINT (-122.40878 37.74951)"  
-    ##  [51] "POINT (-122.4091 37.761597)"   "POINT (-122.42372 37.760036)" 
-    ##  [53] "POINT (-122.42044 37.750187)"  "POINT (-122.40623 37.751453)" 
-    ##  [55] "POINT (-122.419495 37.762894)" "POINT (-122.4074 37.752872)"  
-    ##  [57] "POINT (-122.41949 37.76355)"   "POINT (-122.42087 37.753963)" 
-    ##  [59] "POINT (-122.42263 37.74869)"   "POINT (-122.42023 37.755314)" 
-    ##  [61] "POINT (-122.41925 37.760323)"  "POINT (-122.42011 37.765053)" 
-    ##  [63] "POINT (-122.42105 37.75585)"   "POINT (-122.42093 37.752323)" 
-    ##  [65] "POINT (-122.416695 37.75726)"  "POINT (-122.41445 37.75251)"  
-    ##  [67] "POINT (-122.40836 37.75287)"   "POINT (-122.414345 37.75561)" 
-    ##  [69] "POINT (-122.42145 37.76001)"   "POINT (-122.418526 37.75276)" 
-    ##  [71] "POINT (-122.41607 37.74919)"   "POINT (-122.418465 37.752823)"
-    ##  [73] "POINT (-122.417244 37.752285)" "POINT (-122.41346 37.76908)"  
-    ##  [75] "POINT (-122.411125 37.752647)" "POINT (-122.40952 37.76569)"  
-    ##  [77] "POINT (-122.41865 37.75404)"   "POINT (-122.42064 37.752197)" 
-    ##  [79] "POINT (-122.41829 37.750965)"  "POINT (-122.423904 37.76325)" 
-    ##  [81] "POINT (-122.422585 37.764847)" "POINT (-122.418236 37.750435)"
-    ##  [83] "POINT (-122.41901 37.765118)"  "POINT (-122.42069 37.75201)"  
-    ##  [85] "POINT (-122.41862 37.753746)"  "POINT (-122.418106 37.749134)"
-    ##  [87] "POINT (-122.41337 37.769302)"  "POINT (-122.40952 37.76569)"  
-    ##  [89] "POINT (-122.42011 37.765053)"  "POINT (-122.41859 37.7541)"   
-    ##  [91] "POINT (-122.41085 37.75272)"   "POINT (-122.418076 37.760212)"
-    ##  [93] "POINT (-122.41029 37.763206)"  "POINT (-122.419174 37.752167)"
-    ##  [95] "POINT (-122.42202 37.766632)"  "POINT (-122.413185 37.752586)"
-    ##  [97] "POINT (-122.42101 37.764942)"  "POINT (-122.42132 37.758614)" 
-    ##  [99] "POINT (-122.42338 37.7584)"    "POINT (-122.41043 37.752743)" 
-    ## [101] "POINT (-122.41397 37.75102)"   "POINT (-122.421265 37.7581)"  
-    ## [103] "POINT (-122.40952 37.76569)"   "POINT (-122.417694 37.753918)"
-    ## [105] "POINT (-122.41959 37.76464)"   "POINT (-122.419075 37.75854)" 
-    ## [107] "POINT (-122.41124 37.754307)"  "POINT (-122.40866 37.75285)"  
-    ## [109] "POINT (-122.40747 37.76469)"   "POINT (-122.407974 37.75289)" 
-    ## [111] "POINT (-122.40924 37.766758)"  "POINT (-122.41631 37.753246)" 
-    ## [113] "POINT (-122.4185 37.752502)"   "POINT (-122.41861 37.77296)"  
-    ## [115] "POINT (-122.41933 37.75216)"   "POINT (-122.41851 37.760303)" 
-    ## [117] "POINT (-122.4181 37.755505)"   "POINT (-122.41066 37.75273)"  
-    ## [119] "POINT (-122.42258 37.772312)"  "POINT (-122.40805 37.75927)"  
-    ## [121] "POINT (-122.40649 37.75299)"   "POINT (-122.40399 37.7544)"   
-    ## [123] "POINT (-122.411316 37.752636)" "POINT (-122.41262 37.760426)" 
-    ## [125] "POINT (-122.41827 37.750732)"  "POINT (-122.422005 37.76494)" 
-    ## [127] "POINT (-122.412025 37.770237)" "POINT (-122.41294 37.763786)" 
-    ## [129] "POINT (-122.41862 37.753685)"  "POINT (-122.41903 37.758755)" 
-    ## [131] "POINT (-122.42076 37.76501)"   "POINT (-122.422226 37.768047)"
-    ## [133] "POINT (-122.4058 37.754288)"   "POINT (-122.42109 37.756992)" 
-    ## [135] "POINT (-122.41724 37.74907)"   "POINT (-122.42077 37.752857)" 
-    ## [137] "POINT (-122.423744 37.76165)"  "POINT (-122.418076 37.760212)"
-    ## [139] "POINT (-122.415054 37.75242)"  "POINT (-122.42084 37.753613)" 
-    ## [141] "POINT (-122.41816 37.74895)"   "POINT (-122.410484 37.75591)" 
-    ## [143] "POINT (-122.42239 37.753635)"  "POINT (-122.41724 37.74907)"  
-    ## [145] "POINT (-122.41888 37.757126)"  "POINT (-122.42416 37.764698)" 
-    ## [147] "POINT (-122.424324 37.771053)"
 
 #### Figure 4.1: The follow is a map of all food retailers within the Mission District. Each dot represents a food retailer. While this map does not include streets or the outline of the Mission Distict, maps in the following section will include an outline of the Mission District along with demographic information.
 
 -   
 
 ``` r
-geo_final <- Final_Mission_Food_Retailers %>%
-  rename(geometry = `Business Location`) %>%
-  mutate(geometry = as.list(geometry)) %>%
-  st_as_sf(crs = "WGS84")
-tm_shape(geo_final) + tm_dots()
+#geo_final <- Final_Mission_Food_Retailers %>%
+ # rename(geometry = `Business Location`) %>%
+  #mutate(geometry = as.list(geometry)) %>%
+#tm_shape(geo_final) + tm_dots()
 ```
-
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
 
 ``` r
 retail_data <- read_csv("Food Retail Final List (Edit 3_30).csv")
@@ -812,7 +634,7 @@ income_map_with_retail
 
 ``` r
 dots <- tm_shape(retail_map) + tm_dots(col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
-racemap_with_food_retailers <-
+ethnicity_map_with_food_retailers <-
   tm_shape(mission_percents_clean) +
   tm_polygons("Majority") +
   tm_style("watercolor") +
@@ -825,7 +647,7 @@ racemap_with_food_retailers <-
             legend.title.size = 1.5,
             legend.text.size = 1.2) +
   tm_compass(position = c("left", "top"))
-ethnicity_with_retail <- racemap_with_food_retailers + dots
+ethnicity_with_retail <- ethnicity_map_with_food_retailers + dots
 ethnicity_with_retail
 ```
 
@@ -1260,7 +1082,7 @@ incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              legend.text.size = 1.2) +
   tm_compass(position = c("left", "top"))
 income_plus_price <- incomemap_with_food_retailers + dots_price
-ethnicity_plus_price <- racemap_with_food_retailers + dots_price
+ethnicity_plus_price <- ethnicity_map_with_food_retailers + dots_price
 income_plus_price
 ```
 
@@ -1334,7 +1156,7 @@ income_plus_ebt
 ![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
 
 ``` r
-ethnicity_plus_ebt <- racemap_with_food_retailers + dots_ebt
+ethnicity_plus_ebt <- ethnicity_map_with_food_retailers + dots_ebt
 ethnicity_plus_ebt
 ```
 
@@ -1379,6 +1201,83 @@ ethnicity_ebt_count
     ## 4 White              Yes                            22 ((-122.4213 37.77306), (…
 
 \##Health & Nutrition
+
+``` r
+dots_health <- tm_shape(primary_table) + tm_dots(size=.1, col="What.percentage.of.the.store.is.produce.", palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_health <- incomemap_with_food_retailers + dots_health
+ethnicity_plus_health <- ethnicity_map_with_food_retailers + dots_health
+income_plus_health
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-43-1.png)<!-- -->
+
+``` r
+ethnicity_plus_health
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-43-2.png)<!-- -->
+
+``` r
+income_health_count <- intersection_join %>% 
+  group_by(median_income, What.percentage.of.the.store.is.produce.) %>% 
+  count() %>%
+  rename("number of retailers" = "n")
+income_health_count
+```
+
+    ## # A tibble: 16 × 4
+    ##    median_income     What.percentage… `number of ret…`                      geom
+    ##    <chr>             <chr>                       <int>            <GEOMETRY [°]>
+    ##  1 110,001 - 145,000 <10%                           16 MULTIPOINT ((-122.4162 3…
+    ##  2 110,001 - 145,000 >50%                            2 MULTIPOINT ((-122.4113 3…
+    ##  3 110,001 - 145,000 0                               8 MULTIPOINT ((-122.421 37…
+    ##  4 110,001 - 145,000 10-25%                          1 POINT (-122.4088 37.7530…
+    ##  5 110,001 - 145,000 25-50%                          4 MULTIPOINT ((-122.4153 3…
+    ##  6 145,001 - 180,000 <10%                            4 MULTIPOINT ((-122.4236 3…
+    ##  7 145,001 - 180,000 0                               3 MULTIPOINT ((-122.4216 3…
+    ##  8 145,001 - 180,000 25-50%                          1 POINT (-122.4247 37.7613…
+    ##  9 40,000 - 75,000   <10%                            5 MULTIPOINT ((-122.4213 3…
+    ## 10 40,000 - 75,000   0                               3 MULTIPOINT ((-122.4217 3…
+    ## 11 40,000 - 75,000   25-50%                          4 MULTIPOINT ((-122.4194 3…
+    ## 12 75,001 - 110,000  <10%                           15 MULTIPOINT ((-122.4227 3…
+    ## 13 75,001 - 110,000  >50%                            2 MULTIPOINT ((-122.4188 3…
+    ## 14 75,001 - 110,000  0                              13 MULTIPOINT ((-122.4243 3…
+    ## 15 75,001 - 110,000  10-25%                          7 MULTIPOINT ((-122.4184 3…
+    ## 16 75,001 - 110,000  25-50%                          6 MULTIPOINT ((-122.4192 3…
+
+``` r
+ethnicity_health_count <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, What.percentage.of.the.store.is.produce.) %>%
+  count() %>%
+  rename("number of retailers" = "n")
+ethnicity_health_count
+```
+
+    ## # A tibble: 9 × 4
+    ##   majority_ethnicity What.percentage… `number of ret…`                  geometry
+    ##   <chr>              <chr>                       <int>            <GEOMETRY [°]>
+    ## 1 Hispanic or Latinx <10%                           13 MULTIPOINT ((-122.4198 3…
+    ## 2 Hispanic or Latinx >50%                            4 MULTIPOINT ((-122.4188 3…
+    ## 3 Hispanic or Latinx 0                              18 MULTIPOINT ((-122.4217 3…
+    ## 4 Hispanic or Latinx 10-25%                          7 MULTIPOINT ((-122.4184 3…
+    ## 5 Hispanic or Latinx 25-50%                         10 MULTIPOINT ((-122.4194 3…
+    ## 6 White              <10%                           27 MULTIPOINT ((-122.4213 3…
+    ## 7 White              0                               9 MULTIPOINT ((-122.4243 3…
+    ## 8 White              10-25%                          1 POINT (-122.4088 37.7530…
+    ## 9 White              25-50%                          5 MULTIPOINT ((-122.4247 3…
 
 \##Cultural Relevance
 

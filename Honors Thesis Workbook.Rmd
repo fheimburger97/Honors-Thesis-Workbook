@@ -180,18 +180,18 @@ asianandlatinx <- left_join(asian, latinx, by = "GEOID") %>%
            latinxvar = variable.y,
            latinxval = value.y) %>%
   select(GEOID, asianvar, asianval, latinxvar, latinxval)
-racetable <- left_join(totalandwhite, asianandlatinx, by = "GEOID") %>%
+ethnic_table <- left_join(totalandwhite, asianandlatinx, by = "GEOID") %>%
   mutate(percwhite = (whiteval/totalval)*100) %>%
   mutate(percasian = (asianval/totalval)*100) %>%
   mutate(perclatinx = (latinxval/totalval)*100)
-racetable
+ethnic_table
 ```
 
 #### Table 2.3: Race Percents and Majorities
 
 Next, we `mutate` to add a "majority" column. In this column, we use `case_when` to show which of the three races has the highest percent of the population, and thus, is the majority of its tract.
 ```{r}
-percents <- racetable  %>% 
+percents <- ethnic_table  %>% 
   mutate(Majority = case_when(
     perclatinx > percasian & perclatinx > percwhite ~ "Hispanic or Latinx",
     percwhite > percasian & percwhite > perclatinx ~ "White",
@@ -214,7 +214,7 @@ mission_percents_clean
 
 -
 ```{r}
-racemap <-
+ethnic_map <-
   tm_shape(mission_percents_clean) +
   tm_polygons("Majority") +
   tm_style("watercolor") +
@@ -227,7 +227,7 @@ racemap <-
             legend.title.size = 1.5,
             legend.text.size = 1.2) +
   tm_compass(position = c("left", "top"))
-racemap
+ethnic_map
 ```
 
 ## III Demographics Table
@@ -251,60 +251,59 @@ finaljoin
 
 #### Table 4.1: Uploading business data from data.sfgov.org.
 ```{r}
-SF_businesses <- read_csv("https://data.sfgov.org/api/views/g8m3-pdis/rows.csv?accessType=DOWNLOAD")
-SF_businesses
+#SF_businesses <- read_csv("https://data.sfgov.org/api/views/g8m3-pdis/rows.csv?accessType=DOWNLOAD")
+#SF_businesses
 ```
 
 #### Table 4.2: Business in the Mission with LIC Code H in it. LIC codes with H's are retail businesses, this was a crucial filtering step to finding food retailers.
 ```{r}
-Mission_H_Codes <- SF_businesses %>%
-   filter(str_detect(`LIC Code`, "H"), `Neighborhoods - Analysis Boundaries` == "Mission") %>%
-  select(`Ownership Name`, `DBA Name`, `Street Address`, `Business Start Date`, `Business End Date`, `Mail State`, `NAICS Code`, `NAICS Code Description`, `LIC Code`, `LIC Code Description`, `Neighborhoods - Analysis Boundaries`)
-Mission_H_Codes %>% select(`Ownership Name`, `DBA Name`, `LIC Code`, `LIC Code Description`)
+#Mission_H_Codes <- SF_businesses %>%
+   #filter(str_detect(`LIC Code`, "H"), `Neighborhoods - Analysis Boundaries` == "Mission") %>%
+  #select(`Ownership Name`, `DBA Name`, `Street Address`, `Business Start Date`, `Business End Date`, `Mail State`, `NAICS Code`, `NAICS Code Description`, `LIC Code`, `LIC Code Description`, `Neighborhoods - Analysis Boundaries`)
+#Mission_H_Codes %>% select(`Ownership Name`, `DBA Name`, `LIC Code`, `LIC Code Description`)
 ```
 
 #### List 4.1: The following is a list of LIC codes that are food retailers. This list includes grocery stores, corner markets, convienence stores, supermarkets, bakeries, and drug stores. This list does not include restaurants.
 ```{r}
-H_strings <- c("H01", "H02", "H03", "H04", "H05", "H06", "H07", "H08", "H09", "H10", "H11", "H12", "H13", "H14", "H16", "H19", "H80", "H81", "H83", "H88", "H89", "H92")
+#H_strings <- c("H01", "H02", "H03", "H04", "H05", "H06", "H07", "H08", "H09", "H10", "H11", "H12", "H13", "H14", "H16", "H19", "H80", "H81", "H83", "H88", "H89", "H92")
 ```
 
 #### Table 4.3: The follow is a table that includes data on all food retailers within the Mission District.
 ```{r}
-Final_Mission_Food_Retailers <- SF_businesses %>%
-  filter(`Neighborhoods - Analysis Boundaries` == "Mission") %>%
-  filter(str_detect(`LIC Code`, paste(H_strings, collapse = "|")))
-Final_Mission_Food_Retailers
+#Final_Mission_Food_Retailers <- SF_businesses %>%
+  #filter(`Neighborhoods - Analysis Boundaries` == "Mission") %>%
+  #filter(str_detect(`LIC Code`, paste(H_strings, collapse = "|")))
+#Final_Mission_Food_Retailers
 ```
 
 ```{r}
-Clean_Final_Retail <- Final_Mission_Food_Retailers %>%
-  select("Ownership Name", "DBA Name", "Street Address", "LIC Code Description")
-Clean_Final_Retail
+#Clean_Final_Retail <- Final_Mission_Food_Retailers %>%
+  #select("Ownership Name", "DBA Name", "Street Address", "LIC Code Description")
+#Clean_Final_Retail
 ```
 ```{r}
-Clean_Order_r <- Clean_Final_Retail[order(Clean_Final_Retail$"DBA Name"),]
-Clean_Order_r
+#Clean_Order_r <- Clean_Final_Retail[order(Clean_Final_Retail$"DBA Name"),]
+#Clean_Order_r
 ```
 ```{r}
-write.csv(Clean_Order_r, "C:\\Users\\fheim\\Desktop\\Test\\People.csv", row.names = FALSE)
+#write.csv(Clean_Order_r, "C:\\Users\\fheim\\Desktop\\Test\\People.csv", row.names = FALSE)
 ```
 
 
 
 #### List 4.2: The following are the coordinates for each food retail store in the Mission District.
 ```{r}
-coordinates <- Final_Mission_Food_Retailers %>% pull("Business Location")
-coordinates
+#coordinates <- Final_Mission_Food_Retailers %>% pull("Business Location")
+#coordinates
 ```
 
 #### Figure 4.1: The follow is a map of all food retailers within the Mission District. Each dot represents a food retailer. While this map does not include streets or the outline of the Mission Distict, maps in the following section will include an outline of the Mission District along with demographic information.
 *
 ```{r}
-geo_final <- Final_Mission_Food_Retailers %>%
-  rename(geometry = `Business Location`) %>%
-  mutate(geometry = as.list(geometry)) %>%
-  st_as_sf(crs = "WGS84")
-tm_shape(geo_final) + tm_dots()
+#geo_final <- Final_Mission_Food_Retailers %>%
+ # rename(geometry = `Business Location`) %>%
+  #mutate(geometry = as.list(geometry)) %>%
+#tm_shape(geo_final) + tm_dots()
 ```
 
 ```{r}
@@ -347,7 +346,7 @@ income_map_with_retail
 *
 ```{r warning=FALSE}
 dots <- tm_shape(retail_map) + tm_dots(col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
-racemap_with_food_retailers <-
+ethnicity_map_with_food_retailers <-
   tm_shape(mission_percents_clean) +
   tm_polygons("Majority") +
   tm_style("watercolor") +
@@ -360,7 +359,7 @@ racemap_with_food_retailers <-
             legend.title.size = 1.5,
             legend.text.size = 1.2) +
   tm_compass(position = c("left", "top"))
-ethnicity_with_retail <- racemap_with_food_retailers + dots
+ethnicity_with_retail <- ethnicity_map_with_food_retailers + dots
 ethnicity_with_retail
 ```
 
@@ -519,7 +518,7 @@ incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              legend.text.size = 1.2) +
   tm_compass(position = c("left", "top"))
 income_plus_price <- incomemap_with_food_retailers + dots_price
-ethnicity_plus_price <- racemap_with_food_retailers + dots_price
+ethnicity_plus_price <- ethnicity_map_with_food_retailers + dots_price
 income_plus_price
 ethnicity_plus_price
 ```
@@ -543,7 +542,7 @@ ethnicity_price_count
 ```{r}
 income_plus_ebt <- incomemap_with_food_retailers + dots_ebt
 income_plus_ebt
-ethnicity_plus_ebt <- racemap_with_food_retailers + dots_ebt
+ethnicity_plus_ebt <- ethnicity_map_with_food_retailers + dots_ebt
 ethnicity_plus_ebt
 ```
 ####Table
@@ -563,8 +562,39 @@ ethnicity_ebt_count
 ```
 
 ##Health & Nutrition
+```{r}
+dots_health <- tm_shape(primary_table) + tm_dots(size=.1, col="What.percentage.of.the.store.is.produce.", palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_health <- incomemap_with_food_retailers + dots_health
+ethnicity_plus_health <- ethnicity_map_with_food_retailers + dots_health
+income_plus_health
+ethnicity_plus_health
+```
+```{r}
+income_health_count <- intersection_join %>% 
+  group_by(median_income, What.percentage.of.the.store.is.produce.) %>% 
+  count() %>%
+  rename("number of retailers" = "n")
+income_health_count
 
-
+ethnicity_health_count <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, What.percentage.of.the.store.is.produce.) %>%
+  count() %>%
+  rename("number of retailers" = "n")
+ethnicity_health_count
+```
 
 ##Cultural Relevance
 
