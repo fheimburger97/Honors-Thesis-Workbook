@@ -516,13 +516,16 @@ price_table <- primary_table %>%
   mutate(orange_quartile = cut(primary_table$Orange.Standardized_lbs, quantile(primary_table$Orange.Standardized_lbs, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
   mutate(avocado_quartile = cut(primary_table$Standardized.Avocado_each, quantile(primary_table$Standardized.Avocado_each, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
   mutate(carrots_quartile = cut(primary_table$Standardized.Carrots_lbs, quantile(primary_table$Standardized.Carrots_lbs, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
-  mutate(brocolli_quartile = cut(primary_table$Standardized.Brocolli_lbs, quantile(primary_table$Standardized.Brocolli_lbs, na.rm = TRUE),include.lowest=TRUE,labels=FALSE))
+  mutate(brocolli_quartile = cut(primary_table$Standardized.Brocolli_lbs, quantile(primary_table$Standardized.Brocolli_lbs, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
+  st_drop_geometry()
+price_table$mean_quartile <- rowMeans(price_table_2[ , c(1,2)], na.rm=TRUE)
+price_table_2
 
 price_table_2 <- price_table %>%
   select(egg_quartile, milk_quartile, orange_quartile, avocado_quartile, carrots_quartile, brocolli_quartile) %>%
   st_drop_geometry() 
   #mutate(mean_quartile = apply(price_table[1:2], MARGIN=1, FUN=mean, na.rm=TRUE))
-price_table_2$mean_quartile <- rowMeans(price_table_2[ , c(1,2)], na.rm=TRUE)
+price_table_2$mean_quartile <- rowMeans(price_table_2[ , c("egg_quartile", "milk_quartile", "orange_quartile", "avocado_quartile", "carrots_quartile", "brocolli_quartile")], na.rm=TRUE)
 price_table_2
 
 class(price_table_2)
