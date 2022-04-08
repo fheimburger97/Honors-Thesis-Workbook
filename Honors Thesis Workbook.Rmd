@@ -42,6 +42,7 @@ install.packages("tidycensus")
 install.packages("ggmap")
 library(tidycensus)
 library(ggmap)
+tmap_mode("plot")
 
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -325,7 +326,6 @@ tm_shape(retail_map) + tm_dots()
 
 #### Figure 5.1: Food Retailers and Median Household Income in the Mission District
 ```{r warning=FALSE}
-tmap_mode("plot")
 dots <- tm_shape(retail_map) + tm_dots(col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
@@ -446,12 +446,11 @@ plot(intersection[1], col = "black", pch = 19, add = TRUE)
 
 ```{r}
 #ethnicity
-just_geo_2 <- mission_percents_clean %>%
-  select("geometry")
+just_geo_2 <- mission_percents_clean
 just_geo_2 <- st_set_crs(just_geo_2, "WGS84")
 intersection_2 <- st_intersection(x = just_mission_stores, y = just_geo_2)
 
-plot(just_geo_2, graticule = st_crs(4326), key.pos = 1)
+plot(just_geo_2$geometry, graticule = st_crs(4326), key.pos = 1)
 plot(intersection_2[1], col = "black", pch = 19, add = TRUE)
 ```
 
@@ -481,24 +480,34 @@ intersection_join #final table
 
 ##Access
 ###Geography
+####map
 ```{r}
-#map
-#income_map_with_retail
-#class(ethnicity_with_retail)
-just_geo_2 <- mission_percents_clean %>%
-  select("geometry") %>%
-  st_as_sf(crs = "WGS84")
-just_geo_2 <- st_set_crs(just_geo_2, "WGS84")
-intersection <- st_intersection(x = just_geo_2, y = just_mission_stores)
-mission_percents_clean
-retail_map
-```
-```{r}
-#table
+tmap_mode("plot")
 income_map_with_retail
 ethnicity_with_retail
 ```
+####tables
+```{r}
+median_count <- intersection_join %>% 
+  group_by(median_income) %>% 
+  count() %>%
+  rename("number of retailers" = "n")
+median_count
 
+#as.data.frame(int_result)
+
+ethnicity_count <- intersection_2 %>%
+  group_by(Majority) %>%
+  count() %>%
+  rename("number of retailers" = "n")
+ethnicity_count
+
+#as.data.frame()
+```
+```{r}
+intersection_join
+intersection_2
+```
 
 ##Health & Nutrition
 
