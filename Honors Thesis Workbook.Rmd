@@ -520,10 +520,22 @@ price_table <- primary_table %>%
 
 price_table_2 <- price_table %>%
   select(egg_quartile, milk_quartile, orange_quartile, avocado_quartile, carrots_quartile, brocolli_quartile) %>%
-  mutate(mean_quartile = apply(price_table[1:2], MARGIN=1, FUN=mean, na.rm=TRUE))
+  st_drop_geometry() 
+  #mutate(mean_quartile = apply(price_table[1:2], MARGIN=1, FUN=mean, na.rm=TRUE))
+price_table_2$mean_quartile <- rowMeans(price_table_2[ , c(1,2)], na.rm=TRUE)
 price_table_2
 
-price_table_2$mean_quartile <- apply(price_table_2[2:4], MARGIN=1, FUN=mean, na.rm=TRUE)
+class(price_table_2)
+testing <- price_table_2 %>% st_drop_geometry()
+testing
+
+price_table_2$new <- rowMeans(price_table_2[ , c(1,2)], na.rm=TRUE)
+price_table_2
+
+price_numberic <- as.numeric(price_table_2)
+price_table_2$new <- rowMeans(price_table_2[ , c("egg_quartile","milk_quartile")], na.rm=TRUE)
+
+price_table_2$mean_quartile <- price_table_2[, apply(.SD, mean), na.rm=TRUE]
 price_table_2
 
 #price_table$mean_quartile <- rowMeans(price_table[,c('egg_quartile', 'bread_quartile')], na.rm=TRUE)
