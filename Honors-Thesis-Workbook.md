@@ -105,8 +105,8 @@ retail_data <- read_csv("Food Retail Final List (Edit 3_30).csv") %>%
     ## Rows: 97 Columns: 49
     ## ── Column specification ────────────────────────────────────────────────────────
     ## Delimiter: ","
-    ## chr (35): Timestamp, Name of Food Retailer, Address, Date Assessed, Type of ...
-    ## dbl (12): Median Price of a Dozen Eggs, Median Price of a Loaf of Bread, Mil...
+    ## chr (34): Timestamp, Name of Food Retailer, Address, Date Assessed, Type of ...
+    ## dbl (13): Median Price of a Dozen Eggs, Median Price of a Loaf of Bread, Mil...
     ## lgl  (1): ...46
     ## 
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
@@ -308,7 +308,7 @@ totalpop <- get_decennial(geography = "tract",
                       geometry = TRUE)
 ```
 
-    ##   |                                                                              |                                                                      |   0%  |                                                                              |                                                                      |   1%  |                                                                              |=                                                                     |   1%  |                                                                              |=                                                                     |   2%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |===                                                                   |   4%  |                                                                              |===                                                                   |   5%  |                                                                              |====                                                                  |   5%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |=====                                                                 |   8%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |=======                                                               |  11%  |                                                                              |========                                                              |  11%  |                                                                              |=========                                                             |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |==========                                                            |  14%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  17%  |                                                                              |============                                                          |  18%  |                                                                              |=============                                                         |  19%  |                                                                              |==============                                                        |  20%  |                                                                              |===============                                                       |  21%  |                                                                              |===============                                                       |  22%  |                                                                              |================                                                      |  23%  |                                                                              |=================                                                     |  24%  |                                                                              |==================                                                    |  25%  |                                                                              |===================                                                   |  27%  |                                                                              |=========================                                             |  36%  |                                                                              |=============================                                         |  42%  |                                                                              |==================================                                    |  48%  |                                                                              |======================================                                |  54%  |                                                                              |==========================================                            |  60%  |                                                                              |==============================================                        |  65%  |                                                                              |==============================================                        |  66%  |                                                                              |==================================================                    |  72%  |                                                                              |======================================================                |  77%  |                                                                              |======================================================                |  78%  |                                                                              |===========================================================           |  84%  |                                                                              |===============================================================       |  90%  |                                                                              |===================================================================   |  96%  |                                                                              |======================================================================| 100%
+    ##   |                                                                              |                                                                      |   0%  |                                                                              |                                                                      |   1%  |                                                                              |=                                                                     |   1%  |                                                                              |=                                                                     |   2%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |==                                                                    |   4%  |                                                                              |===                                                                   |   4%  |                                                                              |===                                                                   |   5%  |                                                                              |====                                                                  |   5%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |=====                                                                 |   8%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |========                                                              |  11%  |                                                                              |========                                                              |  12%  |                                                                              |=========                                                             |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |==========                                                            |  14%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  17%  |                                                                              |=============                                                         |  18%  |                                                                              |=============                                                         |  19%  |                                                                              |==============                                                        |  20%  |                                                                              |===============                                                       |  21%  |                                                                              |===============                                                       |  22%  |                                                                              |================                                                      |  23%  |                                                                              |=================                                                     |  24%  |                                                                              |==================                                                    |  25%  |                                                                              |===================                                                   |  27%  |                                                                              |====================                                                  |  28%  |                                                                              |=====================                                                 |  30%  |                                                                              |======================                                                |  32%  |                                                                              |========================                                              |  34%  |                                                                              |=========================                                             |  35%  |                                                                              |=========================                                             |  36%  |                                                                              |===========================                                           |  38%  |                                                                              |============================                                          |  40%  |                                                                              |=============================                                         |  42%  |                                                                              |=======================================================               |  79%  |                                                                              |======================================================================| 100%
 
 #### Table 2.2: Race Percents
 
@@ -495,7 +495,7 @@ finaljoin
 SF_businesses <- read_csv("https://data.sfgov.org/api/views/g8m3-pdis/rows.csv?accessType=DOWNLOAD")
 ```
 
-    ## Rows: 288046 Columns: 32
+    ## Rows: 288099 Columns: 32
     ## ── Column specification ────────────────────────────────────────────────────────
     ## Delimiter: ","
     ## chr (24): Location Id, Business Account Number, Ownership Name, DBA Name, St...
@@ -509,7 +509,7 @@ SF_businesses <- read_csv("https://data.sfgov.org/api/views/g8m3-pdis/rows.csv?a
 SF_businesses
 ```
 
-    ## # A tibble: 288,046 × 32
+    ## # A tibble: 288,099 × 32
     ##    `Location Id`  `Business Accou…` `Ownership Name` `DBA Name` `Street Address`
     ##    <chr>          <chr>             <chr>            <chr>      <chr>           
     ##  1 1014347-12-141 0077021           Abm Industries … Ampco Sys… 600 Montgomery …
@@ -517,12 +517,12 @@ SF_businesses
     ##  3 0030032-46-001 0030032           Walgreen Co      Walgreens… 845 Market St   
     ##  4 0088595-01-001 0088595           Spano Robert & … 282-290 C… 282 Clipper St  
     ##  5 0028703-02-001 0028703           Vericlaim Inc    Vericlaim… 500 Sansome St …
-    ##  6 1012834-11-141 0091116           Urban Land Serv… Urban Lan… 1170 Sacramento…
-    ##  7 0348331-01-001 0348331           Tran Sandy Dung  Elizabeth… 672 Geary St    
-    ##  8 0331802-01-001 0331802           Ken Chi Chuan A… Ken Chi C… 3626 Taraval St…
-    ##  9 0124761-06-001 0124761           Vaccaro Joseph … 119 Day S… 119 Day St      
-    ## 10 1243902-01-201 0306019           Shatara Suheil E Shatara A… 60 Divisadero St
-    ## # … with 288,036 more rows, and 27 more variables: City <chr>, State <chr>,
+    ##  6 0057082-01-001 0057082           Robert A Warman… Warman Se… 1720 Sacramento…
+    ##  7 0076241-01-001 0076241           Wong Frank Yuk … 2267 Filb… 2267 Filbert St 
+    ##  8 1012834-11-141 0091116           Urban Land Serv… Urban Lan… 1170 Sacramento…
+    ##  9 0348331-01-001 0348331           Tran Sandy Dung  Elizabeth… 672 Geary St    
+    ## 10 0092446-01-001 0092446           Bundox Restaura… Waterfron… Pier 09         
+    ## # … with 288,089 more rows, and 27 more variables: City <chr>, State <chr>,
     ## #   `Source Zipcode` <chr>, `Business Start Date` <chr>,
     ## #   `Business End Date` <chr>, `Location Start Date` <chr>,
     ## #   `Location End Date` <chr>, `Mail Address` <chr>, `Mail City` <chr>,
@@ -547,9 +547,9 @@ Mission_H_Codes %>% select(`Ownership Name`, `DBA Name`, `LIC Code`, `LIC Code D
     ##  3 Walgreen Co                   Walgreens #09886    H04 Pos01… Multiple        
     ##  4 Walgreen Co                   Walgreen Co         H83        Supermarkets W/…
     ##  5 Rtrn Investment Llc           Travelodge Central  Hhh        <NA>            
-    ##  6 Dai Shujuan/altamirano Carlos Sanguchon           H25        Restaurant 1,00…
-    ##  7 Chu Edwin W Y & Priscilla P C E P Laundromat      H46        Auto Laundry Me…
-    ##  8 Telli Tim                     Betwixt Wines       H73        Deemed Approved…
+    ##  6 Telli Tim                     Betwixt Wines       H73        Deemed Approved…
+    ##  7 Dai Shujuan/altamirano Carlos Sanguchon           H25        Restaurant 1,00…
+    ##  8 Chu Edwin W Y & Priscilla P C E P Laundromat      H46        Auto Laundry Me…
     ##  9 Naran Mangu                   Frances Hotel       Hhh        <NA>            
     ## 10 Pan O Rama Baking Inc         Pan-O-Rama          H30        Catering Facili…
     ## # … with 973 more rows
@@ -658,8 +658,8 @@ coordinates
     ##  [27] "POINT (-122.409706 37.757614)" "POINT (-122.41925 37.760323)" 
     ##  [29] "POINT (-122.41888 37.757126)"  "POINT (-122.417305 37.763664)"
     ##  [31] "POINT (-122.41939 37.761745)"  "POINT (-122.42239 37.769775)" 
-    ##  [33] "POINT (-122.418625 37.75451)"  "POINT (-122.41841 37.751568)" 
-    ##  [35] "POINT (-122.41398 37.75254)"   "POINT (-122.41015 37.757587)" 
+    ##  [33] "POINT (-122.418625 37.75451)"  "POINT (-122.41398 37.75254)"  
+    ##  [35] "POINT (-122.41841 37.751568)"  "POINT (-122.41015 37.757587)" 
     ##  [37] "POINT (-122.40704 37.75295)"   "POINT (-122.424324 37.771053)"
     ##  [39] "POINT (-122.42416 37.764698)"  "POINT (-122.419365 37.762287)"
     ##  [41] "POINT (-122.421844 37.764828)" "POINT (-122.4194 37.76195)"   
@@ -741,8 +741,8 @@ retail_data <- read_csv("Food Retail Final List (Edit 3_30).csv")
     ## Rows: 97 Columns: 49
     ## ── Column specification ────────────────────────────────────────────────────────
     ## Delimiter: ","
-    ## chr (35): Timestamp, Name of Food Retailer, Address, Date Assessed, Type of ...
-    ## dbl (12): Median Price of a Dozen Eggs, Median Price of a Loaf of Bread, Mil...
+    ## chr (34): Timestamp, Name of Food Retailer, Address, Date Assessed, Type of ...
+    ## dbl (13): Median Price of a Dozen Eggs, Median Price of a Loaf of Bread, Mil...
     ## lgl  (1): ...46
     ## 
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
@@ -904,8 +904,8 @@ retail_data <- read_csv("Food Retail Final List (Edit 3_30).csv") %>%
     ## Rows: 97 Columns: 49
     ## ── Column specification ────────────────────────────────────────────────────────
     ## Delimiter: ","
-    ## chr (35): Timestamp, Name of Food Retailer, Address, Date Assessed, Type of ...
-    ## dbl (12): Median Price of a Dozen Eggs, Median Price of a Loaf of Bread, Mil...
+    ## chr (34): Timestamp, Name of Food Retailer, Address, Date Assessed, Type of ...
+    ## dbl (13): Median Price of a Dozen Eggs, Median Price of a Loaf of Bread, Mil...
     ## lgl  (1): ...46
     ## 
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
@@ -938,7 +938,7 @@ retail_data
     ## #   `Organic Oranges Standardized_lbs` <dbl>, …
 
 ``` r
-dots <- tm_shape(retail_map) + tm_dots(col="EBT Accepted?", palette=c(No='red', Yes='black'))
+dots_ebt <- tm_shape(retail_map) + tm_dots(col="EBT Accepted?", palette=c(No='red', Yes='black'))
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
              tm_polygons("median_income") +
@@ -951,28 +951,11 @@ incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              legend.title.size = 1.5,
              legend.text.size = 1.2) +
   tm_compass(position = c("left", "top"))
-income_plus_points <- incomemap_with_food_retailers + dots
-income_plus_points
+income_plus_ebt <- incomemap_with_food_retailers + dots_ebt
+income_plus_ebt
 ```
 
 ![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-29-1.png)<!-- -->
-
-\##\`\`\`{r} intersection \<- st_intersection(x =
-incomemap_with_food_retailers$median_income, y = dots) class(retail_map)
-\# Plot intersection plot(polygon, graticule = st_crs(4326), key.pos
-= 1) plot(intersection\[1\], col = “black”, pch = 19, add = TRUE)
-
-# View result
-
-table(intersection$id_polygons) \# using table
-
-# using dplyr
-
-int_result \<- intersection %\>% group_by(id_polygons) %\>% count()
-
-as.data.frame(int_result)\[,-3\]
-
-\##\`\`\`
 
 ``` r
 retail_EBT <- retail_map %>%
@@ -1167,11 +1150,11 @@ ethnicity_with_retail
 \####tables
 
 ``` r
-median_count <- intersection_join %>% 
+income_count <- intersection_join %>% 
   group_by(median_income) %>% 
   count() %>%
   rename("number of retailers" = "n")
-median_count
+income_count
 ```
 
     ## # A tibble: 4 × 3
@@ -1183,8 +1166,6 @@ median_count
     ## 4 75,001 - 110,000                     43 ((-122.4227 37.77174), (-122.4243 37.…
 
 ``` r
-#as.data.frame(int_result)
-
 ethnicity_count <- intersection_2 %>%
   group_by(Majority) %>%
   count() %>%
@@ -1198,10 +1179,6 @@ ethnicity_count
     ## 1 Hispanic or Latinx                    52 ((-122.4217 37.76475), (-122.4194 37…
     ## 2 White                                 42 ((-122.4213 37.77306), (-122.4227 37…
 
-``` r
-#as.data.frame()
-```
-
 \####Price
 
 ``` r
@@ -1210,11 +1187,18 @@ price_table <- primary_table %>%
   select(-Timestamp, -Address, -Date.Assessed, -Type.of.Store, -What.type.of.Specialty.Food.Store., -EBT.Accepted., -Number.of.Locations..chain.., -Is.there.signage.in.other.languages.than.English., -If.so..what.languages., -Access.Notes, -Is.there.fresh.produce.available., -What.percentage.of.the.store.is.produce., -Is.there.organic.produce.available., -Is.there.local.produce.available., -How.many.types.of.fresh.produce.are.available., -Is.there.an.ethnic.section., -Are.there.options.besides.national.name.brand.ethnic.foods.,, -What.ethnic.food.nationalities.are.available., -Selection.Notes, -Is.there.signage.or.visible.documentation.of.environmental.work.or.actions., -If.so..what.kind.of.environmental.work., -Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions., -If.so..what.kind.of.social.justice.work., -General.Notes, -address) %>%
   mutate(bread_quartile = cut(primary_table$Median.Price.of.a.Loaf.of.Bread, quantile(primary_table$Median.Price.of.a.Loaf.of.Bread, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
   mutate(milk_quartile = cut(primary_table$Milk.Standardized_Gallon, quantile(primary_table$Milk.Standardized_Gallon, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
-  mutate(orange_quartile = cut(primary_table$Orange.Standardized_lbs, quantile(primary_table$Orange.Standardized_lbs, na.rm = TRUE),include.lowest=TRUE,labels=FALSE))
-price_table
+  mutate(orange_quartile = cut(primary_table$Orange.Standardized_lbs, quantile(primary_table$Orange.Standardized_lbs, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
+  mutate(avocado_quartile = cut(primary_table$Standardized.Avocado_each, quantile(primary_table$Standardized.Avocado_each, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
+  mutate(carrots_quartile = cut(primary_table$Standardized.Carrots_lbs, quantile(primary_table$Standardized.Carrots_lbs, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
+  mutate(brocolli_quartile = cut(primary_table$Standardized.Brocolli_lbs, quantile(primary_table$Standardized.Brocolli_lbs, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
+  st_drop_geometry()
+price_table$mean_quartile <- rowMeans(price_table[ , c("egg_quartile", "milk_quartile", "orange_quartile", "avocado_quartile", "carrots_quartile", "brocolli_quartile")], na.rm=TRUE)
+price_map <- price_table %>%
+  mutate(price_quartile = cut(price_table$mean_quartile, quantile(price_table$mean_quartile, na.rm = TRUE),include.lowest=TRUE,labels=FALSE))
+price_map
 ```
 
-    ## # A tibble: 94 × 32
+    ## # A tibble: 94 × 36
     ##    Name.of.Food.Retailer      Median.Price.of… Median.Price.of… Median.Price.of…
     ##    <chr>                                 <dbl>            <dbl> <chr>           
     ##  1 Mission Foodhall                       7.49             9.99 5.49 (half)     
@@ -1227,13 +1211,172 @@ price_table
     ##  8 Valencia Farmer’s Market               4.74             4.69 5.99            
     ##  9 Valencia Grocery                       3.99            NA    3.99            
     ## 10 Mr. Liquor                            NA               NA    <NA>            
-    ## # … with 84 more rows, and 28 more variables: Milk.Standardized_Gallon <dbl>,
+    ## # … with 84 more rows, and 32 more variables: Milk.Standardized_Gallon <dbl>,
     ## #   Median.Price.of.Oranges <chr>, Orange.Standardized_lbs <dbl>,
     ## #   Median.Price.of.Organic.Oranges <chr>,
     ## #   Organic.Oranges.Standardized_lbs <dbl>, Median.Price.of.Avocados <chr>,
     ## #   Standardized.Avocado_each <dbl>, Median.Price.of.Organic.Avocados <chr>,
     ## #   Standardized.Organic.Avocado_each <dbl>, Median.Price.of.Carrots <chr>,
     ## #   Standardized.Carrots_lbs <dbl>, Median.Price.of.Organic.Carrots <chr>, …
+
+``` r
+primary_table_price <- left_join(primary_table, price_map, by = "Name.of.Food.Retailer")
+primary_table_price
+```
+
+    ## # A tibble: 98 × 88
+    ##    Timestamp       Name.of.Food.Retailer     Address Date.Assessed Type.of.Store
+    ##    <chr>           <chr>                     <chr>   <chr>         <chr>        
+    ##  1 1/27/2022 12:38 Mission Foodhall          3100 1… 1/26/2022     Specialty Fo…
+    ##  2 1/27/2022 12:41 Fred’s Liquors & Delicat… 200 Va… 1/26/2022     Grocery Store
+    ##  3 1/27/2022 12:43 E And M Market            399 Va… 1/26/2022     Convenience …
+    ##  4 1/27/2022 12:46 K & H Liquor              501 Va… 1/26/2022     Convenience …
+    ##  5 1/27/2022 12:48 Valencia Whole Foods      999 Va… 1/26/2022     Grocery Store
+    ##  6 1/27/2022 12:50 Decamere Market           1001 V… 1/26/2022     Convenience …
+    ##  7 1/27/2022 12:52 Indian Spices and Grocery 3265 2… 1/26/2022     Specialty Fo…
+    ##  8 1/27/2022 12:55 Valencia Farmer’s Market  1299 V… 1/26/2022     Grocery Store
+    ##  9 1/27/2022 12:59 Valencia Grocery          1300 V… 1/26/2022     Convenience …
+    ## 10 1/27/2022 13:02 Mr. Liquor                1200 V… 1/26/2022     Convenience …
+    ## # … with 88 more rows, and 83 more variables:
+    ## #   What.type.of.Specialty.Food.Store. <chr>, EBT.Accepted. <chr>,
+    ## #   Number.of.Locations..chain.. <dbl>, Median.Price.of.a.Dozen.Eggs.x <dbl>,
+    ## #   Median.Price.of.a.Loaf.of.Bread.x <dbl>,
+    ## #   Median.Price.of.a.Gallon.of.Milk.x <chr>, Milk.Standardized_Gallon.x <dbl>,
+    ## #   Median.Price.of.Oranges.x <chr>, Orange.Standardized_lbs.x <dbl>,
+    ## #   Median.Price.of.Organic.Oranges.x <chr>, …
+
+``` r
+dots_price <- tm_shape(primary_table_price) + tm_dots(size=.1, col="price_quartile", palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_price <- incomemap_with_food_retailers + dots_price
+ethnicity_plus_price <- racemap_with_food_retailers + dots_price
+income_plus_price
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
+
+``` r
+ethnicity_plus_price
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-39-2.png)<!-- -->
+
+``` r
+income_price_count <- primary_table_price %>% 
+  rename("median_income" = "median_income.x") %>%
+  group_by(median_income, price_quartile) %>% 
+  count() %>%
+  rename("number of retailers" = "n")
+income_price_count
+```
+
+    ## # A tibble: 16 × 4
+    ##    median_income     price_quartile `number of retai…`                      geom
+    ##    <chr>                      <int>              <int>          <MULTIPOINT [°]>
+    ##  1 110,001 - 145,000              1                 10 ((-122.4162 37.76762), (…
+    ##  2 110,001 - 145,000              2                  5 ((-122.4163 37.77287), (…
+    ##  3 110,001 - 145,000              3                  6 ((-122.4094 37.767), (-1…
+    ##  4 110,001 - 145,000              4                  8 ((-122.4153 37.76911), (…
+    ##  5 110,001 - 145,000             NA                  3 ((-122.421 37.75354), (-…
+    ##  6 145,001 - 180,000              3                  4 ((-122.4216 37.75994), (…
+    ##  7 145,001 - 180,000              4                  4 ((-122.4247 37.76133), (…
+    ##  8 40,000 - 75,000                1                  5 ((-122.4213 37.77306), (…
+    ##  9 40,000 - 75,000                2                  2 ((-122.4194 37.76357), (…
+    ## 10 40,000 - 75,000                3                  2 ((-122.4194 37.76815), (…
+    ## 11 40,000 - 75,000               NA                  3 ((-122.4209 37.76476), (…
+    ## 12 75,001 - 110,000               1                 10 ((-122.4179 37.76021), (…
+    ## 13 75,001 - 110,000               2                 12 ((-122.4226 37.76473), (…
+    ## 14 75,001 - 110,000               3                 13 ((-122.4227 37.77174), (…
+    ## 15 75,001 - 110,000               4                  4 ((-122.4246 37.76653), (…
+    ## 16 75,001 - 110,000              NA                  7 ((-122.4243 37.77088), (…
+
+``` r
+ethnicity_price_count <- primary_table_price %>%
+  rename("majority_ethnicity" = "Majority.x") %>%
+  group_by(majority_ethnicity, price_quartile) %>%
+  count() %>%
+  rename("number of retailers" = "n")
+ethnicity_price_count
+```
+
+    ## # A tibble: 10 × 4
+    ##    majority_ethnicity price_quartile `number of reta…`                      geom
+    ##    <chr>                       <int>             <int>          <MULTIPOINT [°]>
+    ##  1 Hispanic or Latinx              1                15 ((-122.4194 37.76461), (…
+    ##  2 Hispanic or Latinx              2                14 ((-122.4194 37.76357), (…
+    ##  3 Hispanic or Latinx              3                13 ((-122.4217 37.76475), (…
+    ##  4 Hispanic or Latinx              4                 2 ((-122.4141 37.7556), (-…
+    ##  5 Hispanic or Latinx             NA                11 ((-122.4209 37.76476), (…
+    ##  6 White                           1                10 ((-122.4213 37.77306), (…
+    ##  7 White                           2                 5 ((-122.4226 37.76473), (…
+    ##  8 White                           3                12 ((-122.4227 37.77174), (…
+    ##  9 White                           4                14 ((-122.4247 37.76133), (…
+    ## 10 White                          NA                 2 ((-122.4243 37.77088), (…
+
+\###EBT \####Map
+
+``` r
+income_plus_ebt <- incomemap_with_food_retailers + dots_ebt
+income_plus_ebt
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
+
+``` r
+ethnicity_plus_ebt <- racemap_with_food_retailers + dots_ebt
+ethnicity_plus_ebt
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-41-2.png)<!-- -->
+\####Table
+
+``` r
+income_ebt_count <- intersection_join %>% 
+  group_by(median_income, EBT.Accepted.) %>% 
+  count() %>%
+  rename("number of retailers" = "n")
+income_ebt_count
+```
+
+    ## # A tibble: 8 × 4
+    ##   median_income     EBT.Accepted. `number of retaile…`                      geom
+    ##   <chr>             <chr>                        <int>          <MULTIPOINT [°]>
+    ## 1 110,001 - 145,000 No                              15 ((-122.4138 37.77127), (…
+    ## 2 110,001 - 145,000 Yes                             16 ((-122.4162 37.76762), (…
+    ## 3 145,001 - 180,000 No                               5 ((-122.4216 37.75994), (…
+    ## 4 145,001 - 180,000 Yes                              3 ((-122.4247 37.76133), (…
+    ## 5 40,000 - 75,000   No                               4 ((-122.4217 37.76475), (…
+    ## 6 40,000 - 75,000   Yes                              8 ((-122.4213 37.77306), (…
+    ## 7 75,001 - 110,000  No                              15 ((-122.4243 37.77088), (…
+    ## 8 75,001 - 110,000  Yes                             28 ((-122.4227 37.77174), (…
+
+``` r
+ethnicity_ebt_count <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, EBT.Accepted.) %>%
+  count() %>%
+  rename("number of retailers" = "n")
+ethnicity_ebt_count
+```
+
+    ## # A tibble: 4 × 4
+    ##   majority_ethnicity EBT.Accepted. `number of retail…`                  geometry
+    ##   <chr>              <chr>                       <int>          <MULTIPOINT [°]>
+    ## 1 Hispanic or Latinx No                             19 ((-122.4217 37.76475), (…
+    ## 2 Hispanic or Latinx Yes                            33 ((-122.4194 37.76357), (…
+    ## 3 White              No                             20 ((-122.4243 37.77088), (…
+    ## 4 White              Yes                            22 ((-122.4213 37.77306), (…
 
 \##Health & Nutrition
 

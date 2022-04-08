@@ -383,7 +383,7 @@ retail_data
 ```
 
 ```{r warning=FALSE}
-dots <- tm_shape(retail_map) + tm_dots(col="EBT Accepted?", palette=c(No='red', Yes='black'))
+dots_ebt <- tm_shape(retail_map) + tm_dots(col="EBT Accepted?", palette=c(No='red', Yes='black'))
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
              tm_polygons("median_income") +
@@ -396,28 +396,9 @@ incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              legend.title.size = 1.5,
              legend.text.size = 1.2) +
   tm_compass(position = c("left", "top"))
-income_plus_points <- incomemap_with_food_retailers + dots
-income_plus_points
+income_plus_ebt <- incomemap_with_food_retailers + dots_ebt
+income_plus_ebt
 ```
-
-##```{r}
-intersection <- st_intersection(x = incomemap_with_food_retailers$median_income, y = dots)
-class(retail_map)
-# Plot intersection
-plot(polygon, graticule = st_crs(4326), key.pos = 1)
-plot(intersection[1], col = "black", pch = 19, add = TRUE)
-
-# View result
-table(intersection$id_polygons) # using table
-
-# using dplyr
-int_result <- intersection %>% 
-  group_by(id_polygons) %>% 
-  count()
-
-as.data.frame(int_result)[,-3]
-
-##```
 
 ```{r}
 retail_EBT <- retail_map %>%
@@ -490,21 +471,17 @@ ethnicity_with_retail
 ```
 ####tables
 ```{r}
-median_count <- intersection_join %>% 
+income_count <- intersection_join %>% 
   group_by(median_income) %>% 
   count() %>%
   rename("number of retailers" = "n")
-median_count
-
-#as.data.frame(int_result)
+income_count
 
 ethnicity_count <- intersection_2 %>%
   group_by(Majority) %>%
   count() %>%
   rename("number of retailers" = "n")
 ethnicity_count
-
-#as.data.frame()
 ```
 ####Price
 ```{r}
@@ -518,22 +495,17 @@ price_table <- primary_table %>%
   mutate(carrots_quartile = cut(primary_table$Standardized.Carrots_lbs, quantile(primary_table$Standardized.Carrots_lbs, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
   mutate(brocolli_quartile = cut(primary_table$Standardized.Brocolli_lbs, quantile(primary_table$Standardized.Brocolli_lbs, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
   st_drop_geometry()
+price_table$mean_quartile <- rowMeans(price_table[ , c("egg_quartile", "milk_quartile", "orange_quartile", "avocado_quartile", "carrots_quartile", "brocolli_quartile")], na.rm=TRUE)
+price_map <- price_table %>%
+  mutate(price_quartile = cut(price_table$mean_quartile, quantile(price_table$mean_quartile, na.rm = TRUE),include.lowest=TRUE,labels=FALSE))
+price_map
 
-price_table$mean_quartile <- rowMeans(price_table_2[ , c(1,2)], na.rm=TRUE)
-price_table_2
-
-price_table_2 <- price_table %>%
-  select(egg_quartile, milk_quartile, orange_quartile, avocado_quartile, carrots_quartile, brocolli_quartile) %>%
-  st_drop_geometry() 
-  #mutate(mean_quartile = apply(price_table[1:2], MARGIN=1, FUN=mean, na.rm=TRUE))
-price_table_2$mean_quartile <- rowMeans(price_table_2[ , c("egg_quartile", "milk_quartile", "orange_quartile", "avocado_quartile", "carrots_quartile", "brocolli_quartile")], na.rm=TRUE)
-price_table_2 %>%
-  mutate(price_quartile = cut(price_table_2$mean_quartile, quantile(price_table_2$mean_quartile, na.rm = TRUE),include.lowest=TRUE,labels=FALSE))
-
+primary_table_price <- left_join(primary_table, price_map, by = "Name.of.Food.Retailer")
+primary_table_price
 ```
 
 ```{r}
-dots <- tm_shape(price_table) + tm_dots(size=.1, col=c("egg_quartile", "milk_quartile"), palette="Set1")
+dots_price <- tm_shape(primary_table_price) + tm_dots(size=.1, col="price_quartile", palette="Set1")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
              tm_polygons("median_income") +
@@ -546,10 +518,48 @@ incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              legend.title.size = 1.5,
              legend.text.size = 1.2) +
   tm_compass(position = c("left", "top"))
-income_plus_points <- incomemap_with_food_retailers + dots
-income_plus_points
+income_plus_price <- incomemap_with_food_retailers + dots_price
+ethnicity_plus_price <- racemap_with_food_retailers + dots_price
+income_plus_price
+ethnicity_plus_price
+```
+```{r}
+income_price_count <- primary_table_price %>% 
+  rename("median_income" = "median_income.x") %>%
+  group_by(median_income, price_quartile) %>% 
+  count() %>%
+  rename("number of retailers" = "n")
+income_price_count
 
+ethnicity_price_count <- primary_table_price %>%
+  rename("majority_ethnicity" = "Majority.x") %>%
+  group_by(majority_ethnicity, price_quartile) %>%
+  count() %>%
+  rename("number of retailers" = "n")
+ethnicity_price_count
+```
+###EBT
+####Map
+```{r}
+income_plus_ebt <- incomemap_with_food_retailers + dots_ebt
+income_plus_ebt
+ethnicity_plus_ebt <- racemap_with_food_retailers + dots_ebt
+ethnicity_plus_ebt
+```
+####Table
+```{r}
+income_ebt_count <- intersection_join %>% 
+  group_by(median_income, EBT.Accepted.) %>% 
+  count() %>%
+  rename("number of retailers" = "n")
+income_ebt_count
 
+ethnicity_ebt_count <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, EBT.Accepted.) %>%
+  count() %>%
+  rename("number of retailers" = "n")
+ethnicity_ebt_count
 ```
 
 ##Health & Nutrition
