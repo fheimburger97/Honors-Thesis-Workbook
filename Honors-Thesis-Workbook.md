@@ -308,7 +308,7 @@ totalpop <- get_decennial(geography = "tract",
                       geometry = TRUE)
 ```
 
-    ##   |                                                                              |                                                                      |   0%  |                                                                              |                                                                      |   1%  |                                                                              |=                                                                     |   1%  |                                                                              |=                                                                     |   2%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |===                                                                   |   4%  |                                                                              |===                                                                   |   5%  |                                                                              |====                                                                  |   5%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |========                                                              |  11%  |                                                                              |========                                                              |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |==========                                                            |  14%  |                                                                              |===========                                                           |  15%  |                                                                              |============                                                          |  17%  |                                                                              |=============                                                         |  18%  |                                                                              |==============                                                        |  20%  |                                                                              |===============                                                       |  21%  |                                                                              |===============                                                       |  22%  |                                                                              |================                                                      |  22%  |                                                                              |================                                                      |  23%  |                                                                              |=================                                                     |  25%  |                                                                              |==================                                                    |  26%  |                                                                              |===================                                                   |  28%  |                                                                              |====================                                                  |  29%  |                                                                              |=====================                                                 |  31%  |                                                                              |======================                                                |  31%  |                                                                              |=======================                                               |  32%  |                                                                              |========================                                              |  34%  |                                                                              |========================                                              |  35%  |                                                                              |============================                                          |  39%  |                                                                              |==============================                                        |  43%  |                                                                              |=======================================================               |  79%  |                                                                              |========================================================              |  80%  |                                                                              |======================================================================| 100%
+    ##   |                                                                              |                                                                      |   0%  |                                                                              |                                                                      |   1%  |                                                                              |=                                                                     |   1%  |                                                                              |=                                                                     |   2%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |==                                                                    |   4%  |                                                                              |===                                                                   |   4%  |                                                                              |===                                                                   |   5%  |                                                                              |====                                                                  |   5%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |=======                                                               |  11%  |                                                                              |========                                                              |  11%  |                                                                              |========                                                              |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |==========                                                            |  14%  |                                                                              |===========                                                           |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  17%  |                                                                              |=============                                                         |  19%  |                                                                              |==============                                                        |  21%  |                                                                              |===============                                                       |  21%  |                                                                              |================                                                      |  22%  |                                                                              |==================                                                    |  25%  |                                                                              |===================                                                   |  26%  |                                                                              |=====================                                                 |  29%  |                                                                              |=========================                                             |  36%  |                                                                              |===========================                                           |  38%  |                                                                              |============================                                          |  40%  |                                                                              |=============================                                         |  41%  |                                                                              |==============================                                        |  43%  |                                                                              |===============================                                       |  45%  |                                                                              |==================================                                    |  49%  |                                                                              |===================================                                   |  50%  |                                                                              |=====================================                                 |  53%  |                                                                              |==============================================================        |  88%  |                                                                              |======================================================================| 100%
 
 #### Table 2.2: Race Percents
 
@@ -1279,6 +1279,373 @@ ethnicity_health_count
     ## 8 White              10-25%                          1 POINT (-122.4088 37.7530…
     ## 9 White              25-50%                          5 MULTIPOINT ((-122.4247 3…
 
+``` r
+dots_produce <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.fresh.produce.available.", palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_produce <- incomemap_with_food_retailers + dots_produce
+ethnicity_plus_produce <- ethnicity_map_with_food_retailers + dots_produce
+income_plus_produce
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
+
+``` r
+ethnicity_plus_produce
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-45-2.png)<!-- -->
+
+``` r
+income_produce_count <- intersection_join %>% 
+  group_by(median_income, Is.there.fresh.produce.available.) %>% 
+  count() %>%
+  rename("number of retailers" = "n")
+income_produce_count
+```
+
+    ## # A tibble: 9 × 4
+    ##   median_income     Is.there.fresh.p… `number of ret…`                      geom
+    ##   <chr>             <chr>                        <int>            <GEOMETRY [°]>
+    ## 1 110,001 - 145,000 No                               8 MULTIPOINT ((-122.421 37…
+    ## 2 110,001 - 145,000 Yes                             23 MULTIPOINT ((-122.4162 3…
+    ## 3 145,001 - 180,000 No                               3 MULTIPOINT ((-122.4216 3…
+    ## 4 145,001 - 180,000 Yes                              5 MULTIPOINT ((-122.4247 3…
+    ## 5 40,000 - 75,000   Freshly Juiced                   1 POINT (-122.4208 37.7651…
+    ## 6 40,000 - 75,000   No                               3 MULTIPOINT ((-122.4217 3…
+    ## 7 40,000 - 75,000   Yes                              8 MULTIPOINT ((-122.4213 3…
+    ## 8 75,001 - 110,000  No                              13 MULTIPOINT ((-122.4243 3…
+    ## 9 75,001 - 110,000  Yes                             30 MULTIPOINT ((-122.4227 3…
+
+``` r
+ethnicity_produce_count <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, Is.there.fresh.produce.available.) %>%
+  count() %>%
+  rename("number of retailers" = "n")
+ethnicity_produce_count
+```
+
+    ## # A tibble: 5 × 4
+    ##   majority_ethnicity Is.there.fresh.… `number of ret…`                  geometry
+    ##   <chr>              <chr>                       <int>            <GEOMETRY [°]>
+    ## 1 Hispanic or Latinx Freshly Juiced                  1 POINT (-122.4208 37.7651…
+    ## 2 Hispanic or Latinx No                             18 MULTIPOINT ((-122.4217 3…
+    ## 3 Hispanic or Latinx Yes                            33 MULTIPOINT ((-122.4194 3…
+    ## 4 White              No                              9 MULTIPOINT ((-122.4243 3…
+    ## 5 White              Yes                            33 MULTIPOINT ((-122.4213 3…
+
 \##Cultural Relevance
 
-\##Sustainability
+``` r
+dots_language <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.signage.in.other.languages.than.English." , palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_language <- incomemap_with_food_retailers + dots_language
+ethnicity_plus_language <- ethnicity_map_with_food_retailers + dots_language
+income_plus_language
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-47-1.png)<!-- -->
+
+``` r
+ethnicity_plus_language
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-47-2.png)<!-- -->
+
+``` r
+income_language_count <- intersection_join %>% 
+  group_by(median_income, Is.there.signage.in.other.languages.than.English.) %>% 
+  count() %>%
+  rename("number of retailers" = "n")
+income_language_count
+```
+
+    ## # A tibble: 8 × 4
+    ##   median_income     Is.there.signage… `number of ret…`                      geom
+    ##   <chr>             <chr>                        <int>          <MULTIPOINT [°]>
+    ## 1 110,001 - 145,000 No                              12 ((-122.4138 37.77127), (…
+    ## 2 110,001 - 145,000 Yes                             19 ((-122.4162 37.76762), (…
+    ## 3 145,001 - 180,000 No                               6 ((-122.4236 37.76176), (…
+    ## 4 145,001 - 180,000 Yes                              2 ((-122.4247 37.76133), (…
+    ## 5 40,000 - 75,000   No                               5 ((-122.4213 37.77306), (…
+    ## 6 40,000 - 75,000   Yes                              7 ((-122.4217 37.76475), (…
+    ## 7 75,001 - 110,000  No                              18 ((-122.4227 37.77174), (…
+    ## 8 75,001 - 110,000  Yes                             25 ((-122.4237 37.76471), (…
+
+``` r
+ethnicity_language_count <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, Is.there.signage.in.other.languages.than.English.) %>%
+  count() %>%
+  rename("number of retailers" = "n")
+ethnicity_language_count
+```
+
+    ## # A tibble: 4 × 4
+    ##   majority_ethnicity Is.there.signag… `number of ret…`                  geometry
+    ##   <chr>              <chr>                       <int>          <MULTIPOINT [°]>
+    ## 1 Hispanic or Latinx No                             16 ((-122.4198 37.76288), (…
+    ## 2 Hispanic or Latinx Yes                            36 ((-122.4217 37.76475), (…
+    ## 3 White              No                             25 ((-122.4213 37.77306), (…
+    ## 4 White              Yes                            17 ((-122.4247 37.76133), (…
+
+``` r
+dots_other_languages <- tm_shape(primary_table) + tm_dots(size=.1, col="If.so..what.languages." , palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_languages <- incomemap_with_food_retailers + dots_other_languages
+ethnicity_plus_languages <- ethnicity_map_with_food_retailers + dots_other_languages
+income_plus_languages
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-49-1.png)<!-- -->
+
+``` r
+ethnicity_plus_languages
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-49-2.png)<!-- -->
+
+``` r
+income_other_language_count <- intersection_join %>% 
+  group_by(median_income, If.so..what.languages.) %>% 
+  count() %>%
+  rename("number of retailers" = "n")
+income_other_language_count
+```
+
+    ## # A tibble: 14 × 4
+    ##    median_income     If.so..what.lan… `number of ret…`                      geom
+    ##    <chr>             <chr>                       <int>            <GEOMETRY [°]>
+    ##  1 110,001 - 145,000 Spanish                        19 MULTIPOINT ((-122.4162 3…
+    ##  2 110,001 - 145,000 <NA>                           12 MULTIPOINT ((-122.4138 3…
+    ##  3 145,001 - 180,000 Japanese                        1 POINT (-122.4239 37.7600…
+    ##  4 145,001 - 180,000 Spanish                         1 POINT (-122.4247 37.7613…
+    ##  5 145,001 - 180,000 <NA>                            6 MULTIPOINT ((-122.4236 3…
+    ##  6 40,000 - 75,000   Spanish                         6 MULTIPOINT ((-122.4217 3…
+    ##  7 40,000 - 75,000   Spanish, Chinese                1 POINT (-122.4191 37.7653…
+    ##  8 40,000 - 75,000   <NA>                            5 MULTIPOINT ((-122.4213 3…
+    ##  9 75,001 - 110,000  Chinese                         1 POINT (-122.4196 37.7616…
+    ## 10 75,001 - 110,000  Hindi                           1 POINT (-122.4203 37.7552…
+    ## 11 75,001 - 110,000  Spanish                        21 MULTIPOINT ((-122.4237 3…
+    ## 12 75,001 - 110,000  Spanish, Arabic                 1 POINT (-122.4184 37.7492…
+    ## 13 75,001 - 110,000  Spanish, Chinese                1 POINT (-122.4172 37.7489)
+    ## 14 75,001 - 110,000  <NA>                           18 MULTIPOINT ((-122.4227 3…
+
+``` r
+ethnicity_other_language_count <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, If.so..what.languages.) %>%
+  count() %>%
+  rename("number of retailers" = "n")
+ethnicity_other_language_count
+```
+
+    ## # A tibble: 9 × 4
+    ##   majority_ethnicity If.so..what.lan… `number of ret…`                  geometry
+    ##   <chr>              <chr>                       <int>            <GEOMETRY [°]>
+    ## 1 Hispanic or Latinx Chinese                         1 POINT (-122.4196 37.7616…
+    ## 2 Hispanic or Latinx Hindi                           1 POINT (-122.4203 37.7552…
+    ## 3 Hispanic or Latinx Spanish                        31 MULTIPOINT ((-122.4217 3…
+    ## 4 Hispanic or Latinx Spanish, Arabic                 1 POINT (-122.4184 37.7492…
+    ## 5 Hispanic or Latinx Spanish, Chinese                2 MULTIPOINT ((-122.4191 3…
+    ## 6 Hispanic or Latinx <NA>                           16 MULTIPOINT ((-122.4198 3…
+    ## 7 White              Japanese                        1 POINT (-122.4239 37.7600…
+    ## 8 White              Spanish                        16 MULTIPOINT ((-122.4247 3…
+    ## 9 White              <NA>                           25 MULTIPOINT ((-122.4213 3…
+
+\#work in progress
+
+``` r
+dots_ethnic_section <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.signage.in.other.languages.than.English." , palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_language <- incomemap_with_food_retailers + dots_language
+ethnicity_plus_language <- ethnicity_map_with_food_retailers + dots_language
+income_plus_language
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-51-1.png)<!-- -->
+
+``` r
+ethnicity_plus_language
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-51-2.png)<!-- -->
+
+\##Sustainability \###Environmental Sustainability
+
+``` r
+dots_environment <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.signage.or.visible.documentation.of.environmental.work.or.actions." , palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_env <- incomemap_with_food_retailers + dots_environment
+ethnicity_plus_env <- ethnicity_map_with_food_retailers + dots_environment
+income_plus_env
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-52-1.png)<!-- -->
+
+``` r
+ethnicity_plus_env
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-52-2.png)<!-- -->
+
+``` r
+income_env_count <- intersection_join %>% 
+  group_by(median_income, Is.there.signage.or.visible.documentation.of.environmental.work.or.actions.) %>% 
+  count() %>%
+  rename("number of retailers" = "n")
+income_env_count
+```
+
+    ## # A tibble: 8 × 4
+    ##   median_income     Is.there.signage… `number of ret…`                      geom
+    ##   <chr>             <chr>                        <int>            <GEOMETRY [°]>
+    ## 1 110,001 - 145,000 No                              21 MULTIPOINT ((-122.4138 3…
+    ## 2 110,001 - 145,000 Yes                             10 MULTIPOINT ((-122.4162 3…
+    ## 3 145,001 - 180,000 No                               7 MULTIPOINT ((-122.4236 3…
+    ## 4 145,001 - 180,000 Yes                              1 POINT (-122.4247 37.7613…
+    ## 5 40,000 - 75,000   No                              10 MULTIPOINT ((-122.4213 3…
+    ## 6 40,000 - 75,000   Yes                              2 MULTIPOINT ((-122.4194 3…
+    ## 7 75,001 - 110,000  No                              30 MULTIPOINT ((-122.4243 3…
+    ## 8 75,001 - 110,000  Yes                             13 MULTIPOINT ((-122.4227 3…
+
+``` r
+ethnicity_env_count <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, Is.there.signage.or.visible.documentation.of.environmental.work.or.actions.) %>%
+  count() %>%
+  rename("number of retailers" = "n")
+ethnicity_env_count
+```
+
+    ## # A tibble: 4 × 4
+    ##   majority_ethnicity Is.there.signag… `number of ret…`                  geometry
+    ##   <chr>              <chr>                       <int>          <MULTIPOINT [°]>
+    ## 1 Hispanic or Latinx No                             40 ((-122.4217 37.76475), (…
+    ## 2 Hispanic or Latinx Yes                            12 ((-122.4194 37.76357), (…
+    ## 3 White              No                             28 ((-122.4213 37.77306), (…
+    ## 4 White              Yes                            14 ((-122.4227 37.77174), (…
+
+\###Social Sustainability
+
+``` r
+dots_social <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions." , palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_social <- incomemap_with_food_retailers + dots_social
+ethnicity_plus_social <- ethnicity_map_with_food_retailers + dots_social
+income_plus_social
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-54-1.png)<!-- -->
+
+``` r
+ethnicity_plus_social
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-54-2.png)<!-- -->
+
+``` r
+income_social_count <- intersection_join %>% 
+  group_by(median_income, Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.) %>% 
+  count() %>%
+  rename("number of retailers" = "n")
+income_social_count
+```
+
+    ## # A tibble: 8 × 4
+    ##   median_income     Is.there.signage… `number of ret…`                      geom
+    ##   <chr>             <chr>                        <int>          <MULTIPOINT [°]>
+    ## 1 110,001 - 145,000 No                              10 ((-122.4094 37.767), (-1…
+    ## 2 110,001 - 145,000 Yes                             21 ((-122.4162 37.76762), (…
+    ## 3 145,001 - 180,000 No                               6 ((-122.4236 37.76176), (…
+    ## 4 145,001 - 180,000 Yes                              2 ((-122.4247 37.76133), (…
+    ## 5 40,000 - 75,000   No                               5 ((-122.4194 37.76815), (…
+    ## 6 40,000 - 75,000   Yes                              7 ((-122.4213 37.77306), (…
+    ## 7 75,001 - 110,000  No                              21 ((-122.4227 37.77174), (…
+    ## 8 75,001 - 110,000  Yes                             22 ((-122.4198 37.76288), (…
+
+``` r
+ethnicity_social_count <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.) %>%
+  count() %>% 
+  mutate(percent = (n / 94) * 100) %>%
+  rename("number of retailers" = "n") %>%
+  rename("Social Sustainability?" = "Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.")
+ethnicity_social_count
+```
+
+    ## # A tibble: 4 × 5
+    ##   majority_ethnicity `Social Sustai…` `number of ret…`                  geometry
+    ##   <chr>              <chr>                       <int>          <MULTIPOINT [°]>
+    ## 1 Hispanic or Latinx No                             19 ((-122.4217 37.76475), (…
+    ## 2 Hispanic or Latinx Yes                            33 ((-122.4194 37.76357), (…
+    ## 3 White              No                             23 ((-122.4227 37.77174), (…
+    ## 4 White              Yes                            19 ((-122.4213 37.77306), (…
+    ## # … with 1 more variable: percent <dbl>

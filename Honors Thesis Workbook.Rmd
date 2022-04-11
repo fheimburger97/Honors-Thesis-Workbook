@@ -595,10 +595,198 @@ ethnicity_health_count <- intersection_2 %>%
   rename("number of retailers" = "n")
 ethnicity_health_count
 ```
+```{r}
+dots_produce <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.fresh.produce.available.", palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_produce <- incomemap_with_food_retailers + dots_produce
+ethnicity_plus_produce <- ethnicity_map_with_food_retailers + dots_produce
+income_plus_produce
+ethnicity_plus_produce
+```
+```{r}
+income_produce_count <- intersection_join %>% 
+  group_by(median_income, Is.there.fresh.produce.available.) %>% 
+  count() %>%
+  rename("number of retailers" = "n")
+income_produce_count
+
+ethnicity_produce_count <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, Is.there.fresh.produce.available.) %>%
+  count() %>%
+  rename("number of retailers" = "n")
+ethnicity_produce_count
+```
 
 ##Cultural Relevance
+```{r}
+dots_language <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.signage.in.other.languages.than.English." , palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_language <- incomemap_with_food_retailers + dots_language
+ethnicity_plus_language <- ethnicity_map_with_food_retailers + dots_language
+income_plus_language
+ethnicity_plus_language
+```
+```{r}
+income_language_count <- intersection_join %>% 
+  group_by(median_income, Is.there.signage.in.other.languages.than.English.) %>% 
+  count() %>%
+  rename("number of retailers" = "n")
+income_language_count
 
+ethnicity_language_count <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, Is.there.signage.in.other.languages.than.English.) %>%
+  count() %>%
+  rename("number of retailers" = "n")
+ethnicity_language_count
+```
 
+```{r}
+dots_other_languages <- tm_shape(primary_table) + tm_dots(size=.1, col="If.so..what.languages." , palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_languages <- incomemap_with_food_retailers + dots_other_languages
+ethnicity_plus_languages <- ethnicity_map_with_food_retailers + dots_other_languages
+income_plus_languages
+ethnicity_plus_languages
+```
+```{r}
+income_other_language_count <- intersection_join %>% 
+  group_by(median_income, If.so..what.languages.) %>% 
+  count() %>%
+  rename("number of retailers" = "n")
+income_other_language_count
+
+ethnicity_other_language_count <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, If.so..what.languages.) %>%
+  count() %>%
+  rename("number of retailers" = "n")
+ethnicity_other_language_count
+```
+#work in progress
+```{r}
+dots_ethnic_section <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.signage.in.other.languages.than.English." , palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_language <- incomemap_with_food_retailers + dots_language
+ethnicity_plus_language <- ethnicity_map_with_food_retailers + dots_language
+income_plus_language
+ethnicity_plus_language
+```
 
 ##Sustainability
+###Environmental Sustainability
+```{r}
+dots_environment <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.signage.or.visible.documentation.of.environmental.work.or.actions." , palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_env <- incomemap_with_food_retailers + dots_environment
+ethnicity_plus_env <- ethnicity_map_with_food_retailers + dots_environment
+income_plus_env
+ethnicity_plus_env
+```
+```{r}
+income_env_count <- intersection_join %>% 
+  group_by(median_income, Is.there.signage.or.visible.documentation.of.environmental.work.or.actions.) %>% 
+  count() %>%
+  rename("number of retailers" = "n")
+income_env_count
 
+ethnicity_env_count <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, Is.there.signage.or.visible.documentation.of.environmental.work.or.actions.) %>%
+  count() %>%
+  rename("number of retailers" = "n")
+ethnicity_env_count
+```
+
+###Social Sustainability
+```{r}
+dots_social <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions." , palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_social <- incomemap_with_food_retailers + dots_social
+ethnicity_plus_social <- ethnicity_map_with_food_retailers + dots_social
+income_plus_social
+ethnicity_plus_social
+```
+```{r}
+income_social_count <- intersection_join %>% 
+  group_by(median_income, Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.) %>% 
+  count() %>%
+  rename("number of retailers" = "n")
+income_social_count
+
+ethnicity_social_count <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.) %>%
+  count() %>% 
+  mutate(percent = (n / 94) * 100) %>%
+  rename("number of retailers" = "n") %>%
+  rename("Social Sustainability?" = "Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.")
+ethnicity_social_count
+```
