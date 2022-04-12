@@ -473,14 +473,16 @@ ethnicity_with_retail
 income_count <- intersection_join %>% 
   group_by(median_income) %>% 
   count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-income_count
+income_count[, c(1, 2, 4, 3)]
 
 ethnicity_count <- intersection_2 %>%
   group_by(Majority) %>%
   count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-ethnicity_count
+ethnicity_count[, c(1, 2, 4, 3)]
 ```
 ####Price
 ```{r}
@@ -527,15 +529,17 @@ income_price_count <- primary_table_price %>%
   rename("median_income" = "median_income.x") %>%
   group_by(median_income, price_quartile) %>% 
   count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-income_price_count
+income_price_count[, c(1, 2, 3, 5, 4)]
 
 ethnicity_price_count <- primary_table_price %>%
   rename("majority_ethnicity" = "Majority.x") %>%
   group_by(majority_ethnicity, price_quartile) %>%
   count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-ethnicity_price_count
+ethnicity_price_count[, c(1, 2, 3, 5, 4)]
 ```
 ###EBT
 ####Map
@@ -550,15 +554,17 @@ ethnicity_plus_ebt
 income_ebt_count <- intersection_join %>% 
   group_by(median_income, EBT.Accepted.) %>% 
   count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-income_ebt_count
+income_ebt_count[, c(1, 2, 3, 5, 4)]
 
 ethnicity_ebt_count <- intersection_2 %>%
   rename("majority_ethnicity" = "Majority") %>%
   group_by(majority_ethnicity, EBT.Accepted.) %>%
   count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-ethnicity_ebt_count
+ethnicity_ebt_count[, c(1, 2, 3, 5, 4)]
 ```
 
 ##Health & Nutrition
@@ -585,15 +591,17 @@ ethnicity_plus_health
 income_health_count <- intersection_join %>% 
   group_by(median_income, What.percentage.of.the.store.is.produce.) %>% 
   count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-income_health_count
+income_health_count[, c(1, 2, 3, 5, 4)]
 
 ethnicity_health_count <- intersection_2 %>%
   rename("majority_ethnicity" = "Majority") %>%
   group_by(majority_ethnicity, What.percentage.of.the.store.is.produce.) %>%
   count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-ethnicity_health_count
+ethnicity_health_count[, c(1, 2, 3, 5, 4)]
 ```
 ```{r}
 dots_produce <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.fresh.produce.available.", palette="Set1")
@@ -618,15 +626,17 @@ ethnicity_plus_produce
 income_produce_count <- intersection_join %>% 
   group_by(median_income, Is.there.fresh.produce.available.) %>% 
   count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-income_produce_count
+income_produce_count[, c(1, 2, 3, 5, 4)]
 
 ethnicity_produce_count <- intersection_2 %>%
   rename("majority_ethnicity" = "Majority") %>%
   group_by(majority_ethnicity, Is.there.fresh.produce.available.) %>%
   count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-ethnicity_produce_count
+ethnicity_produce_count[, c(1, 2, 3, 5, 4)]
 ```
 
 ##Cultural Relevance
@@ -653,19 +663,21 @@ ethnicity_plus_language
 income_language_count <- intersection_join %>% 
   group_by(median_income, Is.there.signage.in.other.languages.than.English.) %>% 
   count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-income_language_count
+income_language_count[, c(1, 2, 3, 5, 4)]
 
 ethnicity_language_count <- intersection_2 %>%
   rename("majority_ethnicity" = "Majority") %>%
   group_by(majority_ethnicity, Is.there.signage.in.other.languages.than.English.) %>%
   count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-ethnicity_language_count
+ethnicity_language_count[, c(1, 2, 3, 5, 4)]
 ```
 
 ```{r}
-dots_other_languages <- tm_shape(primary_table) + tm_dots(size=.1, col="If.so..what.languages." , palette="Set1")
+dots_other_languages <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.signage.in.Spanish." , palette="Set1")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
              tm_polygons("median_income") +
@@ -685,17 +697,19 @@ ethnicity_plus_languages
 ```
 ```{r}
 income_other_language_count <- intersection_join %>% 
-  group_by(median_income, If.so..what.languages.) %>% 
+  group_by(median_income, Is.there.signage.in.Spanish.) %>% 
   count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-income_other_language_count
+income_other_language_count[, c(1, 2, 3, 5, 4)]
 
 ethnicity_other_language_count <- intersection_2 %>%
   rename("majority_ethnicity" = "Majority") %>%
-  group_by(majority_ethnicity, If.so..what.languages.) %>%
+  group_by(majority_ethnicity, Is.there.signage.in.Spanish.) %>%
   count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-ethnicity_other_language_count
+ethnicity_other_language_count[, c(1, 2, 3, 5, 4)]
 ```
 #work in progress
 ```{r}
@@ -743,15 +757,17 @@ ethnicity_plus_env
 income_env_count <- intersection_join %>% 
   group_by(median_income, Is.there.signage.or.visible.documentation.of.environmental.work.or.actions.) %>% 
   count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-income_env_count
+income_env_count[, c(1, 2, 3, 5, 4)]
 
 ethnicity_env_count <- intersection_2 %>%
   rename("majority_ethnicity" = "Majority") %>%
   group_by(majority_ethnicity, Is.there.signage.or.visible.documentation.of.environmental.work.or.actions.) %>%
   count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-ethnicity_env_count
+ethnicity_env_count[, c(1, 2, 3, 5, 4)]
 ```
 
 ###Social Sustainability
@@ -778,15 +794,16 @@ ethnicity_plus_social
 income_social_count <- intersection_join %>% 
   group_by(median_income, Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.) %>% 
   count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-income_social_count
+income_social_count[, c(1, 2, 3, 5, 4)]
 
 ethnicity_social_count <- intersection_2 %>%
   rename("majority_ethnicity" = "Majority") %>%
   group_by(majority_ethnicity, Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.) %>%
   count() %>% 
-  mutate(percent = (n / 94) * 100) %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n") %>%
   rename("Social Sustainability?" = "Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.")
-ethnicity_social_count
+ethnicity_social_count[, c(1, 2, 3, 5, 4)]
 ```
