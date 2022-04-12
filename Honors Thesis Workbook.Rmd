@@ -713,7 +713,7 @@ ethnicity_other_language_count[, c(1, 2, 3, 5, 4)]
 ```
 #work in progress
 ```{r}
-dots_ethnic_section <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.signage.in.other.languages.than.English." , palette="Set1")
+dots_ethnic_section <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.a.Hispanic.Latinx.ethnic.foods.section." , palette="Set1")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
              tm_polygons("median_income") +
@@ -726,11 +726,28 @@ incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              legend.title.size = 1.5,
              legend.text.size = 1.2) +
   tm_compass(position = c("left", "top"))
-income_plus_language <- incomemap_with_food_retailers + dots_language
-ethnicity_plus_language <- ethnicity_map_with_food_retailers + dots_language
-income_plus_language
-ethnicity_plus_language
+income_plus_ethnic <- incomemap_with_food_retailers + dots_ethnic_section
+ethnicity_plus_ethnic <- ethnicity_map_with_food_retailers + dots_ethnic_section
+income_plus_ethnic
+ethnicity_plus_ethnic
 ```
+```{r}
+income_ethnic_count <- intersection_join %>% 
+  group_by(median_income, Is.there.a.Hispanic.Latinx.ethnic.foods.section.) %>% 
+  count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
+  rename("number of retailers" = "n")
+income_ethnic_count[, c(1, 2, 3, 5, 4)]
+
+ethnicity_ethnic_count <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, Is.there.a.Hispanic.Latinx.ethnic.foods.section.) %>%
+  count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
+  rename("number of retailers" = "n")
+ethnicity_ethnic_count[, c(1, 2, 3, 5, 4)]
+```
+
 
 ##Sustainability
 ###Environmental Sustainability
