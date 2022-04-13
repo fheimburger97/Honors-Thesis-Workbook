@@ -105,8 +105,8 @@ retail_data <- read_csv("Food Retail Final List (Edit 3_30).csv") %>%
     ## Rows: 97 Columns: 51
     ## ── Column specification ────────────────────────────────────────────────────────
     ## Delimiter: ","
-    ## chr (36): Timestamp, Name of Food Retailer, Address, Date Assessed, Type of ...
-    ## dbl (13): Median Price of a Dozen Eggs, Median Price of a Loaf of Bread, Mil...
+    ## chr (35): Timestamp, Name of Food Retailer, Address, Date Assessed, Type of ...
+    ## dbl (14): Median Price of a Dozen Eggs, Median Price of a Loaf of Bread, Mil...
     ## lgl  (1): ...48
     ## 
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
@@ -182,6 +182,11 @@ incomejoin <-left_join(gfile, medianincome, by = "GEOID")
 incomejoin
 ```
 
+    ## Simple feature collection with 13 features and 2 fields
+    ## Geometry type: MULTIPOLYGON
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4269 ymin: 37.74782 xmax: -122.403 ymax: 37.77564
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 13 × 3
     ##         GEOID                                              geom `Income in Dol…`
     ##         <dbl>                                <MULTIPOLYGON [°]>            <dbl>
@@ -213,6 +218,11 @@ incomejoin_test <-left_join(gfile, medianincome_test, by = "GEOID")
 incomejoin_test
 ```
 
+    ## Simple feature collection with 13 features and 3 fields
+    ## Geometry type: MULTIPOLYGON
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4269 ymin: 37.74782 xmax: -122.403 ymax: 37.77564
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 13 × 4
     ##         GEOID                                geom `Income in Dol…` median_income
     ##         <dbl>                  <MULTIPOLYGON [°]>            <dbl> <chr>        
@@ -308,7 +318,7 @@ totalpop <- get_decennial(geography = "tract",
                       geometry = TRUE)
 ```
 
-    ##   |                                                                              |                                                                      |   0%  |                                                                              |                                                                      |   1%  |                                                                              |=                                                                     |   1%  |                                                                              |=                                                                     |   2%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |===                                                                   |   4%  |                                                                              |===                                                                   |   5%  |                                                                              |====                                                                  |   5%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |=====                                                                 |   8%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |========                                                              |  11%  |                                                                              |=========                                                             |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |==========                                                            |  14%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  17%  |                                                                              |=============                                                         |  18%  |                                                                              |=============                                                         |  19%  |                                                                              |==============                                                        |  19%  |                                                                              |==============                                                        |  20%  |                                                                              |==============                                                        |  21%  |                                                                              |===============                                                       |  22%  |                                                                              |================                                                      |  23%  |                                                                              |=================                                                     |  25%  |                                                                              |==================                                                    |  26%  |                                                                              |====================                                                  |  29%  |                                                                              |======================                                                |  32%  |                                                                              |=======================                                               |  33%  |                                                                              |================================                                      |  46%  |                                                                              |=========================================================             |  82%  |                                                                              |======================================================================| 100%
+    ##   |                                                                              |                                                                      |   0%  |                                                                              |                                                                      |   1%  |                                                                              |=                                                                     |   1%  |                                                                              |=                                                                     |   2%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |==                                                                    |   4%  |                                                                              |===                                                                   |   4%  |                                                                              |===                                                                   |   5%  |                                                                              |====                                                                  |   5%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |=====                                                                 |   8%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |========                                                              |  11%  |                                                                              |========                                                              |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |==========                                                            |  14%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  18%  |                                                                              |=============                                                         |  18%  |                                                                              |=============                                                         |  19%  |                                                                              |===============                                                       |  21%  |                                                                              |================                                                      |  22%  |                                                                              |=================                                                     |  24%  |                                                                              |==================                                                    |  26%  |                                                                              |===================                                                   |  27%  |                                                                              |=====================                                                 |  30%  |                                                                              |=====================================                                 |  52%  |                                                                              |==============================================================        |  88%  |                                                                              |======================================================================| 100%
 
 #### Table 2.2: Race Percents
 
@@ -339,9 +349,14 @@ ethnic_table <- left_join(totalandwhite, asianandlatinx, by = "GEOID") %>%
 ethnic_table
 ```
 
+    ## Simple feature collection with 244 features and 13 fields (with 2 geometries empty)
+    ## Geometry type: MULTIPOLYGON
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -123.0139 ymin: 37.69274 xmax: -122.328 ymax: 37.86334
+    ## Geodetic CRS:  NAD83
     ## # A tibble: 244 × 14
     ##    GEOID     tract totalvar totalval whitevar whiteval                  geometry
-    ##    <chr>     <chr> <chr>       <dbl> <chr>       <dbl>        <MULTIPOLYGON [°]>
+    ##  * <chr>     <chr> <chr>       <dbl> <chr>       <dbl>        <MULTIPOLYGON [°]>
     ##  1 06075035… Cens… totalpop     3888 white        1957 (((-122.5099 37.76409, -…
     ##  2 06075040… Cens… totalpop     3936 white        2354 (((-122.4648 37.78856, -…
     ##  3 06075047… Cens… totalpop     3527 white        1582 (((-122.4887 37.77611, -…
@@ -384,9 +399,14 @@ mission_percents_clean <- percents %>%
 mission_percents_clean
 ```
 
+    ## Simple feature collection with 17 features and 6 fields
+    ## Geometry type: MULTIPOLYGON
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4269 ymin: 37.74784 xmax: -122.4031 ymax: 37.77564
+    ## Geodetic CRS:  NAD83
     ## # A tibble: 17 × 7
     ##    GEOID tract percwhite percasian perclatinx Majority                  geometry
-    ##    <chr> <chr>     <dbl>     <dbl>      <dbl> <chr>           <MULTIPOLYGON [°]>
+    ##  * <chr> <chr>     <dbl>     <dbl>      <dbl> <chr>           <MULTIPOLYGON [°]>
     ##  1 6075… Cens…      41.7      25.2       35.5 White    (((-122.4226 37.7725, -1…
     ##  2 6075… Cens…      35.6      20.9       45.2 Hispani… (((-122.422 37.76654, -1…
     ##  3 6075… Cens…      72.8      14.3       18.0 White    (((-122.4258 37.75984, -…
@@ -438,9 +458,14 @@ incomejoin_chr <- incomejoin %>%
 incomejoin_chr
 ```
 
+    ## Simple feature collection with 13 features and 2 fields
+    ## Geometry type: MULTIPOLYGON
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4269 ymin: 37.74782 xmax: -122.403 ymax: 37.77564
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 13 × 3
     ##    GEOID                                                   geom `Income in Dol…`
-    ##    <chr>                                     <MULTIPOLYGON [°]>            <dbl>
+    ##  * <chr>                                     <MULTIPOLYGON [°]>            <dbl>
     ##  1 6075020800 (((-122.4217 37.7633, -122.4173 37.76357, -122.4…           103134
     ##  2 6075017700 (((-122.4187 37.77564, -122.4156 37.7731, -122.4…           114722
     ##  3 6075020700 (((-122.4261 37.76304, -122.4217 37.7633, -122.4…           167422
@@ -563,8 +588,8 @@ retail_data <- read_csv("Food Retail Final List (Edit 3_30).csv")
     ## Rows: 97 Columns: 51
     ## ── Column specification ────────────────────────────────────────────────────────
     ## Delimiter: ","
-    ## chr (36): Timestamp, Name of Food Retailer, Address, Date Assessed, Type of ...
-    ## dbl (13): Median Price of a Dozen Eggs, Median Price of a Loaf of Bread, Mil...
+    ## chr (35): Timestamp, Name of Food Retailer, Address, Date Assessed, Type of ...
+    ## dbl (14): Median Price of a Dozen Eggs, Median Price of a Loaf of Bread, Mil...
     ## lgl  (1): ...48
     ## 
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
@@ -726,8 +751,8 @@ retail_data <- read_csv("Food Retail Final List (Edit 3_30).csv") %>%
     ## Rows: 97 Columns: 51
     ## ── Column specification ────────────────────────────────────────────────────────
     ## Delimiter: ","
-    ## chr (36): Timestamp, Name of Food Retailer, Address, Date Assessed, Type of ...
-    ## dbl (13): Median Price of a Dozen Eggs, Median Price of a Loaf of Bread, Mil...
+    ## chr (35): Timestamp, Name of Food Retailer, Address, Date Assessed, Type of ...
+    ## dbl (14): Median Price of a Dozen Eggs, Median Price of a Loaf of Bread, Mil...
     ## lgl  (1): ...48
     ## 
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
@@ -760,7 +785,7 @@ retail_data
     ## #   `Organic Oranges Standardized_lbs` <dbl>, …
 
 ``` r
-dots_ebt <- tm_shape(retail_map) + tm_dots(col="EBT Accepted?", palette=c(No='red', Yes='black'))
+dots_ebt <- tm_shape(retail_map) + tm_dots(size=.1, col="EBT Accepted?", palette=c(No='red', Yes='black'))
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
              tm_polygons("median_income") +
@@ -785,9 +810,14 @@ retail_EBT <- retail_map %>%
 retail_EBT
 ```
 
+    ## Simple feature collection with 58 features and 50 fields
+    ## Geometry type: POINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4279 ymin: 37.74889 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 58 × 51
     ##    Timestamp       `Name of Food Retai…` Address `Date Assessed` `Type of Store`
-    ##    <chr>           <chr>                 <chr>   <chr>           <chr>          
+    ##  * <chr>           <chr>                 <chr>   <chr>           <chr>          
     ##  1 1/27/2022 12:43 E And M Market        399 Va… 1/26/2022       Convenience St…
     ##  2 1/27/2022 12:48 Valencia Whole Foods  999 Va… 1/26/2022       Grocery Store  
     ##  3 1/28/2022 11:09 Guerrero Hill Market  3398 2… 1/26/2022       Convenience St…
@@ -826,9 +856,14 @@ intersection_join <- st_join(intersection, incomejoin_test, join = st_intersects
 intersection_join
 ```
 
+    ## Simple feature collection with 94 features and 53 fields
+    ## Geometry type: POINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 94 × 54
     ##    Timestamp       Name.of.Food.Retailer     Address Date.Assessed Type.of.Store
-    ##    <chr>           <chr>                     <chr>   <chr>         <chr>        
+    ##  * <chr>           <chr>                     <chr>   <chr>         <chr>        
     ##  1 1/27/2022 12:38 Mission Foodhall          3100 1… 1/26/2022     Specialty Fo…
     ##  2 1/27/2022 12:41 Fred’s Liquors & Delicat… 200 Va… 1/26/2022     Grocery Store
     ##  3 1/27/2022 12:43 E And M Market            399 Va… 1/26/2022     Convenience …
@@ -891,34 +926,11 @@ int_result <- intersection_join %>%
 as.data.frame(int_result)
 ```
 
-    ## # A tibble: 4 × 3
-    ##   median_income         n                                                   geom
-    ##   <chr>             <int>                                       <MULTIPOINT [°]>
-    ## 1 110,001 - 145,000    31 ((-122.4162 37.76762), (-122.4138 37.77127), (-122.41…
-    ## 2 145,001 - 180,000     8 ((-122.4247 37.76133), (-122.4236 37.76176), (-122.42…
-    ## 3 40,000 - 75,000      12 ((-122.4213 37.77306), (-122.4194 37.76815), (-122.42…
-    ## 4 75,001 - 110,000     43 ((-122.4227 37.77174), (-122.4243 37.77088), (-122.42…
-
-``` r
-#EBT Test
-EBT_result <- intersection_join %>% 
-  group_by(median_income, EBT.Accepted.) %>% 
-  count()
-
-as.data.frame(EBT_result)
-```
-
-    ## # A tibble: 8 × 4
-    ##   median_income     EBT.Accepted.     n                                     geom
-    ##   <chr>             <chr>         <int>                         <MULTIPOINT [°]>
-    ## 1 110,001 - 145,000 No               15 ((-122.4138 37.77127), (-122.4163 37.77…
-    ## 2 110,001 - 145,000 Yes              16 ((-122.4162 37.76762), (-122.4153 37.76…
-    ## 3 145,001 - 180,000 No                5 ((-122.4216 37.75994), (-122.4239 37.76…
-    ## 4 145,001 - 180,000 Yes               3 ((-122.4247 37.76133), (-122.4236 37.76…
-    ## 5 40,000 - 75,000   No                4 ((-122.4217 37.76475), (-122.4209 37.76…
-    ## 6 40,000 - 75,000   Yes               8 ((-122.4213 37.77306), (-122.4194 37.76…
-    ## 7 75,001 - 110,000  No               15 ((-122.4243 37.77088), (-122.4226 37.76…
-    ## 8 75,001 - 110,000  Yes              28 ((-122.4227 37.77174), (-122.4246 37.76…
+    ##       median_income  n                           geom
+    ## 1 110,001 - 145,000 31 MULTIPOINT ((-122.4162 37.7...
+    ## 2 145,001 - 180,000  8 MULTIPOINT ((-122.4247 37.7...
+    ## 3   40,000 - 75,000 12 MULTIPOINT ((-122.4213 37.7...
+    ## 4  75,001 - 110,000 43 MULTIPOINT ((-122.4227 37.7...
 
 # Results (lens of Agency)
 
@@ -929,9 +941,14 @@ primary_table <- st_join(intersection_join, contruct_tab)
 primary_table
 ```
 
+    ## Simple feature collection with 94 features and 54 fields
+    ## Geometry type: POINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 94 × 55
     ##    Timestamp       Name.of.Food.Retailer     Address Date.Assessed Type.of.Store
-    ##    <chr>           <chr>                     <chr>   <chr>         <chr>        
+    ##  * <chr>           <chr>                     <chr>   <chr>         <chr>        
     ##  1 1/27/2022 12:38 Mission Foodhall          3100 1… 1/26/2022     Specialty Fo…
     ##  2 1/27/2022 12:41 Fred’s Liquors & Delicat… 200 Va… 1/26/2022     Grocery Store
     ##  3 1/27/2022 12:43 E And M Market            399 Va… 1/26/2022     Convenience …
@@ -950,43 +967,48 @@ primary_table
     ## #   Median.Price.of.Oranges <chr>, Orange.Standardized_lbs <dbl>,
     ## #   Median.Price.of.Organic.Oranges <chr>, …
 
-\##Access \###Geography \####map
+## Access
 
-``` r
-tmap_mode("plot")
-```
+### Geography
 
-    ## tmap mode set to plotting
+#### maps
 
 ``` r
 income_map_with_retail
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-36-1.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-35-1.png)<!-- -->
 
 ``` r
 ethnicity_with_retail
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-36-2.png)<!-- -->
-\####tables
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-35-2.png)<!-- -->
+\#### tables
 
 ``` r
+costum_order <- c("40,000 - 75,000", "75,001 - 110,000", "110,001 - 145,000", "145,001 - 180,000")
 income_count <- intersection_join %>% 
   group_by(median_income) %>% 
   count() %>%
   mutate(percent = (n / nrow(primary_table)) * 100) %>%
-  rename("number of retailers" = "n")
+  rename("number of retailers" = "n") %>%
+  slice(match(costum_order, median_income))
 income_count[, c(1, 2, 4, 3)]
 ```
 
+    ## Simple feature collection with 4 features and 3 fields
+    ## Geometry type: MULTIPOINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 4 × 4
     ##   median_income     `number of retailers` percent                           geom
     ##   <chr>                             <int>   <dbl>               <MULTIPOINT [°]>
-    ## 1 110,001 - 145,000                    31   33.0  ((-122.4162 37.76762), (-122.…
-    ## 2 145,001 - 180,000                     8    8.51 ((-122.4247 37.76133), (-122.…
-    ## 3 40,000 - 75,000                      12   12.8  ((-122.4213 37.77306), (-122.…
-    ## 4 75,001 - 110,000                     43   45.7  ((-122.4227 37.77174), (-122.…
+    ## 1 40,000 - 75,000                      12   12.8  ((-122.4213 37.77306), (-122.…
+    ## 2 75,001 - 110,000                     43   45.7  ((-122.4227 37.77174), (-122.…
+    ## 3 110,001 - 145,000                    31   33.0  ((-122.4162 37.76762), (-122.…
+    ## 4 145,001 - 180,000                     8    8.51 ((-122.4247 37.76133), (-122.…
 
 ``` r
 ethnicity_count <- intersection_2 %>%
@@ -997,18 +1019,23 @@ ethnicity_count <- intersection_2 %>%
 ethnicity_count[, c(1, 2, 4, 3)]
 ```
 
+    ## Simple feature collection with 2 features and 3 fields
+    ## Geometry type: MULTIPOINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 2 × 4
     ##   Majority           `number of retailers` percent                      geometry
     ##   <chr>                              <int>   <dbl>              <MULTIPOINT [°]>
     ## 1 Hispanic or Latinx                    52    55.3 ((-122.4217 37.76475), (-122…
     ## 2 White                                 42    44.7 ((-122.4213 37.77306), (-122…
 
-\####Price
+### Price
 
 ``` r
 price_table <- primary_table %>%
   mutate(egg_quartile = cut(primary_table$Median.Price.of.a.Dozen.Eggs, quantile(primary_table$Median.Price.of.a.Dozen.Eggs, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
-  select(-Timestamp, -Address, -Date.Assessed, -Type.of.Store, -What.type.of.Specialty.Food.Store., -EBT.Accepted., -Number.of.Locations..chain.., -Is.there.signage.in.other.languages.than.English., -If.so..what.languages., -Access.Notes, -Is.there.fresh.produce.available., -What.percentage.of.the.store.is.produce., -Is.there.organic.produce.available., -Is.there.local.produce.available., -How.many.types.of.fresh.produce.are.available., -Is.there.an.ethnic.section., -Are.there.options.besides.national.name.brand.ethnic.foods.,, -What.ethnic.food.nationalities.are.available., -Selection.Notes, -Is.there.signage.or.visible.documentation.of.environmental.work.or.actions., -If.so..what.kind.of.environmental.work., -Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions., -If.so..what.kind.of.social.justice.work., -General.Notes, -address) %>%
+  select(-Address, -Date.Assessed, -Type.of.Store, -What.type.of.Specialty.Food.Store., -EBT.Accepted., -Number.of.Locations..chain.., -Is.there.signage.in.other.languages.than.English., -If.so..what.languages., -Access.Notes, -Is.there.fresh.produce.available., -What.percentage.of.the.store.is.produce., -Is.there.organic.produce.available., -Is.there.local.produce.available., -How.many.types.of.fresh.produce.are.available., -Is.there.an.ethnic.section., -Are.there.options.besides.national.name.brand.ethnic.foods.,, -What.ethnic.food.nationalities.are.available., -Selection.Notes, -Is.there.signage.or.visible.documentation.of.environmental.work.or.actions., -If.so..what.kind.of.environmental.work., -Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions., -If.so..what.kind.of.social.justice.work., -General.Notes, -address) %>%
   mutate(bread_quartile = cut(primary_table$Median.Price.of.a.Loaf.of.Bread, quantile(primary_table$Median.Price.of.a.Loaf.of.Bread, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
   mutate(milk_quartile = cut(primary_table$Milk.Standardized_Gallon, quantile(primary_table$Milk.Standardized_Gallon, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
   mutate(orange_quartile = cut(primary_table$Orange.Standardized_lbs, quantile(primary_table$Orange.Standardized_lbs, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
@@ -1022,19 +1049,19 @@ price_map <- price_table %>%
 price_map
 ```
 
-    ## # A tibble: 94 × 38
-    ##    Name.of.Food.Retailer      Median.Price.of… Median.Price.of… Median.Price.of…
-    ##    <chr>                                 <dbl>            <dbl> <chr>           
-    ##  1 Mission Foodhall                       7.49             9.99 5.49 (half)     
-    ##  2 Fred’s Liquors & Delicate…             6.99             5.69 7.49            
-    ##  3 E And M Market                         4.99             5.99 5.69            
-    ##  4 K & H Liquor                          NA               NA    3.50 (half)     
-    ##  5 Valencia Whole Foods                   5.99             5.49 8.99            
-    ##  6 Decamere Market                       NA               NA    2.59 (half)     
-    ##  7 Indian Spices and Grocery             NA               NA    <NA>            
-    ##  8 Valencia Farmer’s Market               4.74             4.69 5.99            
-    ##  9 Valencia Grocery                       3.99            NA    3.99            
-    ## 10 Mr. Liquor                            NA               NA    <NA>            
+    ## # A tibble: 94 × 39
+    ##    Timestamp Name.of.Food.Re… Median.Price.of… Median.Price.of… Median.Price.of…
+    ##    <chr>     <chr>                       <dbl>            <dbl> <chr>           
+    ##  1 1/27/202… Mission Foodhall             7.49             9.99 5.49 (half)     
+    ##  2 1/27/202… Fred’s Liquors …             6.99             5.69 7.49            
+    ##  3 1/27/202… E And M Market               4.99             5.99 5.69            
+    ##  4 1/27/202… K & H Liquor                NA               NA    3.50 (half)     
+    ##  5 1/27/202… Valencia Whole …             5.99             5.49 8.99            
+    ##  6 1/27/202… Decamere Market             NA               NA    2.59 (half)     
+    ##  7 1/27/202… Indian Spices a…            NA               NA    <NA>            
+    ##  8 1/27/202… Valencia Farmer…             4.74             4.69 5.99            
+    ##  9 1/27/202… Valencia Grocery             3.99            NA    3.99            
+    ## 10 1/27/202… Mr. Liquor                  NA               NA    <NA>            
     ## # … with 84 more rows, and 34 more variables: Milk.Standardized_Gallon <dbl>,
     ## #   Median.Price.of.Oranges <chr>, Orange.Standardized_lbs <dbl>,
     ## #   Median.Price.of.Organic.Oranges <chr>,
@@ -1044,12 +1071,17 @@ price_map
     ## #   Standardized.Carrots_lbs <dbl>, Median.Price.of.Organic.Carrots <chr>, …
 
 ``` r
-primary_table_price <- left_join(primary_table, price_map, by = "Name.of.Food.Retailer")
+primary_table_price <- left_join(primary_table, price_map, by = "Timestamp")
 primary_table_price
 ```
 
-    ## # A tibble: 98 × 92
-    ##    Timestamp       Name.of.Food.Retailer     Address Date.Assessed Type.of.Store
+    ## Simple feature collection with 94 features and 92 fields
+    ## Geometry type: POINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
+    ## # A tibble: 94 × 93
+    ##    Timestamp       Name.of.Food.Retailer.x   Address Date.Assessed Type.of.Store
     ##    <chr>           <chr>                     <chr>   <chr>         <chr>        
     ##  1 1/27/2022 12:38 Mission Foodhall          3100 1… 1/26/2022     Specialty Fo…
     ##  2 1/27/2022 12:41 Fred’s Liquors & Delicat… 200 Va… 1/26/2022     Grocery Store
@@ -1061,13 +1093,15 @@ primary_table_price
     ##  8 1/27/2022 12:55 Valencia Farmer’s Market  1299 V… 1/26/2022     Grocery Store
     ##  9 1/27/2022 12:59 Valencia Grocery          1300 V… 1/26/2022     Convenience …
     ## 10 1/27/2022 13:02 Mr. Liquor                1200 V… 1/26/2022     Convenience …
-    ## # … with 88 more rows, and 87 more variables:
+    ## # … with 84 more rows, and 88 more variables:
     ## #   What.type.of.Specialty.Food.Store. <chr>, EBT.Accepted. <chr>,
     ## #   Number.of.Locations..chain.. <dbl>, Median.Price.of.a.Dozen.Eggs.x <dbl>,
     ## #   Median.Price.of.a.Loaf.of.Bread.x <dbl>,
     ## #   Median.Price.of.a.Gallon.of.Milk.x <chr>, Milk.Standardized_Gallon.x <dbl>,
     ## #   Median.Price.of.Oranges.x <chr>, Orange.Standardized_lbs.x <dbl>,
     ## #   Median.Price.of.Organic.Oranges.x <chr>, …
+
+#### Maps
 
 ``` r
 dots_price <- tm_shape(primary_table_price) + tm_dots(size=.1, col="price_quartile", palette="Set1")
@@ -1088,13 +1122,14 @@ ethnicity_plus_price <- ethnicity_map_with_food_retailers + dots_price
 income_plus_price
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
 
 ``` r
 ethnicity_plus_price
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-39-2.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-38-2.png)<!-- -->
+\#### Tables
 
 ``` r
 income_price_count <- primary_table_price %>% 
@@ -1106,10 +1141,15 @@ income_price_count <- primary_table_price %>%
 income_price_count[, c(1, 2, 3, 5, 4)]
 ```
 
+    ## Simple feature collection with 16 features and 4 fields
+    ## Geometry type: MULTIPOINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 16 × 5
     ##    median_income     price_quartile `number of retailers` percent
     ##    <chr>                      <int>                 <int>   <dbl>
-    ##  1 110,001 - 145,000              1                    10   10.6 
+    ##  1 110,001 - 145,000              1                     9    9.57
     ##  2 110,001 - 145,000              2                     5    5.32
     ##  3 110,001 - 145,000              3                     6    6.38
     ##  4 110,001 - 145,000              4                     8    8.51
@@ -1120,11 +1160,11 @@ income_price_count[, c(1, 2, 3, 5, 4)]
     ##  9 40,000 - 75,000                2                     2    2.13
     ## 10 40,000 - 75,000                3                     2    2.13
     ## 11 40,000 - 75,000               NA                     3    3.19
-    ## 12 75,001 - 110,000               1                    10   10.6 
+    ## 12 75,001 - 110,000               1                     9    9.57
     ## 13 75,001 - 110,000               2                    12   12.8 
-    ## 14 75,001 - 110,000               3                    13   13.8 
+    ## 14 75,001 - 110,000               3                    12   12.8 
     ## 15 75,001 - 110,000               4                     4    4.26
-    ## 16 75,001 - 110,000              NA                     7    7.45
+    ## 16 75,001 - 110,000              NA                     6    6.38
     ## # … with 1 more variable: geom <MULTIPOINT [°]>
 
 ``` r
@@ -1137,58 +1177,67 @@ ethnicity_price_count <- primary_table_price %>%
 ethnicity_price_count[, c(1, 2, 3, 5, 4)]
 ```
 
+    ## Simple feature collection with 10 features and 4 fields
+    ## Geometry type: MULTIPOINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 10 × 5
     ##    majority_ethnicity price_quartile `number of retailers` percent
     ##    <chr>                       <int>                 <int>   <dbl>
-    ##  1 Hispanic or Latinx              1                    15   16.0 
+    ##  1 Hispanic or Latinx              1                    14   14.9 
     ##  2 Hispanic or Latinx              2                    14   14.9 
-    ##  3 Hispanic or Latinx              3                    13   13.8 
+    ##  3 Hispanic or Latinx              3                    12   12.8 
     ##  4 Hispanic or Latinx              4                     2    2.13
-    ##  5 Hispanic or Latinx             NA                    11   11.7 
-    ##  6 White                           1                    10   10.6 
+    ##  5 Hispanic or Latinx             NA                    10   10.6 
+    ##  6 White                           1                     9    9.57
     ##  7 White                           2                     5    5.32
     ##  8 White                           3                    12   12.8 
     ##  9 White                           4                    14   14.9 
     ## 10 White                          NA                     2    2.13
     ## # … with 1 more variable: geom <MULTIPOINT [°]>
 
-\###EBT \####Map
+### EBT
+
+#### Maps
 
 ``` r
 income_plus_ebt <- incomemap_with_food_retailers + dots_ebt
 income_plus_ebt
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->
 
 ``` r
 ethnicity_plus_ebt <- ethnicity_map_with_food_retailers + dots_ebt
 ethnicity_plus_ebt
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-41-2.png)<!-- -->
-\####Table
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-40-2.png)<!-- -->
+\#### Tables
 
 ``` r
 income_ebt_count <- intersection_join %>% 
   group_by(median_income, EBT.Accepted.) %>% 
   count() %>%
   mutate(percent = (n / nrow(primary_table)) * 100) %>%
-  rename("number of retailers" = "n")
+  rename("number of retailers" = "n") %>%
+  slice(match(costum_order, median_income))
 income_ebt_count[, c(1, 2, 3, 5, 4)]
 ```
 
-    ## # A tibble: 8 × 5
+    ## Simple feature collection with 4 features and 4 fields
+    ## Geometry type: MULTIPOINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4243 ymin: 37.74864 xmax: -122.4066 ymax: 37.77287
+    ## Geodetic CRS:  WGS 84
+    ## # A tibble: 4 × 5
     ##   median_income EBT.Accepted. `number of ret…` percent                      geom
     ##   <chr>         <chr>                    <int>   <dbl>          <MULTIPOINT [°]>
-    ## 1 110,001 - 14… No                          15   16.0  ((-122.4138 37.77127), (…
-    ## 2 110,001 - 14… Yes                         16   17.0  ((-122.4162 37.76762), (…
-    ## 3 145,001 - 18… No                           5    5.32 ((-122.4216 37.75994), (…
-    ## 4 145,001 - 18… Yes                          3    3.19 ((-122.4247 37.76133), (…
-    ## 5 40,000 - 75,… No                           4    4.26 ((-122.4217 37.76475), (…
-    ## 6 40,000 - 75,… Yes                          8    8.51 ((-122.4213 37.77306), (…
-    ## 7 75,001 - 110… No                          15   16.0  ((-122.4243 37.77088), (…
-    ## 8 75,001 - 110… Yes                         28   29.8  ((-122.4227 37.77174), (…
+    ## 1 40,000 - 75,… No                           4    4.26 ((-122.4217 37.76475), (…
+    ## 2 75,001 - 110… No                          15   16.0  ((-122.4243 37.77088), (…
+    ## 3 110,001 - 14… No                          15   16.0  ((-122.4138 37.77127), (…
+    ## 4 145,001 - 18… No                           5    5.32 ((-122.4216 37.75994), (…
 
 ``` r
 ethnicity_ebt_count <- intersection_2 %>%
@@ -1200,6 +1249,11 @@ ethnicity_ebt_count <- intersection_2 %>%
 ethnicity_ebt_count[, c(1, 2, 3, 5, 4)]
 ```
 
+    ## Simple feature collection with 4 features and 4 fields
+    ## Geometry type: MULTIPOINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 4 × 5
     ##   majority_ethnicity EBT.Accepted. `number of retailers` percent
     ##   <chr>              <chr>                         <int>   <dbl>
@@ -1209,7 +1263,11 @@ ethnicity_ebt_count[, c(1, 2, 3, 5, 4)]
     ## 4 White              Yes                              22    23.4
     ## # … with 1 more variable: geometry <MULTIPOINT [°]>
 
-\##Health & Nutrition
+## Health & Nutrition
+
+### Percentage of Store Produce
+
+#### Maps
 
 ``` r
 dots_health <- tm_shape(primary_table) + tm_dots(size=.1, col="What.percentage.of.the.store.is.produce.", palette="Set1")
@@ -1230,13 +1288,14 @@ ethnicity_plus_health <- ethnicity_map_with_food_retailers + dots_health
 income_plus_health
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-43-1.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-42-1.png)<!-- -->
 
 ``` r
 ethnicity_plus_health
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-43-2.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-42-2.png)<!-- -->
+\#### Tables
 
 ``` r
 income_health_count <- intersection_join %>% 
@@ -1247,6 +1306,11 @@ income_health_count <- intersection_join %>%
 income_health_count[, c(1, 2, 3, 5, 4)]
 ```
 
+    ## Simple feature collection with 16 features and 4 fields
+    ## Geometry type: GEOMETRY
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 16 × 5
     ##    median_income     What.percentage.of.the.store.is.p… `number of ret…` percent
     ##    <chr>             <chr>                                         <int>   <dbl>
@@ -1278,6 +1342,11 @@ ethnicity_health_count <- intersection_2 %>%
 ethnicity_health_count[, c(1, 2, 3, 5, 4)]
 ```
 
+    ## Simple feature collection with 9 features and 4 fields
+    ## Geometry type: GEOMETRY
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 9 × 5
     ##   majority_ethnicity What.percentage.of.the.store.is.p… `number of ret…` percent
     ##   <chr>              <chr>                                         <int>   <dbl>
@@ -1291,6 +1360,10 @@ ethnicity_health_count[, c(1, 2, 3, 5, 4)]
     ## 8 White              10-25%                                            1    1.06
     ## 9 White              25-50%                                            5    5.32
     ## # … with 1 more variable: geometry <GEOMETRY [°]>
+
+### Fresh Produce
+
+#### Maps
 
 ``` r
 dots_produce <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.fresh.produce.available.", palette="Set1")
@@ -1311,13 +1384,14 @@ ethnicity_plus_produce <- ethnicity_map_with_food_retailers + dots_produce
 income_plus_produce
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-44-1.png)<!-- -->
 
 ``` r
 ethnicity_plus_produce
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-45-2.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-44-2.png)<!-- -->
+\#### Tables
 
 ``` r
 income_produce_count <- intersection_join %>% 
@@ -1328,6 +1402,11 @@ income_produce_count <- intersection_join %>%
 income_produce_count[, c(1, 2, 3, 5, 4)]
 ```
 
+    ## Simple feature collection with 9 features and 4 fields
+    ## Geometry type: GEOMETRY
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 9 × 5
     ##   median_income     Is.there.fresh.produce.available. `number of retai…` percent
     ##   <chr>             <chr>                                          <int>   <dbl>
@@ -1352,6 +1431,11 @@ ethnicity_produce_count <- intersection_2 %>%
 ethnicity_produce_count[, c(1, 2, 3, 5, 4)]
 ```
 
+    ## Simple feature collection with 5 features and 4 fields
+    ## Geometry type: GEOMETRY
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 5 × 5
     ##   majority_ethnicity Is.there.fresh.produce.available. `number of reta…` percent
     ##   <chr>              <chr>                                         <int>   <dbl>
@@ -1362,7 +1446,102 @@ ethnicity_produce_count[, c(1, 2, 3, 5, 4)]
     ## 5 White              Yes                                              33   35.1 
     ## # … with 1 more variable: geometry <GEOMETRY [°]>
 
-\##Cultural Relevance
+### Quantity of Produce
+
+#### Maps
+
+``` r
+dots_quantity <- tm_shape(primary_table) + tm_dots(size=.1, col="How.many.types.of.fresh.produce.are.available.", palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Median Household Income & Food Retailers",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_produce_quantity <- incomemap_with_food_retailers + dots_quantity
+ethnicity_plus_produce_quantity <- ethnicity_map_with_food_retailers + dots_quantity
+income_plus_produce_quantity
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
+
+``` r
+ethnicity_plus_produce_quantity
+```
+
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-46-2.png)<!-- -->
+\#### Tables
+
+``` r
+income_produce_quantity_count <- intersection_join %>% 
+  group_by(median_income, How.many.types.of.fresh.produce.are.available.) %>% 
+  count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
+  rename("number of retailers" = "n")
+income_produce_quantity_count[, c(1, 2, 3, 5, 4)]
+```
+
+    ## Simple feature collection with 38 features and 4 fields
+    ## Geometry type: GEOMETRY
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
+    ## # A tibble: 38 × 5
+    ##    median_income     How.many.types.of.fresh.produce.a… `number of ret…` percent
+    ##    <chr>                                          <dbl>            <int>   <dbl>
+    ##  1 110,001 - 145,000                                  0                8    8.51
+    ##  2 110,001 - 145,000                                  1                1    1.06
+    ##  3 110,001 - 145,000                                  2                1    1.06
+    ##  4 110,001 - 145,000                                  3                3    3.19
+    ##  5 110,001 - 145,000                                  4                1    1.06
+    ##  6 110,001 - 145,000                                  5                2    2.13
+    ##  7 110,001 - 145,000                                  6                1    1.06
+    ##  8 110,001 - 145,000                                  7                2    2.13
+    ##  9 110,001 - 145,000                                 10                1    1.06
+    ## 10 110,001 - 145,000                                 14                1    1.06
+    ## # … with 28 more rows, and 1 more variable: geom <GEOMETRY [°]>
+
+``` r
+ethnicity_produce_quantity_count <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, How.many.types.of.fresh.produce.are.available.) %>%
+  count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
+  rename("number of retailers" = "n")
+ethnicity_produce_quantity_count[, c(1, 2, 3, 5, 4)]
+```
+
+    ## Simple feature collection with 26 features and 4 fields
+    ## Geometry type: GEOMETRY
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
+    ## # A tibble: 26 × 5
+    ##    majority_ethnicity How.many.types.of.fresh.produce.… `number of ret…` percent
+    ##    <chr>                                          <dbl>            <int>   <dbl>
+    ##  1 Hispanic or Latinx                                 0               18   19.1 
+    ##  2 Hispanic or Latinx                                 1                6    6.38
+    ##  3 Hispanic or Latinx                                 2                1    1.06
+    ##  4 Hispanic or Latinx                                 3                2    2.13
+    ##  5 Hispanic or Latinx                                 6                1    1.06
+    ##  6 Hispanic or Latinx                                 8                1    1.06
+    ##  7 Hispanic or Latinx                                15                1    1.06
+    ##  8 Hispanic or Latinx                                29                1    1.06
+    ##  9 Hispanic or Latinx                                30                1    1.06
+    ## 10 Hispanic or Latinx                                50               20   21.3 
+    ## # … with 16 more rows, and 1 more variable: geometry <GEOMETRY [°]>
+
+## Cultural Relevance
+
+### Signage in Other Languages
+
+#### Maps
 
 ``` r
 dots_language <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.signage.in.other.languages.than.English." , palette="Set1")
@@ -1383,13 +1562,14 @@ ethnicity_plus_language <- ethnicity_map_with_food_retailers + dots_language
 income_plus_language
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-47-1.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-48-1.png)<!-- -->
 
 ``` r
 ethnicity_plus_language
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-47-2.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-48-2.png)<!-- -->
+\#### Tables
 
 ``` r
 income_language_count <- intersection_join %>% 
@@ -1400,6 +1580,11 @@ income_language_count <- intersection_join %>%
 income_language_count[, c(1, 2, 3, 5, 4)]
 ```
 
+    ## Simple feature collection with 8 features and 4 fields
+    ## Geometry type: MULTIPOINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 8 × 5
     ##   median_income     Is.there.signage.in.other.language… `number of ret…` percent
     ##   <chr>             <chr>                                          <int>   <dbl>
@@ -1423,6 +1608,11 @@ ethnicity_language_count <- intersection_2 %>%
 ethnicity_language_count[, c(1, 2, 3, 5, 4)]
 ```
 
+    ## Simple feature collection with 4 features and 4 fields
+    ## Geometry type: MULTIPOINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 4 × 5
     ##   majority_ethnicity Is.there.signage.in.other.languag… `number of ret…` percent
     ##   <chr>              <chr>                                         <int>   <dbl>
@@ -1431,6 +1621,10 @@ ethnicity_language_count[, c(1, 2, 3, 5, 4)]
     ## 3 White              No                                               25    26.6
     ## 4 White              Yes                                              17    18.1
     ## # … with 1 more variable: geometry <MULTIPOINT [°]>
+
+### Signage in Spanish
+
+#### Maps
 
 ``` r
 dots_other_languages <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.signage.in.Spanish." , palette="Set1")
@@ -1451,13 +1645,14 @@ ethnicity_plus_languages <- ethnicity_map_with_food_retailers + dots_other_langu
 income_plus_languages
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-49-1.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-50-1.png)<!-- -->
 
 ``` r
 ethnicity_plus_languages
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-49-2.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-50-2.png)<!-- -->
+\#### Tables
 
 ``` r
 income_other_language_count <- intersection_join %>% 
@@ -1468,6 +1663,11 @@ income_other_language_count <- intersection_join %>%
 income_other_language_count[, c(1, 2, 3, 5, 4)]
 ```
 
+    ## Simple feature collection with 8 features and 4 fields
+    ## Geometry type: GEOMETRY
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 8 × 5
     ##   median_income     Is.there.signage.in.Spanish. `number of retailers` percent
     ##   <chr>             <chr>                                        <int>   <dbl>
@@ -1491,6 +1691,11 @@ ethnicity_other_language_count <- intersection_2 %>%
 ethnicity_other_language_count[, c(1, 2, 3, 5, 4)]
 ```
 
+    ## Simple feature collection with 4 features and 4 fields
+    ## Geometry type: MULTIPOINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 4 × 5
     ##   majority_ethnicity Is.there.signage.in.Spanish. `number of retailers` percent
     ##   <chr>              <chr>                                        <int>   <dbl>
@@ -1500,7 +1705,9 @@ ethnicity_other_language_count[, c(1, 2, 3, 5, 4)]
     ## 4 White              Yes                                             16    17.0
     ## # … with 1 more variable: geometry <MULTIPOINT [°]>
 
-\#work in progress
+### LatinX Ethnic Food Section
+
+#### Maps
 
 ``` r
 dots_ethnic_section <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.a.Hispanic.Latinx.ethnic.foods.section." , palette="Set1")
@@ -1521,23 +1728,29 @@ ethnicity_plus_ethnic <- ethnicity_map_with_food_retailers + dots_ethnic_section
 income_plus_ethnic
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-51-1.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-52-1.png)<!-- -->
 
 ``` r
 ethnicity_plus_ethnic
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-51-2.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-52-2.png)<!-- -->
+\#### Tables
 
 ``` r
-income_ethnic_count <- intersection_join %>% 
+income_ethnic_section_count <- intersection_join %>% 
   group_by(median_income, Is.there.a.Hispanic.Latinx.ethnic.foods.section.) %>% 
   count() %>%
   mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-income_ethnic_count[, c(1, 2, 3, 5, 4)]
+income_ethnic_section_count[, c(1, 2, 3, 5, 4)]
 ```
 
+    ## Simple feature collection with 7 features and 4 fields
+    ## Geometry type: MULTIPOINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 7 × 5
     ##   median_income     Is.there.a.Hispanic.Latinx.ethnic.… `number of ret…` percent
     ##   <chr>             <chr>                                          <int>   <dbl>
@@ -1551,15 +1764,51 @@ income_ethnic_count[, c(1, 2, 3, 5, 4)]
     ## # … with 1 more variable: geom <MULTIPOINT [°]>
 
 ``` r
-ethnicity_ethnic_count <- intersection_2 %>%
+income_ethnic_section_count_non_nat <- intersection_join %>% 
+  group_by(median_income, Is.there.a.Hispanic.Latinx.ethnic.foods.section., Are.there.options.besides.national.name.brand.ethnic.foods.) %>% 
+  count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
+  rename("number of retailers" = "n")
+income_ethnic_section_count_non_nat[, c(1, 2, 3, 4, 6, 5)]
+```
+
+    ## Simple feature collection with 12 features and 5 fields
+    ## Geometry type: GEOMETRY
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
+    ## # A tibble: 12 × 6
+    ##    median_income     Is.there.a.Hispa… Are.there.optio… `number of ret…` percent
+    ##    <chr>             <chr>             <chr>                       <int>   <dbl>
+    ##  1 110,001 - 145,000 No                <NA>                           24   25.5 
+    ##  2 110,001 - 145,000 Yes               No                              2    2.13
+    ##  3 110,001 - 145,000 Yes               Yes                             5    5.32
+    ##  4 145,001 - 180,000 No                Yes                             1    1.06
+    ##  5 145,001 - 180,000 No                <NA>                            7    7.45
+    ##  6 40,000 - 75,000   No                <NA>                            5    5.32
+    ##  7 40,000 - 75,000   Yes               No                              1    1.06
+    ##  8 40,000 - 75,000   Yes               Yes                             6    6.38
+    ##  9 75,001 - 110,000  No                Yes                             2    2.13
+    ## 10 75,001 - 110,000  No                <NA>                           26   27.7 
+    ## 11 75,001 - 110,000  Yes               No                              1    1.06
+    ## 12 75,001 - 110,000  Yes               Yes                            14   14.9 
+    ## # … with 1 more variable: geom <GEOMETRY [°]>
+
+``` r
+ethnicity_ethnic_section_count <- intersection_2 %>%
   rename("majority_ethnicity" = "Majority") %>%
   group_by(majority_ethnicity, Is.there.a.Hispanic.Latinx.ethnic.foods.section.) %>%
   count() %>%
   mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-ethnicity_ethnic_count[, c(1, 2, 3, 5, 4)]
+ethnicity_ethnic_section_count[, c(1, 2, 3, 5, 4)]
 ```
 
+    ## Simple feature collection with 4 features and 4 fields
+    ## Geometry type: MULTIPOINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 4 × 5
     ##   majority_ethnicity Is.there.a.Hispanic.Latinx.ethnic… `number of ret…` percent
     ##   <chr>              <chr>                                         <int>   <dbl>
@@ -1569,7 +1818,39 @@ ethnicity_ethnic_count[, c(1, 2, 3, 5, 4)]
     ## 4 White              Yes                                               4    4.26
     ## # … with 1 more variable: geometry <MULTIPOINT [°]>
 
-\##Sustainability \###Environmental Sustainability
+``` r
+ethnicity_ethnic_section_count_non_nat <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, Is.there.a.Hispanic.Latinx.ethnic.foods.section., Are.there.options.besides.national.name.brand.ethnic.foods.) %>%
+  count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
+  rename("number of retailers" = "n")
+ethnicity_ethnic_section_count_non_nat[, c(1, 2, 3, 4, 6, 5)]
+```
+
+    ## Simple feature collection with 8 features and 5 fields
+    ## Geometry type: GEOMETRY
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
+    ## # A tibble: 8 × 6
+    ##   majority_ethnicity Is.there.a.Hispa… Are.there.optio… `number of ret…` percent
+    ##   <chr>              <chr>             <chr>                       <int>   <dbl>
+    ## 1 Hispanic or Latinx No                Yes                             2    2.13
+    ## 2 Hispanic or Latinx No                <NA>                           25   26.6 
+    ## 3 Hispanic or Latinx Yes               No                              2    2.13
+    ## 4 Hispanic or Latinx Yes               Yes                            23   24.5 
+    ## 5 White              No                Yes                             1    1.06
+    ## 6 White              No                <NA>                           37   39.4 
+    ## 7 White              Yes               No                              2    2.13
+    ## 8 White              Yes               Yes                             2    2.13
+    ## # … with 1 more variable: geometry <GEOMETRY [°]>
+
+## Sustainability
+
+### Environmental Sustainability
+
+#### Maps
 
 ``` r
 dots_environment <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.signage.or.visible.documentation.of.environmental.work.or.actions." , palette="Set1")
@@ -1590,13 +1871,14 @@ ethnicity_plus_env <- ethnicity_map_with_food_retailers + dots_environment
 income_plus_env
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-53-1.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-54-1.png)<!-- -->
 
 ``` r
 ethnicity_plus_env
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-53-2.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-54-2.png)<!-- -->
+\####Tables
 
 ``` r
 income_env_count <- intersection_join %>% 
@@ -1607,6 +1889,11 @@ income_env_count <- intersection_join %>%
 income_env_count[, c(1, 2, 3, 5, 4)]
 ```
 
+    ## Simple feature collection with 8 features and 4 fields
+    ## Geometry type: GEOMETRY
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 8 × 5
     ##   median_income     Is.there.signage.or.visible.docume… `number of ret…` percent
     ##   <chr>             <chr>                                          <int>   <dbl>
@@ -1630,6 +1917,11 @@ ethnicity_env_count <- intersection_2 %>%
 ethnicity_env_count[, c(1, 2, 3, 5, 4)]
 ```
 
+    ## Simple feature collection with 4 features and 4 fields
+    ## Geometry type: MULTIPOINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 4 × 5
     ##   majority_ethnicity Is.there.signage.or.visible.docum… `number of ret…` percent
     ##   <chr>              <chr>                                         <int>   <dbl>
@@ -1639,14 +1931,16 @@ ethnicity_env_count[, c(1, 2, 3, 5, 4)]
     ## 4 White              Yes                                              14    14.9
     ## # … with 1 more variable: geometry <MULTIPOINT [°]>
 
-\###Social Sustainability
+### Social Sustainability
+
+#### Maps
 
 ``` r
 dots_social <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions." , palette="Set1")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
              tm_polygons("median_income") +
-             tm_layout(main.title="Median Household Income & Food Retailers",
+             tm_layout(main.title="Income and Social Sustainability",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
              tm_legend(position = c("right", "top"),
@@ -1656,17 +1950,21 @@ incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              legend.text.size = 1.2) +
   tm_compass(position = c("left", "top"))
 income_plus_social <- incomemap_with_food_retailers + dots_social
-ethnicity_plus_social <- ethnicity_map_with_food_retailers + dots_social
+ethnicity_plus_social <- ethnicity_map_with_food_retailers + dots_social +
+  tm_layout(main.title = "Ethnicity and Social Sustainability",
+            main.title.position = "centre",
+            main.title.size = 1.6)
 income_plus_social
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-55-1.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-56-1.png)<!-- -->
 
 ``` r
 ethnicity_plus_social
 ```
 
-![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-55-2.png)<!-- -->
+![](Honors-Thesis-Workbook_files/figure-gfm/unnamed-chunk-56-2.png)<!-- -->
+\#### Tables
 
 ``` r
 income_social_count <- intersection_join %>% 
@@ -1677,6 +1975,11 @@ income_social_count <- intersection_join %>%
 income_social_count[, c(1, 2, 3, 5, 4)]
 ```
 
+    ## Simple feature collection with 8 features and 4 fields
+    ## Geometry type: MULTIPOINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 8 × 5
     ##   median_income     Is.there.signage.or.visible.docume… `number of ret…` percent
     ##   <chr>             <chr>                                          <int>   <dbl>
@@ -1701,6 +2004,11 @@ ethnicity_social_count <- intersection_2 %>%
 ethnicity_social_count[, c(1, 2, 3, 5, 4)]
 ```
 
+    ## Simple feature collection with 4 features and 4 fields
+    ## Geometry type: MULTIPOINT
+    ## Dimension:     XY
+    ## Bounding box:  xmin: -122.4247 ymin: 37.74864 xmax: -122.4061 ymax: 37.77306
+    ## Geodetic CRS:  WGS 84
     ## # A tibble: 4 × 5
     ##   majority_ethnicity `Social Sustainability?` `number of retailers` percent
     ##   <chr>              <chr>                                    <int>   <dbl>
