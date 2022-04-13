@@ -1,14 +1,11 @@
 ---
-title: 'Final Project: The Socioeconomic and Food Reatil Landscape of San Francisco''s
-  Mission District'
-authors: Fischer Heimburger (@fheimburger97) & Caroline Mahdavi (@cmahdavi)
+title: "Urban Food Sovereignty: A Case Study of San Francisco's Mission District"
+authors: Fischer Heimburger (@fheimburger97)
 output:
-  github_document:
-    df_print: 
   html_document:
     df_print: paged
 ---
-By: Fischer Heimburger (@fheimburger97) & Caroline Mahdavi (@cmahdavi)
+By: Fischer Heimburger (@fheimburger97)
 
 # Introduction
 The Mission District (known as "This Mission") in San Francisco known for it's widening economic inequity, relatively high ethnic diversity--including being a local hub for Latinx culture and heritage, and vibrant food scene. This research seeks to first cultivate an understanding of the socio-economic landscape of the Mission District, and then initiate research on how this landscape is reflected in the distribution of food retailers.
@@ -43,7 +40,7 @@ install.packages("tidycensus")
 install.packages("ggmap")
 library(tidycensus)
 library(ggmap)
-tmap_mode("plot")
+tmap_mode("view")
 
 knitr::opts_chunk$set(echo = TRUE)
 ```
