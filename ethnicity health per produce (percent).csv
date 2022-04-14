@@ -1,0 +1,10 @@
+majority_ethnicity,What.percentage.of.the.store.is.produce.,number of retailers,percent,percent_of_percent_produce
+Hispanic or Latinx,0,18,19.14893617,66.66666667
+Hispanic or Latinx,<10%,13,13.82978723,32.5
+Hispanic or Latinx,10-25%,7,7.446808511,87.5
+Hispanic or Latinx,25-50%,10,10.63829787,66.66666667
+Hispanic or Latinx,>50%,4,4.255319149,100
+White,0,9,9.574468085,33.33333333
+White,<10%,27,28.72340426,67.5
+White,10-25%,1,1.063829787,12.5
+White,25-50%,5,5.319148936,33.33333333

@@ -600,7 +600,7 @@ income_health_count <- intersection_join %>%
   count() %>%
   mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-income_health_count[, c(1, 2, 3, 5, 4)]
+income_health_count_crv <- income_health_count[, c(1, 2, 3, 5, 4)]
 
 ethnicity_health_count <- intersection_2 %>%
   rename("majority_ethnicity" = "Majority") %>%
@@ -608,7 +608,13 @@ ethnicity_health_count <- intersection_2 %>%
   count() %>%
   mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-ethnicity_health_count[, c(1, 2, 3, 5, 4)]
+ethnicity_health_count_crv <- ethnicity_health_count[, c(1, 2, 3, 5, 4)]
+#write.csv(income_health_count_crv, "income health per produce.csv")
+#write.csv(ethnicity_health_count_crv, "ethnicity health per produce.csv")
+per_produce_income <- read_csv("income health per produce (percent).csv") %>% select(-percent)
+per_produce_ethnicity <- read_csv("ethnicity health per produce (percent).csv") %>% select(-percent)
+per_produce_income
+per_produce_ethnicity
 ```
 
 ### Fresh Produce
@@ -673,22 +679,62 @@ ethnicity_plus_produce_quantity <- ethnicity_map_with_food_retailers + dots_quan
 income_plus_produce_quantity
 ethnicity_plus_produce_quantity
 ```
+
+produce_quantity_w_bin <- intersection_join %>%
+  mutate(produce_quantity_bins = case_when(
+    How.many.types.of.fresh.produce.are.available. <= 10 ~ "0 to 10",
+    How.many.types.of.fresh.produce.are.available. >= 11 & How.many.types.of.fresh.produce.are.available. <= 20 ~ "11 to 20",
+    How.many.types.of.fresh.produce.are.available. >= 21 & How.many.types.of.fresh.produce.are.available. <= 30 ~ "21 to 30",
+    How.many.types.of.fresh.produce.are.available. >= 31 & How.many.types.of.fresh.produce.are.available. <= 40 ~ "31 to 40",
+    How.many.types.of.fresh.produce.are.available. >= 41 ~ "41 to 50+")) %>%
+  rename("Income in Dollars" = hinc_18)
+  #rename("Median Income" = median_income)
+incomejoin_test <-left_join(gfile, medianincome_test, by = "GEOID")
+incomejoin_test
+
+
+
+
+
 #### Tables
 ```{r}
-income_produce_quantity_count <- intersection_join %>% 
-  group_by(median_income, How.many.types.of.fresh.produce.are.available.) %>% 
-  count() %>%
-  mutate(percent = (n / nrow(primary_table)) * 100) %>%
-  rename("number of retailers" = "n")
-income_produce_quantity_count[, c(1, 2, 3, 5, 4)]
+produce_quantity_w_bin <- intersection_join %>%
+  mutate(produce_quantity_bins = case_when(
+    How.many.types.of.fresh.produce.are.available. <= 10 ~ "0 to 10",
+    How.many.types.of.fresh.produce.are.available. >= 11 & How.many.types.of.fresh.produce.are.available. <= 20 ~ "11 to 20",
+    How.many.types.of.fresh.produce.are.available. >= 21 & How.many.types.of.fresh.produce.are.available. <= 30 ~ "21 to 30",
+    How.many.types.of.fresh.produce.are.available. >= 31 & How.many.types.of.fresh.produce.are.available. <= 40 ~ "31 to 40",
+    How.many.types.of.fresh.produce.are.available. >= 41 ~ "41 to 50+"))
 
-ethnicity_produce_quantity_count <- intersection_2 %>%
-  rename("majority_ethnicity" = "Majority") %>%
-  group_by(majority_ethnicity, How.many.types.of.fresh.produce.are.available.) %>%
+produce_quantity_w_bin_2 <- intersection_2 %>%
+  mutate(produce_quantity_bins = case_when(
+    How.many.types.of.fresh.produce.are.available. <= 10 ~ "0 to 10",
+    How.many.types.of.fresh.produce.are.available. >= 11 & How.many.types.of.fresh.produce.are.available. <= 20 ~ "11 to 20",
+    How.many.types.of.fresh.produce.are.available. >= 21 & How.many.types.of.fresh.produce.are.available. <= 30 ~ "21 to 30",
+    How.many.types.of.fresh.produce.are.available. >= 31 & How.many.types.of.fresh.produce.are.available. <= 40 ~ "31 to 40",
+    How.many.types.of.fresh.produce.are.available. >= 41 ~ "41 to 50+"))
+
+income_produce_quantity_count <- produce_quantity_w_bin %>% 
+  group_by(median_income, produce_quantity_bins) %>% 
   count() %>%
   mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-ethnicity_produce_quantity_count[, c(1, 2, 3, 5, 4)]
+produce_quantity_income <- income_produce_quantity_count[, c(1, 2, 3, 5, 4)]
+
+ethnicity_produce_quantity_count <- produce_quantity_w_bin_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, produce_quantity_bins) %>%
+  count() %>%
+  mutate(percent = (n / nrow(primary_table)) * 100) %>%
+  rename("number of retailers" = "n")
+produce_quantity_ethnicity <- ethnicity_produce_quantity_count[, c(1, 2, 3, 5, 4)]
+
+#write.csv(produce_quantity_income, "produce_quantity_income.csv")
+#write.csv(produce_quantity_ethnicity, "produce_quantity_ethnicity.csv")
+per_produce_quantity_income <- read_csv("produce_quantity_income (percent).csv")
+per_produce_quantity_ethnicity <- read_csv("produce_quantity_ethnicity (percent).csv")
+per_produce_quantity_income
+per_produce_quantity_ethnicity
 ```
 
 ## Cultural Relevance
