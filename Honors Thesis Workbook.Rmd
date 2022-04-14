@@ -536,6 +536,7 @@ ethnicity_price_count <- primary_table_price %>%
   rename("number of retailers" = "n")
 ethnicity_price_count[, c(1, 2, 3, 5, 4)]
 ```
+
 ### EBT
 #### Maps
 ```{r}
