@@ -40,7 +40,7 @@ install.packages("tidycensus")
 install.packages("ggmap")
 library(tidycensus)
 library(ggmap)
-tmap_mode("view")
+tmap_mode("plot")
 
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -526,7 +526,7 @@ income_price_count <- primary_table_price %>%
   count() %>%
   mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-income_price_count[, c(1, 2, 3, 5, 4)]
+income_price_print <- income_price_count[, c(1, 2, 3, 5, 4)]
 
 ethnicity_price_count <- primary_table_price %>%
   rename("majority_ethnicity" = "Majority.x") %>%
@@ -534,7 +534,12 @@ ethnicity_price_count <- primary_table_price %>%
   count() %>%
   mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
-ethnicity_price_count[, c(1, 2, 3, 5, 4)]
+ethnicity_price_print <- ethnicity_price_count[, c(1, 2, 3, 5, 4)]
+#Translated via excel, then brought back in:
+price_table_percent_income <- read_csv("Income Price Table (percent).csv")
+price_table_percent_ethnicity <- read_csv("Ethnicity Price Table (percent).csv")
+price_table_percent_income
+price_table_percent_ethnicity
 ```
 
 ### EBT
@@ -550,16 +555,17 @@ ethnicity_plus_ebt
 income_ebt_count <- intersection_join %>% 
   group_by(median_income, EBT.Accepted.) %>% 
   count() %>%
-  mutate(percent = (n / nrow(primary_table)) * 100) %>%
-  rename("number of retailers" = "n") %>%
-  slice(match(costum_order, median_income))
+  filter(EBT.Accepted. == "Yes") %>%
+  mutate(percent_ebt = (n / sum(n)) * 100) %>%
+  rename("number of retailers" = "n")
 income_ebt_count[, c(1, 2, 3, 5, 4)]
 
 ethnicity_ebt_count <- intersection_2 %>%
   rename("majority_ethnicity" = "Majority") %>%
   group_by(majority_ethnicity, EBT.Accepted.) %>%
   count() %>%
-  mutate(percent = (n / nrow(primary_table)) * 100) %>%
+  filter(EBT.Accepted. == "Yes") %>%
+  mutate(percent_ebt = (n / sum(n)) * 100) %>%
   rename("number of retailers" = "n")
 ethnicity_ebt_count[, c(1, 2, 3, 5, 4)]
 ```
@@ -631,7 +637,8 @@ ethnicity_plus_produce
 income_produce_count <- intersection_join %>% 
   group_by(median_income, Is.there.fresh.produce.available.) %>% 
   count() %>%
-  mutate(percent = (n / nrow(primary_table)) * 100) %>%
+  filter(Is.there.fresh.produce.available. == "Yes") %>%
+  mutate(percent_produce = (n / sum(n)) * 100) %>%
   rename("number of retailers" = "n")
 income_produce_count[, c(1, 2, 3, 5, 4)]
 
@@ -639,7 +646,8 @@ ethnicity_produce_count <- intersection_2 %>%
   rename("majority_ethnicity" = "Majority") %>%
   group_by(majority_ethnicity, Is.there.fresh.produce.available.) %>%
   count() %>%
-  mutate(percent = (n / nrow(primary_table)) * 100) %>%
+  filter(Is.there.fresh.produce.available. == "Yes") %>%
+  mutate(percent_produce = (n / sum(n)) * 100) %>%
   rename("number of retailers" = "n")
 ethnicity_produce_count[, c(1, 2, 3, 5, 4)]
 ```
