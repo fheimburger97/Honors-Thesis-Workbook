@@ -323,7 +323,7 @@ tm_shape(retail_map) + tm_dots()
 
 #### Figure 5.1: Food Retailers and Median Household Income in the Mission District
 ```{r warning=FALSE}
-dots <- tm_shape(retail_map) + tm_dots(col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
+dots <- tm_shape(retail_map) + tm_dots(size = .1, col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
              tm_polygons("median_income") +
@@ -343,7 +343,7 @@ income_map_with_retail
 #### Figure 5.2: Food Retailers and Racial Majorities in the Mission District
 *
 ```{r warning=FALSE}
-dots <- tm_shape(retail_map) + tm_dots(col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
+dots <- tm_shape(retail_map) + tm_dots(size = .1, col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
 ethnicity_map_with_food_retailers <-
   tm_shape(mission_percents_clean) +
   tm_polygons("Majority") +
@@ -440,7 +440,7 @@ int_result <- intersection_join %>%
 as.data.frame(int_result)
 ```
 
-
+___________________________________________________________________________________________________________
 
 # Results (lens of Agency)
 
@@ -492,6 +492,7 @@ price_table <- primary_table %>%
   mutate(brocolli_quartile = cut(primary_table$Standardized.Brocolli_lbs, quantile(primary_table$Standardized.Brocolli_lbs, na.rm = TRUE),include.lowest=TRUE,labels=FALSE)) %>%
   st_drop_geometry()
 price_table$mean_quartile <- rowMeans(price_table[ , c("egg_quartile", "milk_quartile", "orange_quartile", "avocado_quartile", "carrots_quartile", "brocolli_quartile")], na.rm=TRUE)
+
 price_map <- price_table %>%
   mutate(price_quartile = cut(price_table$mean_quartile, quantile(price_table$mean_quartile, na.rm = TRUE),include.lowest=TRUE,labels=FALSE))
 price_map
@@ -499,9 +500,7 @@ price_map
 primary_table_price <- left_join(primary_table, price_map, by = "Timestamp")
 primary_table_price
 ```
-colorFactor(palette =  c("#F5DCA4","#E8A46A","#D16769","#B74146"), 
-            domain = zipcodes@data$risk.factor,
-            na.color = NA)
+
 #### Maps
 ```{r}
 dots_price <- tm_shape(primary_table_price) + tm_dots(size=.1, col="price_quartile", palette="Set1", showNA = FALSE)
@@ -528,7 +527,7 @@ income_price_count <- primary_table_price %>%
   rename("median_income" = "median_income.x") %>%
   group_by(median_income, price_quartile) %>% 
   count() %>%
-  mutate(percent = (n / nrow(primary_table)) * 100) %>%
+  mutate(percent = (n / sum(n)) * 100) %>%
   rename("number of retailers" = "n")
 income_price_print <- income_price_count[, c(1, 2, 3, 5, 4)]
 
@@ -562,6 +561,7 @@ income_ebt_count <- intersection_join %>%
   filter(EBT.Accepted. == "Yes") %>%
   mutate(percent_ebt = (n / sum(n)) * 100) %>%
   rename("number of retailers" = "n") %>%
+  slice(match(costum_order, median_income)) %>%
   st_drop_geometry()
 income_ebt_count
 
@@ -652,6 +652,7 @@ income_produce_count <- intersection_join %>%
   filter(Is.there.fresh.produce.available. == "Yes") %>%
   mutate(percent_produce = (n / sum(n)) * 100) %>%
   rename("number of retailers" = "n") %>%
+  slice(match(costum_order, median_income)) %>%
   st_drop_geometry()
 income_produce_count
 
@@ -758,6 +759,7 @@ income_language_count <- intersection_join %>%
   filter(Is.there.signage.in.other.languages.than.English. == "Yes") %>%
   mutate(percent_with_other_language = (n / sum(n)) * 100) %>%
   rename("number of retailers" = "n") %>%
+  slice(match(costum_order, median_income)) %>%
   st_drop_geometry()
 income_language_count
 
@@ -801,6 +803,7 @@ income_other_language_count <- intersection_join %>%
   filter(Is.there.signage.in.Spanish. == "Yes") %>%
   mutate(percent_with_spanish_signage = (n / sum(n)) * 100) %>%
   rename("number of retailers" = "n") %>%
+  slice(match(costum_order, median_income)) %>%
   st_drop_geometry()
 income_other_language_count
 
@@ -837,12 +840,14 @@ ethnicity_plus_ethnic
 ```
 #### Tables
 ```{r}
+costum_order_2 <- c("40,000 - 75,000", "75,001 - 110,000", "110,001 - 145,000")
 income_ethnic_section_count <- intersection_join %>% 
   group_by(median_income, Is.there.a.Hispanic.Latinx.ethnic.foods.section.) %>% 
   count() %>%
   filter(Is.there.a.Hispanic.Latinx.ethnic.foods.section. == "Yes") %>%
   mutate(perc_with_LatinX_ethnic_section = (n / sum(n)) * 100) %>%
   rename("number of retailers" = "n") %>%
+  slice(match(costum_order_2, median_income)) %>%
   st_drop_geometry()
 income_ethnic_section_count
 
@@ -853,6 +858,7 @@ income_ethnic_section_count_non_nat <- intersection_join %>%
   filter(Are.there.options.besides.national.name.brand.ethnic.foods. == "Yes") %>%
   mutate(perc_with_LatinX_non_national_ethnic_sections = (n / sum(n)) * 100) %>%
   rename("number of retailers" = "n") %>%
+  slice(match(costum_order_2, median_income)) %>%
   st_drop_geometry()
 income_ethnic_section_count_non_nat
 
@@ -909,6 +915,7 @@ income_env_count <- intersection_join %>%
   filter(Is.there.signage.or.visible.documentation.of.environmental.work.or.actions. == "Yes") %>%
   mutate(perc_with_env_signage = (n / sum(n)) * 100) %>%
   rename("number of retailers" = "n") %>%
+  slice(match(costum_order, median_income)) %>%
   st_drop_geometry()
 income_env_count
 
@@ -956,6 +963,7 @@ income_social_count <- intersection_join %>%
   mutate(perc_with_social_signage = (n / sum(n)) * 100) %>%
   rename("number of retailers" = "n") %>%
   rename("Social Sustainability?" = "Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.") %>%
+  slice(match(costum_order, median_income)) %>%
   st_drop_geometry()
 income_social_count
 
@@ -970,3 +978,53 @@ ethnicity_social_count <- intersection_2 %>%
   st_drop_geometry()
 ethnicity_social_count
 ```
+
+```{r}
+dots_organic <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.organic.produce.available." , palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+             tm_style("watercolor") +
+             tm_polygons("median_income") +
+             tm_layout(main.title="Income and Organic",
+                       main.title.position = "centre",
+                       main.title.size = 1.6) +
+             tm_legend(position = c("right", "top"),
+             legend.outside = TRUE,
+             legend.outside.size = .35,
+             legend.title.size = 1.5,
+             legend.text.size = 1.2) +
+  tm_compass(position = c("left", "top"))
+income_plus_organic <- incomemap_with_food_retailers + dots_organic
+ethnicity_plus_organic <- ethnicity_map_with_food_retailers + dots_organic +
+  tm_layout(main.title = "Ethnicity and Organic",
+            main.title.position = "centre",
+            main.title.size = 1.6)
+income_plus_organic
+ethnicity_plus_organic
+```
+
+
+```{r}
+costum_order_3 <- c("75,001 - 110,000", "110,001 - 145,000", "145,001 - 180,000")
+income_organic_count <- intersection_join %>% 
+  group_by(median_income, Is.there.organic.produce.available.) %>% 
+  count() %>%
+  filter(Is.there.organic.produce.available. == "Yes") %>%
+  mutate(perc_with_organic = (n / sum(n)) * 100) %>%
+  rename("number of retailers" = "n") %>%
+  slice(match(costum_order_3, median_income)) %>%
+  st_drop_geometry()
+income_organic_count
+
+ethnicity_organic_count <- intersection_2 %>%
+  rename("majority_ethnicity" = "Majority") %>%
+  group_by(majority_ethnicity, Is.there.organic.produce.available.) %>%
+  count() %>% 
+  filter(Is.there.organic.produce.available. == "Yes") %>%
+  mutate(perc_with_social_signage = (n / sum(n)) * 100) %>%
+  rename("number of retailers" = "n") %>%
+  st_drop_geometry()
+ethnicity_organic_count
+```
+
+
+
