@@ -89,10 +89,10 @@ incomejoin
 medianincome_test <- demographics %>%
   select(GEOID, hinc_18) %>%
   mutate(median_income = case_when(
-    hinc_18 <= 75000 ~ "40,000 - 75,000",
-    hinc_18 >= 75001 & hinc_18 <= 110000 ~ "75,001 - 110,000",
-    hinc_18 >= 110001 & hinc_18 <= 145000 ~ "110,001 - 145,000",
-    hinc_18 >= 145001 ~ "145,001 - 180,000")) %>%
+    hinc_18 <= 75000 ~ "$40,000 - $75,000",
+    hinc_18 >= 75001 & hinc_18 <= 110000 ~ "$75,001 - $110,000",
+    hinc_18 >= 110001 & hinc_18 <= 145000 ~ "$110,001 - $145,000",
+    hinc_18 >= 145001 ~ "$145,001 - $180,000")) %>%
   rename("Income in Dollars" = hinc_18)
   #rename("Median Income" = median_income)
 incomejoin_test <-left_join(gfile, medianincome_test, by = "GEOID")
@@ -343,10 +343,12 @@ income_map_with_retail
 #### Figure 5.2: Food Retailers and Racial Majorities in the Mission District
 *
 ```{r warning=FALSE}
+mission_percents_clean_title <- mission_percents_clean %>%
+  rename("Majority Ethnicity" = "Majority")
 dots <- tm_shape(retail_map) + tm_dots(size = .1, col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
 ethnicity_map_with_food_retailers <-
-  tm_shape(mission_percents_clean) +
-  tm_polygons("Majority") +
+  tm_shape(mission_percents_clean_title) +
+  tm_polygons("Majority Ethnicity") +
   tm_style("watercolor") +
   tm_layout(main.title = "Racial Typography & Food Retailers",
             main.title.position = "centre",
@@ -503,11 +505,17 @@ primary_table_price
 
 #### Maps
 ```{r}
-dots_price <- tm_shape(primary_table_price) + tm_dots(size=.1, col="price_quartile", palette="Set1", showNA = FALSE)
-incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+incomejoin_test_title <- incomejoin_test %>%
+  rename("Median Household Income" = "median_income")
+primary_table_price_title <- primary_table_price %>%
+  rename("Number of Produce Options" = "How.many.types.of.fresh.produce.are.available.") %>%
+  rename("Price Quartile" = "price_quartile")
+  
+dots_price <- tm_shape(primary_table_price_title) + tm_dots(size=.1, col="Price Quartile", palette="Set1", showNA = TRUE)
+incomemap_with_food_retailers <- tm_shape(incomejoin_test_title) +
              tm_style("watercolor") +
-             tm_polygons("median_income") +
-             tm_layout(main.title="Median Household Income & Food Retailers",
+             tm_polygons("Median Household Income") +
+             tm_layout(main.title="Median Household Income & Price Quartiles",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
              tm_legend(position = c("right", "top"),
@@ -517,7 +525,10 @@ incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              legend.text.size = 1.2) +
   tm_compass(position = c("left", "top"))
 income_plus_price <- incomemap_with_food_retailers + dots_price
-ethnicity_plus_price <- ethnicity_map_with_food_retailers + dots_price
+ethnicity_plus_price <- ethnicity_map_with_food_retailers + dots_price + 
+  tm_layout(main.title = "Majority Ethnicity & Price Quartiles",
+            main.title.position = "centre",
+            main.title.size = 1.6)
 income_plus_price
 ethnicity_plus_price
 ```
@@ -546,8 +557,16 @@ quartile_counts <- primary_table_price %>%
   rename("number of retailers" = "n")
 quartile_counts
 #Translated via excel, then brought back in:
-price_table_percent_income <- read_csv("Income Price Table (percent).csv")
-price_table_percent_ethnicity <- read_csv("Ethnicity Price Table (percent).csv")
+price_table_percent_income <- read_csv("Income Price Table (percent).csv") %>%
+  rename("Median Income" = "median_income") %>%
+  rename("Price Quartile" = "price_quartile") %>%
+  rename("Percent of Respective Quartile" = "percent of quartile") %>%
+  rename("Number of Retailers" = "number of retailers")
+price_table_percent_ethnicity <- read_csv("Ethnicity Price Table (percent).csv") %>%
+  rename("Majority Ethnicity" = "majority_ethnicity") %>%
+  rename("Price Quartile" = "price_quartile") %>%
+  rename("Percent of Respective Quartile" = "percent of quartile") %>%
+  rename("Number of Retailers" = "number of retailers")
 price_table_percent_income
 price_table_percent_ethnicity
 ```
@@ -702,11 +721,15 @@ ethnicity_produce_count
 ### Quantity of Produce
 #### Maps
 ```{r}
-dots_quantity <- tm_shape(primary_table) + tm_dots(size=.1, col="How.many.types.of.fresh.produce.are.available.", palette="Set1")
-incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
+primary_table_title <- primary_table %>%
+  rename("Number of Produce Options" = "How.many.types.of.fresh.produce.are.available.") %>%
+  rename("Median Household Income" = "median_income")
+
+dots_quantity <- tm_shape(primary_table_title) + tm_dots(size=.1, col="Number of Produce Options", palette="Set1")
+incomemap_with_food_retailers <- tm_shape(incomejoin_test_title) +
              tm_style("watercolor") +
-             tm_polygons("median_income") +
-             tm_layout(main.title="Median Household Income & Food Retailers",
+             tm_polygons("Median Household Income") +
+             tm_layout(main.title="Median Household Income & Produce Diversity",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
              tm_legend(position = c("right", "top"),
@@ -716,7 +739,10 @@ incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              legend.text.size = 1.2) +
   tm_compass(position = c("left", "top"))
 income_plus_produce_quantity <- incomemap_with_food_retailers + dots_quantity
-ethnicity_plus_produce_quantity <- ethnicity_map_with_food_retailers + dots_quantity
+ethnicity_plus_produce_quantity <- ethnicity_map_with_food_retailers + dots_quantity +
+  tm_layout(main.title = "Majority Ethnicity and Produce Diversity",
+            main.title.position = "centre",
+            main.title.size = 1.6)
 income_plus_produce_quantity
 ethnicity_plus_produce_quantity
 ```
