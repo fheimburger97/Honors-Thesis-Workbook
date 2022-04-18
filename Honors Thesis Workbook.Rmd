@@ -106,9 +106,9 @@ incomejoin_test
 #### Figure 1.1: Mapping Median Household Income in the Mission District
 Using **tmap** and our **incomejoin** table, we then create a map showing median household income across census tracts in the Mission District.
 ```{r message=FALSE, warning=FALSE}
-incomemap_2 <- tm_shape(incomejoin_test) +
+incomemap_2_leaf <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
-             tm_polygons("median_income") +
+             tm_polygons("median_income", alpha=.75) +
              tm_layout(main.title="Median Household Income",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
@@ -118,6 +118,7 @@ incomemap_2 <- tm_shape(incomejoin_test) +
              legend.title.size = 1.5,
              legend.text.size = 1.2) +
   tm_compass(position = c("left", "top"))
+incomemap_2 <- tmap_leaflet(incomemap_2_leaf) %>% addTiles()
 incomemap_2
 ```
 
