@@ -40,7 +40,8 @@ install.packages("tidycensus")
 install.packages("ggmap")
 library(tidycensus)
 library(ggmap)
-tmap_mode("plot")
+tmap_mode("view")
+tm_basemap("OpenStreetMap")
 
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -120,6 +121,8 @@ incomemap_2_leaf <- tm_shape(incomejoin_test) +
   tm_compass(position = c("left", "top"))
 incomemap_2 <- tmap_leaflet(incomemap_2_leaf) %>% addTiles()
 incomemap_2
+tmap_save(incomemap_2_leaf, "attempt_1.png")
+class(incomemap_2)
 ```
 
 ## II Tract Racial Typology
@@ -213,8 +216,7 @@ mission_percents_clean
 
 -
 ```{r}
-ethnic_map <-
-  tm_shape(mission_percents_clean) +
+ethnic_map <- tm_basemap("OpenStreetMap") + tm_shape(mission_percents_clean) +
   tm_polygons("Majority") +
   tm_style("watercolor") +
   tm_layout(main.title = "Racial Typography",
