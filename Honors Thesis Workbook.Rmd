@@ -40,8 +40,10 @@ install.packages("tidycensus")
 install.packages("ggmap")
 library(tidycensus)
 library(ggmap)
+install.packages("OpenStreetMap")
+install.packages("tmaptools")
+install.packages("DT")
 tmap_mode("view")
-tm_basemap("OpenStreetMap")
 
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -121,8 +123,7 @@ incomemap_2_leaf <- tm_shape(incomejoin_test) +
   tm_compass(position = c("left", "top"))
 incomemap_2 <- tmap_leaflet(incomemap_2_leaf) %>% addTiles()
 incomemap_2
-tmap_save(incomemap_2_leaf, "attempt_1.png")
-class(incomemap_2)
+tmap_save(incomemap_2_leaf, "attempt_1.html")
 ```
 
 ## II Tract Racial Typology
@@ -351,7 +352,7 @@ mission_percents_clean_title <- mission_percents_clean %>%
 dots <- tm_shape(retail_map) + tm_dots(size = .1, col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
 ethnicity_map_with_food_retailers <-
   tm_shape(mission_percents_clean_title) +
-  tm_polygons("Majority Ethnicity") +
+  tm_polygons("Majority Ethnicity", alpha = .75) +
   tm_style("watercolor") +
   tm_layout(main.title = "Racial Typography & Food Retailers",
             main.title.position = "centre",
@@ -514,10 +515,10 @@ primary_table_price_title <- primary_table_price %>%
   rename("Number of Produce Options" = "How.many.types.of.fresh.produce.are.available.") %>%
   rename("Price Quartile" = "price_quartile")
   
-dots_price <- tm_shape(primary_table_price_title) + tm_dots(size=.1, col="Price Quartile", palette="Set1", showNA = TRUE)
+dots_price <- tm_basemap("OpenStreetMap") + tm_shape(primary_table_price_title) + tm_dots(size=.05, col="Price Quartile", palette="Set1", showNA = TRUE)
 incomemap_with_food_retailers <- tm_shape(incomejoin_test_title) +
              tm_style("watercolor") +
-             tm_polygons("Median Household Income") +
+             tm_polygons("Median Household Income", alpha = .75) +
              tm_layout(main.title="Median Household Income & Price Quartiles",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
@@ -532,8 +533,9 @@ ethnicity_plus_price <- ethnicity_map_with_food_retailers + dots_price +
   tm_layout(main.title = "Majority Ethnicity & Price Quartiles",
             main.title.position = "centre",
             main.title.size = 1.6)
+
+tmap_arrange(income_plus_price, ethnicity_plus_price)
 income_plus_price
-ethnicity_plus_price
 ```
 #### Tables
 ```{r}
@@ -572,6 +574,14 @@ price_table_percent_ethnicity <- read_csv("Ethnicity Price Table (percent).csv")
   rename("Number of Retailers" = "number of retailers")
 price_table_percent_income
 price_table_percent_ethnicity
+
+selection_for_presentation_price_income <- price_table_percent_income %>% filter(`Price Quartile` == 1| `Price Quartile` == 4)
+selection_for_presentation_price_ethnicity <- price_table_percent_ethnicity %>% filter(`Price Quartile` == 1| `Price Quartile` == 4)
+selection_for_presentation_price_income
+selection_for_presentation_price_ethnicity
+
+#selection_for_presentation_price_income %>% kable(caption = "Income & Price Quartile (filtered for quartiles 1 & 4)")
+#selection_for_presentation_price_ethnicity %>% kable(caption = "Ethnicity & Price Quartile (filtered for quartiles 1 & 4)")
 ```
 
 ### EBT
@@ -731,10 +741,10 @@ primary_table_title <- primary_table %>%
   rename("Social Sustainability Signage?" = "Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.")
   
 
-dots_quantity <- tm_shape(primary_table_title) + tm_dots(size=.1, col="Number of Produce Options", palette="Set1")
+dots_quantity <- tm_basemap("OpenStreetMap") + tm_shape(primary_table_title) + tm_dots(size=.1, col="Number of Produce Options", palette="Set1")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test_title) +
              tm_style("watercolor") +
-             tm_polygons("Median Household Income") +
+             tm_polygons("Median Household Income", alpha = .75) +
              tm_layout(main.title="Median Household Income & Produce Diversity",
                        main.title.position = "centre",
                        main.title.size = 1.3) +
@@ -802,11 +812,14 @@ per_produce_quantity_income <- read_csv("produce_quantity_income (percent).csv")
   
 per_produce_quantity_ethnicity <- read_csv("produce_quantity_ethnicity (percent).csv") %>%
   rename("Majority Ethnicity" = "majority_ethnicity") %>%
-  rename("Number of Produce Options" = "produce_quantity_bins") %>%
-  rename("Percent of Respective Produce Quantity" = "percent_quantity") %>%
+  rename("# of Produce Options" = "produce_quantity_bins") %>%
+  rename("% of Produce Quantities" = "percent_quantity") %>%
   rename("Number of Retailers" = "number of retailers")
 per_produce_quantity_income
 per_produce_quantity_ethnicity
+
+per_produce_ethnicity_for_presentation <- per_produce_quantity_ethnicity %>% filter(`# of Produce Options` == "0 to 10"| `# of Produce Options` == "41 to 50+")
+per_produce_ethnicity_for_presentation
 ```
 
 ## Cultural Relevance
@@ -914,10 +927,10 @@ ethnicity_other_language_count
 ### LatinX Ethnic Food Section
 #### Maps
 ```{r}
-dots_ethnic_section <- tm_shape(primary_table_title) + tm_dots(size=.1, col="Latinx Ethnic Food Section?" , palette="Set1")
+dots_ethnic_section <- tm_basemap("OpenStreetMap") + tm_shape(primary_table_title) + tm_dots(size=.1, col="Latinx Ethnic Food Section?" , palette="Set1")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test_title) +
              tm_style("watercolor") +
-             tm_polygons("Median Household Income") +
+             tm_polygons("Median Household Income", alpha = .75) +
              tm_layout(main.title="Median Household Income & Latinx Ethnic Food Sections",
                        main.title.position = "centre",
                        main.title.size = 1.2) +
@@ -970,9 +983,15 @@ ethnicity_ethnic_section_count <- intersection_2 %>%
   rename("Percent with Latinx Ethnic Sections" = "perc_with_LatinX_ethnic_section") %>%
   st_drop_geometry()
 
+income_ethnic_section_count_present <- read.csv("latinx ethnic section (reorder for presentation).csv") %>%
+  rename("Number of Retailers" = "Number.of.Retailers") %>%
+  rename("Median Income" = "Median.Income") %>%
+  rename("Latinx Ethnic Food Section?" = "Latinx.Ethnic.Food.Section.") %>%
+  rename("% with Latinx Ethnic Sections" = "Percent.with.Latinx.Ethnic.Sections")
 ethnic_section_count
 income_ethnic_section_count
 ethnicity_ethnic_section_count
+income_ethnic_section_count_present
 ```
 
 ```{r}
@@ -1057,7 +1076,7 @@ income_env_count <- intersection_join %>%
   filter(Is.there.signage.or.visible.documentation.of.environmental.work.or.actions. == "Yes") %>%
   mutate(perc_with_env_signage = (n / sum(n)) * 100) %>%
   rename("number of retailers" = "n") %>%
-  slice(match(costum_order, median_income)) %>%
+  #slice(match(costum_order, median_income)) %>%
   st_drop_geometry()
 income_env_count
 
@@ -1075,10 +1094,10 @@ ethnicity_env_count
 ### Social Sustainability
 #### Maps
 ```{r}
-dots_social <- tm_shape(primary_table_title) + tm_dots(size=.1, col="Social Sustainability Signage?" , palette="Set1")
+dots_social <- tm_basemap("OpenStreetMap") + tm_shape(primary_table_title) + tm_dots(size=.05, col="Social Sustainability Signage?" , palette="Set1")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test_title) +
              tm_style("watercolor") +
-             tm_polygons("Median Household Income") +
+             tm_polygons("Median Household Income", alpha = .75) +
              tm_layout(main.title="Income and Social Sustainability",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
@@ -1093,8 +1112,8 @@ ethnicity_plus_social <- ethnicity_map_with_food_retailers + dots_social +
   tm_layout(main.title = "Ethnicity and Social Sustainability",
             main.title.position = "centre",
             main.title.size = 1.6)
-income_plus_social
-ethnicity_plus_social
+
+tmap_arrange(income_plus_social, ethnicity_plus_social)
 ```
 #### Tables
 ```{r}
@@ -1116,9 +1135,7 @@ income_social_count <- intersection_join %>%
   rename("Median Income" = "median_income") %>%
   rename("Social Sustainability Signage?" = "Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.") %>%
   rename("Percent with Social Signage" = "perc_with_social_signage") %>%
-  #slice(match(costum_order, median_income)) %>%
   st_drop_geometry()
-income_social_count
 
 ethnicity_social_count <- intersection_2 %>%
   rename("majority_ethnicity" = "Majority") %>%
@@ -1129,9 +1146,16 @@ ethnicity_social_count <- intersection_2 %>%
   rename("Number of Retailers" = "n") %>%
   rename("Majority Ethnicity" = "majority_ethnicity") %>%
   rename("Social Sustainability Signage?" = "Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.") %>%
-  rename("Percent with Social Signage" = "perc_with_social_signage") %>%
+  rename("% with Social Signage" = "perc_with_social_signage") %>%
   st_drop_geometry()
+income_social_count
 ethnicity_social_count
+income_social_count_present <- read.csv("soc_sustain_for_present.csv") %>%
+  rename("Median Income" = "Median.Income") %>%
+  rename("Social Sustainability Signage?" = "Social.Sustainability.Signage.") %>%
+  rename("Number of Retailers" = "Number.of.Retailers") %>%
+  rename("% with Social Signage" = "Percent.with.Social.Signage")
+income_social_count_present
 ```
 
 ###Organic
@@ -1253,4 +1277,12 @@ ethnicity_local_count <- intersection_2 %>%
   st_drop_geometry()
 ethnicity_local_count
 ```
+```{r}
+primary_table %>% 
+  filter(str_detect(`If.so..what.kind.of.social.justice.work.`, "COVID")) %>% select(Name.of.Food.Retailer, If.so..what.kind.of.social.justice.work.)
 
+```
+#Final_Mission_Food_Retailers <- SF_businesses %>%
+  #filter(`Neighborhoods - Analysis Boundaries` == "Mission") %>%
+  #filter(str_detect(`LIC Code`, paste(H_strings, collapse = "|")))
+#Final_Mission_Food_Retailers
