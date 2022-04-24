@@ -1113,7 +1113,8 @@ ethnicity_plus_social <- ethnicity_map_with_food_retailers + dots_social +
             main.title.position = "centre",
             main.title.size = 1.6)
 
-tmap_arrange(income_plus_social, ethnicity_plus_social)
+income_plus_social
+ethnicity_plus_social
 ```
 #### Tables
 ```{r}
