@@ -389,7 +389,7 @@ retail_data
 dots_ebt <- tm_basemap("OpenStreetMap") + tm_shape(retail_map) + tm_dots(size=.05, col="EBT Accepted?", palette=c(No='red', Yes='black'))
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
-             tm_polygons("median_income", alpha = .75) +
+             tm_polygons("Median Household Income", alpha = .75) +
              tm_layout(main.title="Median Household Income & Food Retailers",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
@@ -437,14 +437,14 @@ plot(just_geo_2$geometry, graticule = st_crs(4326), key.pos = 1)
 plot(intersection_2[1], col = "black", pch = 19, add = TRUE)
 ```
 
-```{r}
+#```{r}
 # Number of Retailers in each Median Income Group
 int_result <- intersection_join %>% 
   group_by(median_income) %>% 
   count()
 
 as.data.frame(int_result)
-```
+#```
 
 ___________________________________________________________________________________________________________
 
@@ -463,6 +463,7 @@ primary_table
 ```{r}
 income_map_with_retail
 ethnicity_with_retail
+tmap_arrange(income_map_with_retail, ethnicity_with_retail)
 ```
 #### tables
 ```{r}
@@ -592,6 +593,8 @@ income_plus_ebt <- incomemap_with_food_retailers + dots_ebt
 income_plus_ebt
 ethnicity_plus_ebt <- ethnicity_map_with_food_retailers + dots_ebt
 ethnicity_plus_ebt
+
+tmap_arrange(income_plus_ebt, ethnicity_plus_ebt)
 ```
 #### Tables
 ```{r}
@@ -651,6 +654,7 @@ income_plus_health <- incomemap_with_food_retailers + dots_health
 ethnicity_plus_health <- ethnicity_map_with_food_retailers + dots_health
 income_plus_health
 ethnicity_plus_health
+tmap_arrange(income_plus_health, ethnicity_plus_health)
 ```
 #### Tables
 ```{r}
@@ -703,6 +707,7 @@ income_plus_produce <- incomemap_with_food_retailers + dots_produce
 ethnicity_plus_produce <- ethnicity_map_with_food_retailers + dots_produce
 income_plus_produce
 ethnicity_plus_produce
+tmap_arrange(income_plus_produce, ethnicity_plus_produce)
 ```
 #### Tables
 ```{r}
@@ -771,6 +776,7 @@ ethnicity_plus_produce_quantity <- ethnicity_map_with_food_retailers + dots_quan
             main.title.size = 1.6)
 income_plus_produce_quantity
 ethnicity_plus_produce_quantity
+tmap_arrange(income_plus_produce_quantity, ethnicity_plus_produce_quantity)
 ```
 #### Tables
 ```{r}
@@ -853,6 +859,7 @@ income_plus_language <- incomemap_with_food_retailers + dots_language
 ethnicity_plus_language <- ethnicity_map_with_food_retailers + dots_language
 income_plus_language
 ethnicity_plus_language
+tmap_arrange(income_plus_language, ethnicity_plus_language)
 ```
 #### Tables
 ```{r}
@@ -904,6 +911,7 @@ income_plus_languages <- incomemap_with_food_retailers + dots_other_languages
 ethnicity_plus_languages <- ethnicity_map_with_food_retailers + dots_other_languages
 income_plus_languages
 ethnicity_plus_languages
+tmap_arrange(income_plus_languages, ethnicity_plus_languages)
 ```
 #### Tables
 ```{r}
@@ -957,6 +965,7 @@ ethnicity_plus_ethnic <- ethnicity_map_with_food_retailers + dots_ethnic_section
             main.title.size = 1.6)
 income_plus_ethnic
 ethnicity_plus_ethnic
+tmap_arrange(income_plus_ethnic, ethnicity_plus_ethnic)
 ```
 #### Tables
 ```{r}
@@ -1070,6 +1079,7 @@ income_plus_env <- incomemap_with_food_retailers + dots_environment
 ethnicity_plus_env <- ethnicity_map_with_food_retailers + dots_environment
 income_plus_env
 ethnicity_plus_env
+tmap_arrange(income_plus_env, ethnicity_plus_env)
 ```
 ####Tables
 ```{r}
@@ -1125,6 +1135,7 @@ ethnicity_plus_social <- ethnicity_map_with_food_retailers + dots_social +
 
 income_plus_social
 ethnicity_plus_social
+tmap_arrange(income_plus_social, ethnicity_plus_social)
 ```
 #### Tables
 ```{r}
@@ -1192,6 +1203,7 @@ ethnicity_plus_organic <- ethnicity_map_with_food_retailers + dots_organic +
             main.title.size = 1.6)
 income_plus_organic
 ethnicity_plus_organic
+tmap_arrange(income_plus_organic, ethnicity_plus_organic)
 ```
 
 ####Tables
@@ -1255,6 +1267,7 @@ ethnicity_plus_local <- ethnicity_map_with_food_retailers + dots_local +
             main.title.size = 1.6)
 income_plus_local
 ethnicity_plus_local
+tmap_arrange(income_plus_local, ethnicity_plus_local)
 ```
 
 ####Tables
