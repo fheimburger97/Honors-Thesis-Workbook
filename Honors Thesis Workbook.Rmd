@@ -98,7 +98,8 @@ medianincome_test <- demographics %>%
     hinc_18 >= 145001 ~ "$145,001 - $180,000")) %>%
   rename("Income in Dollars" = hinc_18)
   #rename("Median Income" = median_income)
-incomejoin_test <-left_join(gfile, medianincome_test, by = "GEOID")
+incomejoin_test <-left_join(gfile, medianincome_test, by = "GEOID") %>%
+  rename("Median Household Income" = "median_income")
 incomejoin_test
 ```
 
@@ -111,7 +112,7 @@ Using **tmap** and our **incomejoin** table, we then create a map showing median
 ```{r message=FALSE, warning=FALSE}
 incomemap_2_leaf <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
-             tm_polygons("median_income", alpha=.75) +
+             tm_polygons("Median Household Income", alpha=.75) +
              tm_layout(main.title="Median Household Income",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
@@ -123,7 +124,6 @@ incomemap_2_leaf <- tm_shape(incomejoin_test) +
   tm_compass(position = c("left", "top"))
 incomemap_2 <- tmap_leaflet(incomemap_2_leaf) %>% addTiles()
 incomemap_2
-tmap_save(incomemap_2_leaf, "attempt_1.html")
 ```
 
 ## II Tract Racial Typology
@@ -218,7 +218,7 @@ mission_percents_clean
 -
 ```{r}
 ethnic_map <- tm_basemap("OpenStreetMap") + tm_shape(mission_percents_clean) +
-  tm_polygons("Majority") +
+  tm_polygons("Majority", alpha = .75) +
   tm_style("watercolor") +
   tm_layout(main.title = "Racial Typography",
             main.title.position = "centre",
@@ -327,10 +327,10 @@ tm_shape(retail_map) + tm_dots()
 
 #### Figure 5.1: Food Retailers and Median Household Income in the Mission District
 ```{r warning=FALSE}
-dots <- tm_shape(retail_map) + tm_dots(size = .1, col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
+dots <- tm_basemap("OpenStreetMap") + tm_shape(retail_map) + tm_dots(size = .05, col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
-             tm_polygons("median_income") +
+             tm_polygons("Median Household Income", alpha = .75) +
              tm_layout(main.title="Median Household Income & Food Retailers",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
@@ -349,7 +349,7 @@ income_map_with_retail
 ```{r warning=FALSE}
 mission_percents_clean_title <- mission_percents_clean %>%
   rename("Majority Ethnicity" = "Majority")
-dots <- tm_shape(retail_map) + tm_dots(size = .1, col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
+dots <- tm_basemap("OpenStreetMap") + tm_shape(retail_map) + tm_dots(size = .05, col="black") + tm_add_legend(shape = "tm_dots", labels = ('Food Retailers'), col = "black")
 ethnicity_map_with_food_retailers <-
   tm_shape(mission_percents_clean_title) +
   tm_polygons("Majority Ethnicity", alpha = .75) +
@@ -386,10 +386,10 @@ retail_data
 ```
 
 ```{r warning=FALSE}
-dots_ebt <- tm_shape(retail_map) + tm_dots(size=.1, col="EBT Accepted?", palette=c(No='red', Yes='black'))
+dots_ebt <- tm_basemap("OpenStreetMap") + tm_shape(retail_map) + tm_dots(size=.05, col="EBT Accepted?", palette=c(No='red', Yes='black'))
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
-             tm_polygons("median_income") +
+             tm_polygons("median_income", alpha = .75) +
              tm_layout(main.title="Median Household Income & Food Retailers",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
@@ -509,8 +509,8 @@ primary_table_price
 
 #### Maps
 ```{r}
-incomejoin_test_title <- incomejoin_test %>%
-  rename("Median Household Income" = "median_income")
+incomejoin_test_title <- incomejoin_test
+  
 primary_table_price_title <- primary_table_price %>%
   rename("Number of Produce Options" = "How.many.types.of.fresh.produce.are.available.") %>%
   rename("Price Quartile" = "price_quartile")
@@ -536,6 +536,7 @@ ethnicity_plus_price <- ethnicity_map_with_food_retailers + dots_price +
 
 tmap_arrange(income_plus_price, ethnicity_plus_price)
 income_plus_price
+ethnicity_plus_price
 ```
 #### Tables
 ```{r}
@@ -627,10 +628,16 @@ ethnicity_ebt_count
 ### Percentage of Store Produce
 #### Maps
 ```{r}
-dots_health <- tm_shape(primary_table) + tm_dots(size=.1, col="What.percentage.of.the.store.is.produce.", palette="Set1")
+primary_table_prod_labels <- primary_table %>%
+  rename("% of Store is Produce" = "What.percentage.of.the.store.is.produce.") %>%
+  rename("Produce Available?" = "Is.there.fresh.produce.available.") %>%
+  rename("Signage other than English?" = "Is.there.signage.in.other.languages.than.English.") %>%
+  rename("Signage in Spanish?" = "Is.there.signage.in.Spanish.")
+
+dots_health <- tm_basemap("OpenStreetMap") + tm_shape(primary_table_prod_labels) + tm_dots(size=.05, col="% of Store is Produce", palette="Set1")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
-             tm_polygons("median_income") +
+             tm_polygons("Median Household Income", alpha = .75) +
              tm_layout(main.title="Median Household Income & Food Retailers",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
@@ -679,10 +686,10 @@ perc_produce_counts
 ### Fresh Produce
 #### Maps
 ```{r}
-dots_produce <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.fresh.produce.available.", palette="Set1")
+dots_produce <- tm_basemap("OpenStreetMap") + tm_shape(primary_table_prod_labels) + tm_dots(size=.05, col="Produce Available?", palette="Set1")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
-             tm_polygons("median_income") +
+             tm_polygons("Median Household Income", alpha = .75) +
              tm_layout(main.title="Median Household Income & Food Retailers",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
@@ -738,10 +745,13 @@ primary_table_title <- primary_table %>%
   rename("Number of Produce Options" = "How.many.types.of.fresh.produce.are.available.") %>%
   rename("Median Household Income" = "median_income") %>%
   rename("Latinx Ethnic Food Section?" = "Is.there.a.Hispanic.Latinx.ethnic.foods.section.") %>%
-  rename("Social Sustainability Signage?" = "Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.")
+  rename("Social Sustainability Signage?" = "Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.") %>%
+  rename("Environmental Sustainability Signage?" = "Is.there.signage.or.visible.documentation.of.environmental.work.or.actions.") %>%
+  rename("Organic Produce Available?" = "Is.there.organic.produce.available.") %>%
+  rename("Local Produce Available?" = "Is.there.local.produce.available.")
   
 
-dots_quantity <- tm_basemap("OpenStreetMap") + tm_shape(primary_table_title) + tm_dots(size=.1, col="Number of Produce Options", palette="Set1")
+dots_quantity <- tm_basemap("OpenStreetMap") + tm_shape(primary_table_title) + tm_dots(size=.05, col="Number of Produce Options", palette="Set1")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test_title) +
              tm_style("watercolor") +
              tm_polygons("Median Household Income", alpha = .75) +
@@ -826,10 +836,10 @@ per_produce_ethnicity_for_presentation
 ### Signage in Other Languages
 #### Maps
 ```{r}
-dots_language <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.signage.in.other.languages.than.English." , palette="Set1")
+dots_language <- tm_basemap("OpenStreetMap") + tm_shape(primary_table_prod_labels) + tm_dots(size=.05, col="Signage other than English?" , palette="Set1")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
-             tm_polygons("median_income") +
+             tm_polygons("Median Household Income", alpha = .75) +
              tm_layout(main.title="Median Household Income & Food Retailers",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
@@ -877,10 +887,10 @@ ethnicity_language_count
 ### Signage in Spanish
 #### Maps
 ```{r}
-dots_other_languages <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.signage.in.Spanish." , palette="Set1")
+dots_other_languages <- tm_basemap("OpenStreetMap") + tm_shape(primary_table_prod_labels) + tm_dots(size=.05, col="Signage in Spanish?" , palette="Set1")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
-             tm_polygons("median_income") +
+             tm_polygons("Median Household Income", alpha = .75) +
              tm_layout(main.title="Median Household Income & Food Retailers",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
@@ -927,7 +937,7 @@ ethnicity_other_language_count
 ### LatinX Ethnic Food Section
 #### Maps
 ```{r}
-dots_ethnic_section <- tm_basemap("OpenStreetMap") + tm_shape(primary_table_title) + tm_dots(size=.1, col="Latinx Ethnic Food Section?" , palette="Set1")
+dots_ethnic_section <- tm_basemap("OpenStreetMap") + tm_shape(primary_table_title) + tm_dots(size=.05, col="Latinx Ethnic Food Section?" , palette="Set1")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test_title) +
              tm_style("watercolor") +
              tm_polygons("Median Household Income", alpha = .75) +
@@ -1043,10 +1053,10 @@ ethnicity_ethnic_section_count_non_nat
 ### Environmental Sustainability
 #### Maps
 ```{r}
-dots_environment <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.signage.or.visible.documentation.of.environmental.work.or.actions." , palette="Set1")
+dots_environment <- tm_basemap("OpenStreetMap") + tm_shape(primary_table_title) + tm_dots(size=.05, col="Environmental Sustainability Signage?" , palette="Set1")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
-             tm_polygons("median_income") +
+             tm_polygons("Median Household Income", alpha = .75) +
              tm_layout(main.title="Median Household Income & Food Retailers",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
@@ -1162,10 +1172,10 @@ income_social_count_present
 ###Organic
 ####Maps
 ```{r}
-dots_organic <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.organic.produce.available." , palette="Set1")
+dots_organic <- tm_basemap("OpenStreetMap") + tm_shape(primary_table_title) + tm_dots(size=.05, col="Organic Produce Available?" , palette="Set1")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
-             tm_polygons("median_income") +
+             tm_polygons("Median Household Income", alpha = .75) +
              tm_layout(main.title="Income and Organic",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
@@ -1225,10 +1235,10 @@ ethnicity_organic_count
 ###Local
 ####Maps
 ```{r}
-dots_local <- tm_shape(primary_table) + tm_dots(size=.1, col="Is.there.local.produce.available." , palette="Set1")
+dots_local <- tm_basemap("OpenStreetMap") + tm_shape(primary_table_title) + tm_dots(size=.05, col="Local Produce Available?" , palette="Set1")
 incomemap_with_food_retailers <- tm_shape(incomejoin_test) +
              tm_style("watercolor") +
-             tm_polygons("median_income") +
+             tm_polygons("Median Household Income", alpha = .75) +
              tm_layout(main.title="Income and Local",
                        main.title.position = "centre",
                        main.title.size = 1.6) +
