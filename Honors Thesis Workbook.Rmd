@@ -469,10 +469,10 @@ tmap_arrange(income_map_with_retail, ethnicity_with_retail)
 ```{r}
 costum_order <- c("40,000 - 75,000", "75,001 - 110,000", "110,001 - 145,000", "145,001 - 180,000")
 income_count <- intersection_join %>% 
-  group_by(median_income) %>% 
+  group_by(`Median Household Income`) %>% 
   count() %>%
-  mutate(percent = (n / nrow(primary_table)) * 100) %>%
-  rename("number of retailers" = "n") %>%
+  mutate(Percent = (n / nrow(primary_table)) * 100) %>%
+  rename("Number of Retailers" = "n") %>%
   #slice(match(costum_order, median_income)) %>%
   st_drop_geometry()
 income_count
@@ -480,8 +480,9 @@ income_count
 ethnicity_count <- intersection_2 %>%
   group_by(Majority) %>%
   count() %>%
-  mutate(percent = (n / nrow(primary_table)) * 100) %>%
-  rename("number of retailers" = "n") %>%
+  mutate(Percent = (n / nrow(primary_table)) * 100) %>%
+  rename("Number of Retailers" = "n") %>%
+  rename("Majority Ethnicity" = "Majority") %>%
   st_drop_geometry()
 ethnicity_count
 ```
@@ -542,7 +543,7 @@ ethnicity_plus_price
 #### Tables
 ```{r}
 income_price_count <- primary_table_price %>% 
-  rename("median_income" = "median_income.x") %>%
+  rename("median_income" = "Median Household Income.x") %>%
   group_by(median_income, price_quartile) %>% 
   count() %>%
   mutate(percent = (n / sum(n)) * 100) %>%
@@ -565,14 +566,15 @@ quartile_counts <- primary_table_price %>%
 quartile_counts
 #Translated via excel, then brought back in:
 price_table_percent_income <- read_csv("Income Price Table (percent).csv") %>%
-  rename("Median Income" = "median_income") %>%
+  rename("Median Household Income" = "median_income") %>%
   rename("Price Quartile" = "price_quartile") %>%
-  rename("Percent of Respective Quartile" = "percent of quartile") %>%
-  rename("Number of Retailers" = "number of retailers")
+  rename("% of Respective Quartile" = "percent of quartile") %>%
+  rename("Number of Retailers" = "number of retailers") %>%
+  print(n = 13)
 price_table_percent_ethnicity <- read_csv("Ethnicity Price Table (percent).csv") %>%
   rename("Majority Ethnicity" = "majority_ethnicity") %>%
   rename("Price Quartile" = "price_quartile") %>%
-  rename("Percent of Respective Quartile" = "percent of quartile") %>%
+  rename("% of Respective Quartile" = "percent of quartile") %>%
   rename("Number of Retailers" = "number of retailers")
 price_table_percent_income
 price_table_percent_ethnicity
@@ -601,16 +603,18 @@ tmap_arrange(income_plus_ebt, ethnicity_plus_ebt)
 ebt_count <- primary_table %>%
   group_by(EBT.Accepted.) %>%
   count() %>% 
-  mutate(percent = (n / sum(n)) * 100) %>%
-  rename("number of retailers" = "n")
+  mutate(Percent = (n / sum(n)) * 100) %>%
+  rename("Number of Retailers" = "n") %>%
+  rename("EBT Accepted?" = "EBT.Accepted.")
 ebt_count
 
 income_ebt_count <- intersection_join %>% 
-  group_by(median_income, EBT.Accepted.) %>% 
+  group_by(`Median Household Income`, EBT.Accepted.) %>% 
   count() %>%
   filter(EBT.Accepted. == "Yes") %>%
-  mutate(percent_ebt = (n / sum(n)) * 100) %>%
-  rename("number of retailers" = "n") %>%
+  mutate(`% of EBT Accepted` = (n / sum(n)) * 100) %>%
+  rename("# of Retailers" = "n") %>%
+  rename("EBT Accepted?" = "EBT.Accepted.") %>%
   #slice(match(costum_order, median_income)) %>%
   st_drop_geometry()
 income_ebt_count
@@ -620,8 +624,10 @@ ethnicity_ebt_count <- intersection_2 %>%
   group_by(majority_ethnicity, EBT.Accepted.) %>%
   count() %>%
   filter(EBT.Accepted. == "Yes") %>%
-  mutate(percent_ebt = (n / sum(n)) * 100) %>%
-  rename("number of retailers" = "n") %>%
+  mutate(`% of EBT Accepted` = (n / sum(n)) * 100) %>%
+  rename("# of Retailers" = "n") %>%
+  rename("Majority Ethnicity" = "majority_ethnicity") %>%
+  rename("EBT Accepted?" = "EBT.Accepted.") %>%
   st_drop_geometry()
 ethnicity_ebt_count
 ```
@@ -659,7 +665,7 @@ tmap_arrange(income_plus_health, ethnicity_plus_health)
 #### Tables
 ```{r}
 income_health_count <- intersection_join %>% 
-  group_by(median_income, What.percentage.of.the.store.is.produce.) %>% 
+  group_by(`Median Household Income`, What.percentage.of.the.store.is.produce.) %>% 
   count() %>%
   mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
@@ -714,20 +720,22 @@ tmap_arrange(income_plus_produce, ethnicity_plus_produce)
 carry_produce_counts <- primary_table_price %>%
   group_by(Is.there.fresh.produce.available.) %>%
   count() %>%
-  mutate(percent = (n / sum(n)) * 100) %>%
-  rename("number of retailers" = "n")
+  mutate(Percent = (n / sum(n)) * 100) %>%
+  rename("Number of Retailers" = "n") %>%
+  rename("Fresh Produce Available?" = "Is.there.fresh.produce.available.")
 carry_produce_counts
 
 work_table <- intersection_join %>% 
-  group_by(median_income) %>% 
+  group_by(`Median Household Income`) %>% 
   count()
 income_produce_count <- intersection_join %>% 
-  group_by(median_income, Is.there.fresh.produce.available.) %>% 
+  group_by(`Median Household Income`, Is.there.fresh.produce.available.) %>% 
   count() %>%
   filter(Is.there.fresh.produce.available. == "Yes") %>%
-  mutate(percent_produce = (n / sum(n)) * 100) %>%
-  mutate(percent_produce_in_tract = (n / work_table$n * 100)) %>%
-  rename("number of retailers" = "n") %>%
+  mutate(`% has Produce` = (n / sum(n)) * 100) %>%
+  #mutate(percent_produce_in_tract = (n / work_table$n * 100)) %>%
+  rename("Number of Retailers" = "n") %>%
+  rename("Fresh Produce?" = "Is.there.fresh.produce.available.") %>%
   #slice(match(costum_order, median_income)) %>%
   st_drop_geometry()
 income_produce_count
@@ -737,8 +745,10 @@ ethnicity_produce_count <- intersection_2 %>%
   group_by(majority_ethnicity, Is.there.fresh.produce.available.) %>%
   count() %>%
   filter(Is.there.fresh.produce.available. == "Yes") %>%
-  mutate(percent_produce = (n / sum(n)) * 100) %>%
-  rename("number of retailers" = "n") %>%
+  mutate(`% has Produce` = (n / sum(n)) * 100) %>%
+  rename("Number of Retailers" = "n") %>%
+  rename("Fresh Produce?" = "Is.there.fresh.produce.available.") %>%
+  rename("Majority Ethnicity" = "majority_ethnicity") %>%
   st_drop_geometry()
 ethnicity_produce_count
 ```
@@ -748,7 +758,7 @@ ethnicity_produce_count
 ```{r}
 primary_table_title <- primary_table %>%
   rename("Number of Produce Options" = "How.many.types.of.fresh.produce.are.available.") %>%
-  rename("Median Household Income" = "median_income") %>%
+  #rename("Median Household Income" = "median_income") %>%
   rename("Latinx Ethnic Food Section?" = "Is.there.a.Hispanic.Latinx.ethnic.foods.section.") %>%
   rename("Social Sustainability Signage?" = "Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.") %>%
   rename("Environmental Sustainability Signage?" = "Is.there.signage.or.visible.documentation.of.environmental.work.or.actions.") %>%
@@ -797,7 +807,7 @@ produce_quantity_w_bin_2 <- intersection_2 %>%
     How.many.types.of.fresh.produce.are.available. >= 41 ~ "41 to 50+"))
 
 income_produce_quantity_count <- produce_quantity_w_bin %>% 
-  group_by(median_income, produce_quantity_bins) %>% 
+  group_by(`Median Household Income`, produce_quantity_bins) %>% 
   count() %>%
   mutate(percent = (n / nrow(primary_table)) * 100) %>%
   rename("number of retailers" = "n")
@@ -821,16 +831,17 @@ quantity_produce_counts
 #write.csv(produce_quantity_income, "produce_quantity_income.csv")
 #write.csv(produce_quantity_ethnicity, "produce_quantity_ethnicity.csv")
 per_produce_quantity_income <- read_csv("produce_quantity_income (percent).csv") %>%
-  rename("Median Income" = "median_income") %>%
-  rename("Number of Produce Options" = "produce_quantity_bins") %>%
-  rename("Percent of Respective Produce Quantity" = "percent_quantity") %>%
-  rename("Number of Retailers" = "number of retailers")
+  rename("Median Household Income" = "median_income") %>%
+  rename("# of Produce Options" = "produce_quantity_bins") %>%
+  rename("% of Produce Quantities" = "percent_quantity") %>%
+  rename("# of Retailers" = "number of retailers") %>%
+  print(n = 13)
   
 per_produce_quantity_ethnicity <- read_csv("produce_quantity_ethnicity (percent).csv") %>%
   rename("Majority Ethnicity" = "majority_ethnicity") %>%
   rename("# of Produce Options" = "produce_quantity_bins") %>%
   rename("% of Produce Quantities" = "percent_quantity") %>%
-  rename("Number of Retailers" = "number of retailers")
+  rename("# of Retailers" = "number of retailers")
 per_produce_quantity_income
 per_produce_quantity_ethnicity
 
@@ -866,27 +877,30 @@ tmap_arrange(income_plus_language, ethnicity_plus_language)
 other_language_counts <- primary_table %>%
   group_by(Is.there.signage.in.other.languages.than.English.) %>%
   count() %>%
-  mutate(percent = (n / sum(n)) * 100) %>%
-  rename("number of retailers" = "n")
+  mutate(Percent = (n / sum(n)) * 100) %>%
+  rename("Number of Retailers" = "n") %>%
+  rename("Signage other than English?" = "Is.there.signage.in.other.languages.than.English.")
 other_language_counts
 
 income_language_count <- intersection_join %>% 
-  group_by(median_income, Is.there.signage.in.other.languages.than.English.) %>% 
+  group_by(`Median Household Income`, Is.there.signage.in.other.languages.than.English.) %>% 
   count() %>%
   filter(Is.there.signage.in.other.languages.than.English. == "Yes") %>%
-  mutate(percent_with_other_language = (n / sum(n)) * 100) %>%
-  rename("number of retailers" = "n") %>%
+  mutate(`% with other Language` = (n / sum(n)) * 100) %>%
+  rename("# of Retailers" = "n") %>%
+  rename("Non-English Signage?" = "Is.there.signage.in.other.languages.than.English.") %>%
   #slice(match(costum_order, median_income)) %>%
   st_drop_geometry()
 income_language_count
 
 ethnicity_language_count <- intersection_2 %>%
-  rename("majority_ethnicity" = "Majority") %>%
-  group_by(majority_ethnicity, Is.there.signage.in.other.languages.than.English.) %>%
+  rename("Majority Ethnicity" = "Majority") %>%
+  group_by(`Majority Ethnicity`, Is.there.signage.in.other.languages.than.English.) %>%
   count() %>%
   filter(Is.there.signage.in.other.languages.than.English. == "Yes") %>%
-  mutate(percent_with_other_language = (n / sum(n)) * 100) %>%
-  rename("number of retailers" = "n") %>%
+  mutate(`% with other Language` = (n / sum(n)) * 100) %>%
+  rename("# of Retailers" = "n") %>%
+  rename("Non-English Signage?" = "Is.there.signage.in.other.languages.than.English.") %>%
   st_drop_geometry()
 ethnicity_language_count
 ```
@@ -918,27 +932,30 @@ tmap_arrange(income_plus_languages, ethnicity_plus_languages)
 other_language_counts <- primary_table %>%
   group_by(Is.there.signage.in.Spanish.) %>%
   count() %>%
-  mutate(percent = (n / sum(n)) * 100) %>%
-  rename("number of retailers" = "n")
+  mutate(Percent = (n / sum(n)) * 100) %>%
+  rename("Number of Retailers" = "n") %>%
+  rename("Spanish Signage?" = "Is.there.signage.in.Spanish.")
 other_language_counts
 
 income_other_language_count <- intersection_join %>% 
-  group_by(median_income, Is.there.signage.in.Spanish.) %>% 
+  group_by(`Median Household Income`, Is.there.signage.in.Spanish.) %>% 
   count() %>%
   filter(Is.there.signage.in.Spanish. == "Yes") %>%
-  mutate(percent_with_spanish_signage = (n / sum(n)) * 100) %>%
-  rename("number of retailers" = "n") %>%
+  mutate(`% with Spanish Signage` = (n / sum(n)) * 100) %>%
+  rename("# of Retailers" = "n") %>%
+  rename("Spanish Signage?" = "Is.there.signage.in.Spanish.") %>%
   #slice(match(costum_order, median_income)) %>%
   st_drop_geometry()
 income_other_language_count
 
 ethnicity_other_language_count <- intersection_2 %>%
-  rename("majority_ethnicity" = "Majority") %>%
-  group_by(majority_ethnicity, Is.there.signage.in.Spanish.) %>%
+  rename("Majority Ethnicity" = "Majority") %>%
+  group_by(`Majority Ethnicity`, Is.there.signage.in.Spanish.) %>%
   count() %>%
   filter(Is.there.signage.in.Spanish. == "Yes") %>%
-  mutate(percent_with_spanish_signage = (n / sum(n)) * 100) %>%
-  rename("number of retailers" = "n") %>%
+  mutate(`% with Spanish Signage` = (n / sum(n)) * 100) %>%
+  rename("# of Retailers" = "n") %>%
+  rename("Spanish Signage?" = "Is.there.signage.in.Spanish.") %>%
   st_drop_geometry()
 ethnicity_other_language_count
 ```
@@ -980,12 +997,12 @@ ethnic_section_count <- primary_table %>%
   rename("Percent" = "percent")
 
 income_ethnic_section_count <- intersection_join %>% 
-  group_by(median_income, Is.there.a.Hispanic.Latinx.ethnic.foods.section.) %>% 
+  group_by(`Median Household Income`, Is.there.a.Hispanic.Latinx.ethnic.foods.section.) %>% 
   count() %>%
   filter(Is.there.a.Hispanic.Latinx.ethnic.foods.section. == "Yes") %>%
   mutate(perc_with_LatinX_ethnic_section = (n / sum(n)) * 100) %>%
   rename("Number of Retailers" = "n") %>%
-  rename("Median Income" = "median_income") %>%
+  #rename("Median Income" = "median_income") %>%
   rename("Latinx Ethnic Food Section?" = "Is.there.a.Hispanic.Latinx.ethnic.foods.section.") %>%
   rename("Percent with Latinx Ethnic Sections" = "perc_with_LatinX_ethnic_section") %>%
   st_drop_geometry()
@@ -1025,13 +1042,13 @@ ethnic_section_count_non_nat <- primary_table %>%
   rename("Percent" = "percent")
 
 income_ethnic_section_count_non_nat <- intersection_join %>% 
-  group_by(median_income, Is.there.a.Hispanic.Latinx.ethnic.foods.section., Are.there.options.besides.national.name.brand.ethnic.foods.) %>% 
+  group_by(`Median Household Income`, Is.there.a.Hispanic.Latinx.ethnic.foods.section., Are.there.options.besides.national.name.brand.ethnic.foods.) %>% 
   count() %>%
   filter(Is.there.a.Hispanic.Latinx.ethnic.foods.section. == "Yes") %>%
   filter(Are.there.options.besides.national.name.brand.ethnic.foods. == "Yes") %>%
   mutate(perc_with_LatinX_non_national_ethnic_sections = (n / sum(n)) * 100) %>%
   rename("Number of Retailers" = "n") %>%
-  rename("Median Income" = "median_income") %>%
+  #rename("Median Income" = "median_income") %>%
   rename("Latinx Ethnic Food Section?" = "Is.there.a.Hispanic.Latinx.ethnic.foods.section.") %>%
   rename("Options Besides National Name Brand Ethnic Foods?" = "Are.there.options.besides.national.name.brand.ethnic.foods.") %>%
   rename("Percent with Latinx Non-national Ethnic Sections" = "perc_with_LatinX_non_national_ethnic_sections") %>%
@@ -1091,7 +1108,7 @@ env_signage_count <- primary_table %>%
 env_signage_count
 
 income_env_count <- intersection_join %>% 
-  group_by(median_income, Is.there.signage.or.visible.documentation.of.environmental.work.or.actions.) %>% 
+  group_by(`Median Household Income`, Is.there.signage.or.visible.documentation.of.environmental.work.or.actions.) %>% 
   count() %>%
   filter(Is.there.signage.or.visible.documentation.of.environmental.work.or.actions. == "Yes") %>%
   mutate(perc_with_env_signage = (n / sum(n)) * 100) %>%
@@ -1149,12 +1166,12 @@ soc_signage_count <- primary_table %>%
 soc_signage_count
 
 income_social_count <- intersection_join %>% 
-  group_by(median_income, Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.) %>% 
+  group_by(`Median Household Income`, Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.) %>% 
   count() %>%
   filter(Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions. == "Yes") %>%
   mutate(perc_with_social_signage = (n / sum(n)) * 100) %>%
   rename("Number of Retailers" = "n") %>%
-  rename("Median Income" = "median_income") %>%
+  #rename("Median Income" = "median_income") %>%
   rename("Social Sustainability Signage?" = "Is.there.signage.or.visible.documentation.of.social.justice.work.or.actions.") %>%
   rename("Percent with Social Signage" = "perc_with_social_signage") %>%
   st_drop_geometry()
@@ -1225,12 +1242,12 @@ local_count <- primary_table %>%
 local_count
 
 income_organic_count <- intersection_join %>% 
-  group_by(median_income, Is.there.organic.produce.available.) %>% 
+  group_by(`Median Household Income`, Is.there.organic.produce.available.) %>% 
   count() %>%
   filter(Is.there.organic.produce.available. == "Yes") %>%
   mutate(perc_with_organic = (n / sum(n)) * 100) %>%
   rename("number of retailers" = "n") %>%
-  slice(match(costum_order_3, median_income)) %>%
+  #slice(match(costum_order_3, median_income)) %>%
   st_drop_geometry()
 income_organic_count
 
@@ -1282,12 +1299,12 @@ local_count <- primary_table %>%
 local_count
 
 income_local_count <- intersection_join %>% 
-  group_by(median_income, Is.there.local.produce.available.) %>% 
+  group_by(`Median Household Income`, Is.there.local.produce.available.) %>% 
   count() %>%
   filter(Is.there.local.produce.available. == "Yes") %>%
   mutate(perc_with_local_produce = (n / sum(n)) * 100) %>%
   rename("number of retailers" = "n") %>%
-  slice(match(costum_order_3, median_income)) %>%
+  #slice(match(costum_order_3, median_income)) %>%
   st_drop_geometry()
 income_local_count
 
